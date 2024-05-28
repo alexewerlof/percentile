@@ -1,0 +1,66 @@
+import { config } from './config.js'
+
+function rnd(range) {
+    return Math.random() * range
+}
+
+function spike(x) {
+    const y = 1 / (x + 1)
+    return y
+}
+
+function dip(x) {
+    const y = 1 - spike(x)
+    return y
+}
+
+function func(variation = 0) {
+    if (variation === 0) {
+        return Math.random()
+    }
+
+    const x = rnd(config.xMax)
+    return variation < 0 ? spike(x) : dip(x)
+}
+
+export function dataPoint(yMin, yRange, variation) {
+    const y = (func(variation) * yRange) + yMin
+    return y
+}
+
+export function generateData(count, min, max, variation) {
+    const ret = []
+    const range = max - min
+    while (count-- > 0) {
+        ret.push(Math.round(dataPoint(min, range, variation)))
+    }
+    return ret
+}
+
+export function analyzeData(data) {
+    let min = data[0]
+    let max = data[0]
+    let sum = 0
+    for (let d of data) {
+        if (d < min) {
+            min = d
+        }
+        if (d > max) {
+            max = d
+        }
+        sum += d
+    }
+    const mean = sum / data.length
+    const range = max - min
+    return {
+        min,
+        max,
+        range,
+        mean,
+    }
+}
+
+export function percentileIndex(dataLength, percentile) {
+    const maxPossibleIndex = dataLength - 1
+    return Math.ceil(maxPossibleIndex * percentile / 100)
+}

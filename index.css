@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Roboto&family=RobotoMono&display=swap');
+
+:root {
+    --animation-speed: 0.2s;
+    --primary-color: #FFBC52;
+    --primary-lighter: #FFD699;
+    --secondary-color: #47A9FF;
+    --background-color: #001426;
+    --background-darker: #000C17;
+    --background-lighter: #001B33;
+    --foreground-color: #FFF5E6;
+    --title-font-family: 'Alata', sans-serif;
+    --body-font-family: 'Roboto', sans-serif;
+    --brand-green: #1BC554;
+    --brand-red: #F86262;
+    --brand-pink: #F2699E;
+    --brand-purple: #b469f2;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: var(--body-font-family);
+    margin: 1em;
+    padding: 0;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: auto 50vh;
+}
+
+#data-tables {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+table {
+    height: fit-content;
+}
+
+th {
+    font-family: var(--title-font-family);
+    color: var(--primary-color);
+    text-align: left;
+}
+
+tr:hover {
+    background-color: var(--background-lighter);
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    border: none;
+    padding: 0.5em 1em;
+    font-family: var(--title-font-family);
+    cursor: pointer;
+    transition: background-color var(--animation-speed);
+}
+
+button:hover {
+    background-color: var(--primary-color);
+}
+
+.data-line {
+    stroke: var(--secondary-color);
+}
+
+.data-line:hover {
+    stroke: var(--brand-red);
+}

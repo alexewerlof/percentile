@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Percentile</title>
+</head>
+<body>
+    <button id="init-button">Init</button>
+    <button id="sort-button">Sort</button>
+    <input id="variation-input" type="range" min="-1" max="1" value="0" step="1">
+    <label for="variation-input" id="variation-label">0</label>
+
+    <div id="diagram"></div>
+
+    <div id="data-tables">
+        <table>
+            <thead>
+                <th></th>
+                <th>Value</th>
+                <th>Description</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Count</th>
+                    <td id="data-count"></td>
+                    <td>Number of elements in the dataset</td>
+                </tr>
+                <tr>
+                    <th>Min</th>
+                    <td id="data-min"></td>
+                    <td>Minimum number in the dataset</td>
+                </tr>
+                <tr>
+                    <th>Max</th>
+                    <td id="data-max"></td>
+                    <td>Maximum number in the dataset</td>
+                </tr>
+                <tr>
+                    <th>Range</th>
+                    <td id="data-range"></td>
+                    <td>Difference between the largest and smallest number in the dataset</td>
+                </tr>
+                <tr>
+                    <th>Mean</th>
+                    <td id="data-mean"></td>
+                    <td>Average of all numbers in the dataset</td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Percentile</th>
+                    <th>Index</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody id="percentile-table"></tbody>
+        </table>
+    </div>
+
+    <script src="index.js" type="module" async defer></script>
+</body>
+</html>

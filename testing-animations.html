@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D3 Animation Example</title>
+    <script src="https://d3js.org/d3.v7.js"></script>
+</head>
+<body>
+<svg width="600" height="100"></svg>
+<script>
+var svg = d3.select("svg");
+
+// Add a circle to the SVG
+var circle = svg.append("circle")
+    .attr("cx", 30)    // Starting x position
+    .attr("cy", 50)    // Starting y position
+    .attr("r", 20)     // Radius
+    .style("fill", "blue");
+
+// Animate the circle moving right
+circle.transition()
+    .duration(2000)     // Duration of 2000 milliseconds
+    .attr("cx", 570)    // Ending x position
+    .attr("r", 30)
+    .style("fill", "red") // Change color to red during the transition
+    // See more easing here: https://d3js.org/d3-ease
+    .ease(d3.easeQuadInOut) // Linear pacing of the movement
+    // Start another transition afterwards
+    .on("end", function() {
+        // also in this context 'this' refers to the circle element
+        circle.transition()  // Start a new transition
+            .duration(1000)
+            .attr("r", 10)  // Change the radius
+            .style("fill", "green")  // Change color to green
+            .ease(d3.easeElastic)
+    });
+</script>
+</body>
+</html>
