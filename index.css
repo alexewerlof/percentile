@@ -39,6 +39,10 @@ body {
     margin-top: 1em;
 }
 
+a, a:hover, a:visited {
+    color: inherit;
+}
+
 table {
     height: fit-content;
 }
