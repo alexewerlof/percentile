@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-pre test</title>
+</head>
+<body>
+    <main id="app">
+        <h3>Count</h3>
+        <label>
+            <input type="range" min="10" max="10000" step="10" v-model="dataCount"> {{ dataCount}}
+        </label>
+        <h3>Low</h3>
+        <label>
+            <input type="range" min="0" :max="high" v-model="low"> {{ low }}%
+        </label>
+        <h3>High</h3>
+        <label>
+            <input type="range" :min="low" max="100" v-model="high"> {{ high }}%
+        </label>
+        <br/>
+        <diagram-component :points="diagramData" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+    </main>
+    <script type="module" src="vue-pre.js"></script>
+</body>
+</html>
