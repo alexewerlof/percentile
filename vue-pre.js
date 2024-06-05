@@ -6,7 +6,7 @@ function f(x, low, high) {
         return x / (low * 2)
     }
     if (high < 1 && x >= high) {
-        return ((0.5 * x) + (0.5 - high)) / (1 - high)
+        return (0.5 * x + 0.5 - high) / (1 - high)
     }
     return 0.5
 }
