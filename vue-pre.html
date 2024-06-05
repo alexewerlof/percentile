@@ -13,11 +13,11 @@
         </label>
         <h3>Low</h3>
         <label>
-            <input type="range" min="0" :max="high" v-model="low"> {{ low }}%
+            <input type="range" min="0" :max="high" step="0.1" v-model="low"> {{ low }}%
         </label>
         <h3>High</h3>
         <label>
-            <input type="range" :min="low" max="100" v-model="high"> {{ high }}%
+            <input type="range" :min="low" max="1" step="0.1" v-model="high"> {{ high }}%
         </label>
         <br/>
         <diagram-component :points="diagramData" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>

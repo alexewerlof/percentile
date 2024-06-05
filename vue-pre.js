@@ -1,9 +1,14 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
 
-function f(x) {
-    const y = Math.sin(x)
-    return y
+function f(x, low, high) {
+    if (low > 0 && x <= low) {
+        return x / (low * 2)
+    }
+    if (high < 1 && x >= high) {
+        return ((0.5 * x) + (0.5 - high)) / (1 - high)
+    }
+    return 0.5
 }
 
 const app = createApp({
@@ -12,31 +17,20 @@ const app = createApp({
     },
     data() {
         return {
-            dataCount: 1000,
-            high: 90,
-            low: 10,
+            dataCount: 100,
+            high: 0.9,
+            low: 0.1,
         }
     },
     computed: {
         diagramData() {
             const data = []
             for (let i = 0; i < this.dataCount; i++) {
-                data.push(this.f(100 * i / this.dataCount))
+                data.push(f(i / this.dataCount, this.low, this.high))
             }
             return data
         }
     },
-    methods: {
-        f(x) {
-            if (this.low > 0 && x <= this.low) {
-                return x / (this.low * 2)
-            }
-            if (this.high < 100 && x >= this.high) {
-                return ((0.5 * x) + (50 - this.high)) / (100 - this.high)
-            }
-            return 0.5
-        }
-    }
 })
 
 app.mount('#app')
