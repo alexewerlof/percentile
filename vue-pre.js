@@ -23,10 +23,21 @@ const app = createApp({
         }
     },
     computed: {
-        diagramData() {
+        resolution() {
+            return 1 / this.dataCount
+        },
+        randomGeneratorShape() {
             const data = []
-            for (let i = 0; i < this.dataCount; i++) {
-                data.push(f(i / this.dataCount, this.low, this.high))
+            for (let x = 0; x < 1; x += this.resolution) {
+                data.push([x, f(x, this.low, this.high)])
+            }
+            return data
+        },
+        randomNumbers() {
+            const data = []
+            for (let x = 0; x < 1; x += this.resolution) {
+                const rnd = Math.random()
+                data.push([x, f(rnd, this.low, this.high)])
             }
             return data
         }

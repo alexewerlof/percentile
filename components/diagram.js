@@ -17,6 +17,7 @@ const PADDING_INDEX = {
 class Diagram {
     constructor(svgTag, width, height, padding) {
         this.svg = d3.select(svgTag)
+        this.svgTag = svgTag
         this.width = width
         this.height = height
         this.padding = padding
@@ -50,37 +51,41 @@ class Diagram {
     }
 
     update(data) {        
-        const [minValue, maxValue ] = d3.extent(data)
-        const xScale = d3.scaleLinear().domain([0, data.length]).range([this.leftSide, this.rightSide])
-        const yScale = d3.scaleLinear().domain([minValue, maxValue]).range([this.bottomSide, this.topSide])
+        console.log('update called', data.length, this.svgTag)
+        const [minX, maxX] = d3.extent(data, d => d[0]);
+        const [minY, maxY] = d3.extent(data, d => d[1]);
+        
+        const xScale = d3.scaleLinear().domain([minX, maxX]).range([this.leftSide, this.rightSide]);
+        const yScale = d3.scaleLinear().domain([minY, maxY]).range([this.bottomSide, this.topSide]);
         
         const line = d3.line()
-            .x((d, i) => xScale(i))
-            .y(d => yScale(d))
-
-        
+            .x(d => xScale(d[0]))
+            .y(d => yScale(d[1]));
+    
         this.path
             .datum(data)
-            //.attr('fill', 'none')
-            .attr('d', line)
-
-        const xAxis = d3.axisBottom(xScale)
-        const yAxis = d3.axisLeft(yScale)
-
+            .attr('d', line);
+    
+        const xAxis = d3.axisBottom(xScale);
+        const yAxis = d3.axisLeft(yScale);
+    
         this.xAxisGroup
             .attr('transform', `translate(0,${this.bottomSide})`)
-            .call(xAxis)
-
+            .call(xAxis);
+    
         this.yAxisGroup
             .attr('transform', `translate(${this.leftSide},0)`)
-            .call(yAxis)
+            .call(yAxis);
     }
 }
 
-let d
-
 export default {
     template: await loadComponent(import.meta.url),
+    data() {
+        return {
+            d: null,
+        };
+    },
     props: {
         points: {
             type: Array,
@@ -96,17 +101,17 @@ export default {
         },
         padding: {
             type: Array,
-            default: [0, 0, 0, 0], // default value, adjust as needed
+            default: [0, 0, 0, 0], // top, right, bottom, left
             validate: (val) => val.length === 4,
         },
     },
     mounted(){
-        d = new Diagram(this.$refs.svgTag, this.width, this.height, this.padding)
-        d.update(this.points)
+        this.d = new Diagram(this.$refs.svgTag, this.width, this.height, this.padding)
+        this.d.update(this.points)
     },
     watch: {
         points(newPoints) {
-            d.update(newPoints)
+            this.d.update(newPoints)
         }
     },
 }
