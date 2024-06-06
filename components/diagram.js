@@ -51,7 +51,6 @@ class Diagram {
     }
 
     update(data) {        
-        console.log('update called', data.length, this.svgTag)
         const [minX, maxX] = d3.extent(data, d => d[0]);
         const [minY, maxY] = d3.extent(data, d => d[1]);
         
