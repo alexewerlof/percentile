@@ -28,7 +28,7 @@ export default {
         },
     },
     mounted(){
-        this.d = new D3Diagram(this.$refs.svgTag, this.width, this.height, this.padding)
+        this.d = new D3Diagram(this.$refs.svgElement, this.width, this.height, this.padding)
         this.d.update(this.points)
     },
     watch: {

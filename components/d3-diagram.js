@@ -8,9 +8,8 @@ const PADDING_INDEX = {
 }
 
 export class D3Diagram {
-    constructor(svgTag, width, height, padding) {
-        this.svg = d3.select(svgTag)
-        this.svgTag = svgTag
+    constructor(svgElement, width, height, padding) {
+        this.svg = d3.select(svgElement)
         this.width = width
         this.height = height
         this.padding = padding
