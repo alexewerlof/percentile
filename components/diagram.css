@@ -1,5 +1,5 @@
 .diagram {
-    background-color: rgb(247, 247, 247);
+    background-color: transparent;
 }
 
 .diagram__line {
@@ -9,17 +9,17 @@
 }
 
 .diagram__axis path{
-    stroke: rgb(20, 63, 121);
+    stroke: #FFBC52;
     stroke-width: 1.2;
     fill: none;
 }
 
 .diagram__axis .tick line {
-    stroke: rgb(207, 57, 52);
+    stroke: #F86262;
     stroke-width: 1.2;
     fill: none;
 }
 
 .diagram__axis .tick text {
-    fill: rgb(146, 8, 8);
+    fill: #FFBC52;
 }
