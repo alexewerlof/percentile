@@ -24,7 +24,7 @@ const app = createApp({
         const min = 100
         const max = 20000
         return {
-            dataCount: 100,
+            dataCount: 1000,
             min,
             max,
             points: [

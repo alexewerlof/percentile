@@ -2,6 +2,10 @@
     background-color: transparent;
 }
 
+.diagram:hover {
+    background-color: #001B33;
+}
+
 .diagram__line {
     stroke: rgb(52, 119, 207);
     stroke-width: 1.2;

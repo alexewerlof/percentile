@@ -4,3 +4,8 @@
     padding-left: 1em;
     text-align: right;
 }
+
+.sorted-random-numbers .diagram__axis--x .tick,
+.random-numbers .diagram__axis--x .tick {
+    display: none;
+}

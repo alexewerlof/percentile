@@ -11,8 +11,7 @@
     <main id="app">
         <h1>Count</h1>
         <label>
-             {{ dataCount}}
-             <input type="range" min="10" max="10000" step="10" v-model="dataCount">
+             <input type="number" min="10" max="10000" step="10" v-model="dataCount">
         </label>
         <article>
             <section>
@@ -60,12 +59,12 @@
 
             <section>
                 <h2>Random numbers</h2>
-                <diagram-component :points="randomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+                <diagram-component class="random-numbers" :points="randomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
             </section>
 
             <section>
                 <h2>Sorted random numbers</h2>
-                <diagram-component :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+                <diagram-component class="sorted-random-numbers" :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
             </section>
         </article>
     </main>
