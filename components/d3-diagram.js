@@ -28,7 +28,6 @@ export class D3Diagram extends DiagramBase {
     }
 
     update(data) {
-        console.log(data.length)    
         const [minX, maxX] = d3.extent(data, d => d[0])
         const [minY, maxY] = d3.extent(data, d => d[1])
         

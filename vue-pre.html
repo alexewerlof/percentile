@@ -9,37 +9,48 @@
 </head>
 <body>
     <main id="app">
-        <param-editor-component></param-editor-component>
-        <h3>Mapped</h3>
-        <br/>
-        <label>
-            Min
-            <input type="number" v-model.number="min">
-        </label>
-        <label>
-            Max
-            <input type="number" v-model.number="max">
-        </label>
         <h1>Count</h1>
         <label>
-            <input type="range" min="10" max="10000" step="10" v-model="dataCount"> {{ dataCount}}
+             {{ dataCount}}
+             <input type="range" min="10" max="10000" step="10" v-model="dataCount">
         </label>
         <article>
             <section>
                 <h2>Points ({{points.length}})</h2>
-                <h3>Point 0: [0, {{min}}]</h3>
-                <div v-for="(p,i) in points">
-                    <h3>Point {{i}}: {{ p }}</h3>
-                    <label>
-                        <code class="slider-value">x: {{ p[0] }}</code>
-                        <input type="range" min="0" max="1" step="0.01" v-model.number="p[0]"> 
-                    </label>
-                    <label>
-                        <code class="slider-value">y: {{ p[1] }}</code>
-                        <input type="range" :min="min" :max="max" step="0.01" v-model.number="p[1]">
-                    </label>
-                </div>
-                <h3>Point {{ points.length + 1}}: [0, {{max}}]</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Probability</th>
+                            <th></th>
+                            <th>Value</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td></td>
+                            <td>{{ min }}</td>
+                            <td><input type="number" :max="max" v-model.number="min"></td>
+                        </tr>
+                        <tr v-for="(p,i) in points">
+                            <td>{{i+1}}</td>
+                            <td>{{ p[0] }}</td>
+                            <td><input type="range" min="0" max="1" step="0.01" v-model.number="p[0]"></td>
+                            <td>{{ p[1] }}</td>
+                            <td><input type="range" :min="min" :max="max" step="0.01" v-model.number="p[1]"></td>
+                        </tr>
+                        <tr>
+                            <td>{{points.length + 1}}</td>
+                            <td>1</td>
+                            <td></td>
+                            <td>{{ max }}</td>
+                            <td><input type="number" :min="min" v-model.number="max"></td>
+                        </tr>
+                    </tbody>    
+                </table>
             </section>
 
             <section>
