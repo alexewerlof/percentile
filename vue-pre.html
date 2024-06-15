@@ -4,38 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue-pre test</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="vue-pre.css">
 </head>
 <body>
     <main id="app">
-        <h3>Count</h3>
+        <param-editor-component></param-editor-component>
+        <h3>Mapped</h3>
+        <br/>
+        <label>
+            Min
+            <input type="number" v-model.number="min">
+        </label>
+        <label>
+            Max
+            <input type="number" v-model.number="max">
+        </label>
+        <h1>Count</h1>
         <label>
             <input type="range" min="10" max="10000" step="10" v-model="dataCount"> {{ dataCount}}
         </label>
-        <h3>Point 1</h3>
-        <label>
-            x: <input type="range" min="0" :max="xHigh" step="0.01" v-model="xLow"> {{ xLow }}
-        </label>
-        <br/>
-        <label>
-            y: <input type="range" min="0" :max="yHigh" step="0.01" v-model="yLow"> {{ yLow }}
-        </label>
-        <h3>Point 2</h3>
-        <label>
-            x: <input type="range" :min="xLow" max="1" step="0.01" v-model="xHigh"> {{ xHigh }}
-        </label>
-        <br/>
-        <label>
-            y: <input type="range" :min="yLow" max="1" step="0.01" v-model="yHigh"> {{ yHigh }}
-        </label>
+        <article>
+            <section>
+                <h2>Points ({{points.length}})</h2>
+                <h3>Point 0: [0, {{min}}]</h3>
+                <div v-for="(p,i) in points">
+                    <h3>Point {{i}}: {{ p }}</h3>
+                    <label>
+                        <code class="slider-value">x: {{ p[0] }}</code>
+                        <input type="range" min="0" max="1" step="0.01" v-model.number="p[0]"> 
+                    </label>
+                    <label>
+                        <code class="slider-value">y: {{ p[1] }}</code>
+                        <input type="range" :min="min" :max="max" step="0.01" v-model.number="p[1]">
+                    </label>
+                </div>
+                <h3>Point {{ points.length + 1}}: [0, {{max}}]</h3>
+            </section>
 
-        <h4>Random generator function</h4>
-        <diagram-component :points="randomGeneratorShape" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            <section>
+                <h2>Random generator function</h2>
+                <diagram-component :points="ppp" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            </section>
 
-        <h4>Random numbers</h4>
-        <diagram-component :points="randomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            <section>
+                <h2>Random numbers</h2>
+                <diagram-component :points="randomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            </section>
 
-        <h4>Sorted random numbers</h4>
-        <diagram-component :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            <section>
+                <h2>Sorted random numbers</h2>
+                <diagram-component :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+            </section>
+        </article>
     </main>
     <script type="module" src="vue-pre.js"></script>
 </body>

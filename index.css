@@ -33,6 +33,11 @@ body {
     background-size: auto 50vh;
 }
 
+h1, h2, h3, h4, h5, h6, th {
+    font-family: var(--title-font-family);
+    color: var(--primary-color);
+}
+
 #data-tables {
     display: flex;
     justify-content: space-between;
@@ -48,8 +53,6 @@ table {
 }
 
 th {
-    font-family: var(--title-font-family);
-    color: var(--primary-color);
     text-align: left;
 }
 
@@ -77,4 +80,16 @@ button:hover {
 
 .data-line:hover {
     stroke: var(--brand-red);
+}
+
+article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+section {
+    margin: 1em;
+    flex: 1;
 }

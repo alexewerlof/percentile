@@ -5,7 +5,7 @@ export default {
     template: await loadComponent(import.meta.url),
     data() {
         return {
-            d3d: null,
+            d3d: new D3Diagram(this.width, this.height, this.padding),
         };
     },
     props: {
@@ -27,13 +27,13 @@ export default {
             validate: (val) => val.length === 4 && val.every(v => typeof v === 'number'),
         },
     },
-    mounted(){
-        this.d = new D3Diagram(this.$refs.svgElement, this.width, this.height, this.padding)
-        this.d.update(this.points)
+    mounted() {
+        this.d3d.mount(this.$refs.svgElement)
+        this.d3d.update(this.points)
     },
     watch: {
         points(newPoints) {
-            this.d.update(newPoints)
+            this.d3d.update(newPoints)
         }
     },
 }
