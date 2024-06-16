@@ -15,14 +15,26 @@
         </label>
         <article>
             <section>
-                <h2>Frequency ({{frequencies.length}})</h2>
-                {{frequencies}}
-                <table>
+                <h2>Frequency</h2>
+                <table class="frequency-table">
                     <tbody>
                         <tr>
+                            <th></th>
+                            <td v-for="s of frequencies">{{s}}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
                             <td  v-for="(s,i) of frequencies">
-                                <input class="vertical-slider" type="range" min="0" max="100" step="0.01" v-model.number="frequencies[i]">
+                                <input class="vertical-slider" type="range" :min="config.slider.min" :max="config.slider.max" :step="config.slider.step" v-model.number="frequencies[i]">
                             </td>
+                        </tr>
+                        <tr>
+                            <th>max</th>
+                            <td v-for="fr of freqRanges">{{fr.max}}</td>
+                        </tr>
+                        <tr>
+                            <th>min</th>
+                            <td v-for="fr of freqRanges">{{fr.min}}</td>
                         </tr>
                     </tbody>
                 </table>

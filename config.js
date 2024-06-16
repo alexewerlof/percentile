@@ -1,6 +1,14 @@
 export const config = {
     percentiles: [1, 10, 20, 50, 80, 90, 95, 99, 99.5, 99.9],
-    
+    slider: {
+        count: 11,
+        min: 0,
+        max: 1000,
+        step: 1,
+    },
+    min: 100,
+    max: 20000,
+    dataCount: 1000,
     width: 1000,
     height: 300,
     margin: {top: 30, right: 50, bottom: 40, left: 80},
