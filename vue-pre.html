@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vue-pre test</title>
+    <title>Percentile</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="vue-pre.css">
 </head>
@@ -74,8 +74,58 @@
                 <diagram-component :points="percentiles" width="1200" height="400" :padding="[10, 30, 50, 70]" is-bar-chart></diagram-component>
             </section>
 
+            <section>
+                <table>
+                    <thead>
+                        <th></th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Count</th>
+                            <td></td>
+                            <td>Number of elements in the dataset</td>
+                        </tr>
+                        <tr>
+                            <th>Min</th>
+                            <td></td>
+                            <td>Minimum number in the dataset</td>
+                        </tr>
+                        <tr>
+                            <th>Max</th>
+                            <td></td>
+                            <td>Maximum number in the dataset</td>
+                        </tr>
+                        <tr>
+                            <th>Range</th>
+                            <td></td>
+                            <td>Difference between the largest and smallest number in the dataset</td>
+                        </tr>
+                        <tr>
+                            <th>Mean</th>
+                            <td></td>
+                            <td>Average of all numbers in the dataset</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Percentile</th>
+                            <th>Index</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
         </article>
     </main>
-    <script type="module" src="vue-pre.js"></script>
+    <footer>
+        <a href="https://github.com/alexewerlof/percentile">Source</a>
+    </footer>
+    <script type="module" src="vue-pre.js" async defer></script>
 </body>
 </html>
