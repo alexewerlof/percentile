@@ -24,7 +24,7 @@
                     <input type="number" v-model.number="max">
                 </label>
             </section>
-            
+
             <section>
                 <h2>Frequency</h2>
                 <table class="frequency-table">
@@ -40,11 +40,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>max</th>
+                            <th>Max</th>
                             <td v-for="fr of freqRanges">{{fr.max}}</td>
                         </tr>
                         <tr>
-                            <th>min</th>
+                            <th>Min</th>
                             <td v-for="fr of freqRanges">{{fr.min}}</td>
                         </tr>
                     </tbody>
@@ -65,6 +65,9 @@
                 <h2>Sorted random numbers</h2>
                 <diagram-component class="sorted-random-numbers" :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
             </section>
+
+        </article>
+        <article>
 
             <section>
                 <h2>Percentiles</h2>
