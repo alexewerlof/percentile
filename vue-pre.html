@@ -41,11 +41,11 @@
                         </tr>
                         <tr>
                             <th>Max</th>
-                            <td v-for="fr of freqRanges">{{fr.max}}</td>
+                            <td v-for="fr of freqRanges">&lt;{{fr.max}}</td>
                         </tr>
                         <tr>
                             <th>Min</th>
-                            <td v-for="fr of freqRanges">{{fr.min}}</td>
+                            <td v-for="fr of freqRanges">{{fr.min}}&lt;</td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,17 +53,17 @@
 
             <section>
                 <h2>Random generator function</h2>
-                <diagram-component :points="ppp" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+                <diagram-component :points="ppp" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
             <section>
                 <h2>Random numbers</h2>
-                <diagram-component class="random-numbers" :points="randomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+                <diagram-component class="random-numbers" :points="randomNumbers" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
             <section>
                 <h2>Sorted random numbers</h2>
-                <diagram-component class="sorted-random-numbers" :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 20, 50, 50]"></diagram-component>
+                <diagram-component class="sorted-random-numbers" :points="sortedRandomNumbers" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
         </article>
@@ -71,7 +71,7 @@
 
             <section>
                 <h2>Percentiles</h2>
-                <diagram-component :points="percentiles" width="1200" height="400" :padding="[10, 20, 50, 50]" is-bar-chart></diagram-component>
+                <diagram-component :points="percentiles" width="1200" height="400" :padding="[10, 30, 50, 70]" is-bar-chart></diagram-component>
             </section>
 
         </article>

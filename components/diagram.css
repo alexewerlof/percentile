@@ -1,29 +1,38 @@
+@import url('variables.css');
+
 .diagram {
     background-color: transparent;
 }
 
 .diagram:hover {
-    background-color: #001B33;
+    background-color: var(--background-lighter);
 }
 
+.diagram__bars,
 .diagram__line {
-    stroke: rgb(52, 119, 207);
+    stroke: var(--secondary-color);
     stroke-width: 1.2;
     fill: none;
 }
 
+.diagram__bars:hover,
+.diagram__line:hover {
+    stroke: var(--brand-red);
+}
+
 .diagram__axis path{
-    stroke: #FFBC52;
+    stroke: var(--primary-color);
     stroke-width: 1.2;
     fill: none;
 }
 
 .diagram__axis .tick line {
-    stroke: #F86262;
+    stroke: var(--brand-red);
     stroke-width: 1.2;
     fill: none;
 }
 
 .diagram__axis .tick text {
-    fill: #FFBC52;
+    fill: var(--primary-color);
+    font-size: 13px;
 }
