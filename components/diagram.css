@@ -34,5 +34,5 @@
 
 .diagram__axis .tick text {
     fill: var(--primary-color);
-    font-size: 13px;
+    font-size: 15px;
 }
