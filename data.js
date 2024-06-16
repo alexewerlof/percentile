@@ -37,11 +37,11 @@ export function generateData(count, min, max, variation) {
     return ret
 }
 
-export function analyzeData(data) {
-    let min = data[0]
-    let max = data[0]
+export function analyzeData(numArr) {
+    let min = numArr[0]
+    let max = numArr[0]
     let sum = 0
-    for (let d of data) {
+    for (let d of numArr) {
         if (d < min) {
             min = d
         }
@@ -50,7 +50,7 @@ export function analyzeData(data) {
         }
         sum += d
     }
-    const mean = sum / data.length
+    const mean = sum / numArr.length
     const range = max - min
     return {
         min,
@@ -60,7 +60,7 @@ export function analyzeData(data) {
     }
 }
 
-export function percentileIndex(dataLength, percentile) {
-    const maxPossibleIndex = dataLength - 1
+export function percentileIndex(arrLength, percentile) {
+    const maxPossibleIndex = arrLength - 1
     return Math.ceil(maxPossibleIndex * percentile / 100)
 }
