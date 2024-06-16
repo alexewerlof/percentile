@@ -68,3 +68,24 @@ section {
     margin: 1em;
     flex: 1;
 }
+
+.slider-value {
+    display: inline-block;
+    width: 100px;
+    padding-left: 1em;
+    text-align: right;
+}
+
+.random-numbers .diagram__axis--x .tick {
+    display: none;
+}
+
+.vertical-slider {
+    writing-mode: vertical-lr;
+    direction: rtl;
+}
+
+.frequency-table td {
+    width: 3em;
+    text-align: center;
+}

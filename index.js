@@ -1,126 +1,73 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm"
-import { generateData, analyzeData, percentileIndex } from "./data.js"
-import { config } from "./config.js"
+import { createApp } from './vendor/vue.js'
+import diagramComponent from './components/diagram.js'
+import { getPoints, calculateY } from './lib/points.js'
+import { calculatePoints, percentileIndex } from './data.js'
+import { config } from './config.js'
+import { sortByY } from './lib/points.js'
 
-const $ = id => document.getElementById(id)
+function f(x, points) {
+    const [ point1, point2 ] = getPoints(points, x)
 
-// Define the scales
-const xScale = d3.scaleLinear().domain([0, 100]).range([config.margin.left, config.width - config.margin.right])
-const yScale = d3.scaleLinear().domain([0, config.yMax]).range([config.height - config.margin.bottom, config.margin.top])
-
-function initDiagram() {
-    const line = d3.line()
-        .defined(d => !isNaN(d[1]))
-        .x(d => xScale(d[0]))
-        .y(d => yScale(d[1]))
-
-    // Create the SVG
-    const svg = d3.create('svg')
-        .attr('viewBox', [0, 0, config.width, config.height])
-
-    // The data lines
-    const linesGroup = svg.append('g')
-        .classed('data', true)
-
-    // Add the x-axis
-    svg.append('g')
-        .classed('x-axis', true)
-        .attr('transform', `translate(0,${yScale(0)})`)
-        .call(d3.axisBottom(xScale).ticks(config.width / 100))
-
-    // Add the y-axis
-    svg.append('g')
-        .classed('y-axis', true)
-        .attr('transform', `translate(${xScale(0)},0)`)
-        .call(d3.axisLeft(yScale))
-
-    return {
-        svg,
-    }
+    return calculateY(x, point1, point2)
 }
 
-function updateStats(data) {
-    const { min, max, range, mean } = analyzeData(data)
-    $("data-count").innerText = data.length
-    $("data-min").innerText = min
-    $("data-max").innerText = max
-    $("data-range").innerText = range
-    $("data-mean").innerText = mean.toFixed(2)
-
-    const sortedData = [...data].sort(d3.ascending)
-    const percentileTableData = config.percentiles.map(percentile => {
-        const dataIndex = percentileIndex(sortedData.length, percentile)
-        return [
-            percentile,
-            dataIndex,
-            sortedData[dataIndex],
-        ]
-    })
-
-    d3.select('#percentile-table')
-        .selectAll('tr')
-        .data(percentileTableData)
-        .join('tr')
-        .selectAll('td')
-        .data(d => d)
-        .join('td')
-        .text(d => d)
-}
-
-
-function updateDiagram(data) {
-    const x = 100 / data.length
-    const lines = d3.select('g.data')
-        .selectAll('line')
-        .data(data)
-        .join('line')
-        .attr('x1', (d, i) => xScale((i + 1) * x))
-        .attr('x2', (d, i) => xScale((i + 1) * x))
-        .attr('y1', yScale(0))  // start at the bottom of the chart
-        .attr('y2', d => yScale(d))  // end at the data point
-        .attr('class', 'data-line')
-        .attr('stroke-width', 1.5)
-        .attr('stroke-linecap', 'round')
-
-    lines.append('title')
-        .text((d, i) => `data[${i}] = ${d}`);
-}
-
-function updateState(data) {
-    updateStats(data)
-    updateDiagram(data)
-}
-
-const { svg } = initDiagram()
-$('diagram').appendChild(svg.node())
-const initBtn = $("init-button")
-const variationInput = $("variation-input")
-
-let data = []
-
-function initData() {
-    const variation = Number(variationInput.value)
-    data = generateData(config.xCount, config.yMin, config.yMax, variation)
-    updateState(data)
-}
-
-function sortData() {
-    data.sort(d3.ascending)
-    updateState(data)
-}
-
-variationInput.addEventListener('input', () => {
-    $("variation-label").innerText = variationInput.value
-    initData()
-    sortData()
+const app = createApp({
+    components: {
+        diagramComponent,
+    },
+    data() {
+        const frequencies = Array.from({ length: config.slider.count }, (_, i) => config.slider.default)
+        return {
+            config,
+            dataCount: config.dataCount,
+            min: config.min,
+            max: config.max,
+            frequencies,
+        }
+    },
+    computed: {
+        ppp() {
+            return calculatePoints(this.frequencies, this.min, this.max)
+        },
+        range() {
+            return this.max - this.min
+        },
+        freqRanges() {
+            const bandRange = this.range / this.frequencies.length
+            return Array.from({ length: this.frequencies.length }, (_, i) => {
+                return {
+                    min: Math.floor(this.min + i * bandRange),
+                    max: Math.ceil(this.min + (i + 1) * bandRange),
+                }
+            })                
+        },
+        randomNumbers() {
+            const data = []
+            for (let x = 0; x < this.dataCount; x++) {
+                const randomX = Math.random()
+                data.push([x, f(randomX, this.ppp)])
+            }
+            return data
+        },
+        sortedRandomNumbers() {
+            let x = 0
+            return sortByY(this.randomNumbers).map(([, y]) => {
+                x ++
+                return [x, y]
+            })
+        },
+        percentiles() {
+            const ret = []
+            const len = this.sortedRandomNumbers.length
+            for (let x = 0; x <= 100; x += 1) {
+                const index = percentileIndex(len, x)
+                const point = this.sortedRandomNumbers[index]
+                const y = point[1]
+                ret.push([x, y])
+            }
+            return ret
+        }
+    },
 })
 
-initBtn.addEventListener("click", () => {
-    initData()
-})
-
-$("sort-button").addEventListener("click", () => {
-    sortData()
-})
-
-initBtn.click()
+app.mount('#app')
