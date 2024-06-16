@@ -1,6 +1,7 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
 import { getPoints, calculateY } from './lib/points.js'
+import { calculatePoints } from './data.js'
 
 function f(x, points) {
     const [ point1, point2 ] = getPoints(points, x)
@@ -23,23 +24,18 @@ const app = createApp({
     data() {
         const min = 100
         const max = 20000
+        const sliderCount = 7
+        const frequencies = Array.from({ length: sliderCount }, (_, i) => 50)
         return {
             dataCount: 1000,
             min,
             max,
-            points: [
-                [0.1, min],
-                [0.9, max],
-            ],
+            frequencies,
         }
     },
     computed: {
         ppp() {
-            return [
-                [0, this.min],
-                ...this.points.map(([x, y]) => [x,y]),
-                [1, this.max],
-            ]
+            return calculatePoints(this.frequencies, this.min, this.max)
         },
         resolution() {
             return 1 / this.dataCount
@@ -59,18 +55,6 @@ const app = createApp({
                 x += step
                 return [x, y]
             })
-        },
-    },
-    methods: {
-        addPoint() {
-            const lastPointIndex = this.ppp.length - 1
-            const [x1, y1] = this.ppp[lastPointIndex]
-            const [x2, y2] = this.ppp[lastPointIndex - 1]
-            console.log(x1, y1, x2, y2)
-            this.points.push([(x1 + x2) / 2, (y1 + y2) / 2])
-        },
-        removePoint(pointIndex) {
-            this.points.splice(pointIndex, 1)
         },
     },
 })

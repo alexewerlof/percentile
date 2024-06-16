@@ -64,3 +64,36 @@ export function percentileIndex(arrLength, percentile) {
     const maxPossibleIndex = arrLength - 1
     return Math.ceil(maxPossibleIndex * percentile / 100)
 }
+
+export function arrSum(arr) {
+    return arr.reduce((a, b) => a + b, 0)
+}
+
+export function normalizeFrequencies(frequencies) {
+    const sum = arrSum(frequencies)
+    return frequencies.map(f => f / sum)
+}
+
+export function accumulateFrequencies(frequencies) {
+    let sum = 0;
+    const result = [0]
+    for (let i = 0; i < frequencies.length; i++) {
+        sum += frequencies[i]
+        result.push(sum)
+    }
+    return result
+}
+
+export function calculatePoints(frequencies, min, max) {
+    const points = [];
+
+    const xArr = accumulateFrequencies(normalizeFrequencies(frequencies))
+    const step = (max - min) / xArr.length
+    let y = min
+    for (let x of xArr) {
+        points.push([x, y])
+        y += step
+    }
+
+    return points;
+}
