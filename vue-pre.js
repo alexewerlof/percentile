@@ -43,7 +43,7 @@ const app = createApp({
         },
         randomNumbers() {
             const data = []
-            for (let x = 0; x <= this.dataCount; x++) {
+            for (let x = 0; x < this.dataCount; x++) {
                 const randomX = Math.random()
                 data.push([x, f(randomX, this.ppp)])
             }
