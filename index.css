@@ -74,11 +74,13 @@ button:hover {
     background-color: var(--primary-color);
 }
 
-.data-line {
+.diagram__bars {
     stroke: var(--secondary-color);
+    stroke-width: 1;
+    stroke-linecap: square;
 }
 
-.data-line:hover {
+.diagram__bars:hover {
     stroke: var(--brand-red);
 }
 

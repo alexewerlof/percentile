@@ -38,8 +38,9 @@ export class DiagramBase {
 }
 
 export class D3Diagram extends DiagramBase {
-    constructor(width, height, padding) {
+    constructor(width, height, padding, isBarChart = false) {
         super(width, height, padding)
+        this.isBarChart = isBarChart
     }
 
     mount(svgElement) {
@@ -50,6 +51,17 @@ export class D3Diagram extends DiagramBase {
             .attr('height', this.height)
             .classed('diagram', true)
 
+        // Placeholder for the data
+        if (this.isBarChart) {
+            // Placeholder for bar charts
+            this.linesGroup = this.svg.append('g')
+                .classed('diagram__bars', true)
+        } else {
+            // Placeholder for line charts
+            this.path = this.svg.append('path')
+                .classed('diagram__line', true)
+        }
+
         // Create the axes
         this.xAxisGroup = this.svg.append('g')
             .classed('diagram__axis diagram__axis--x', true)
@@ -58,9 +70,6 @@ export class D3Diagram extends DiagramBase {
         this.yAxisGroup = this.svg.append('g')
             .classed('diagram__axis diagram__axis--y', true)
             .attr('transform', `translate(${this.leftSide},0)`)      
-
-        this.path = this.svg.append('path')
-            .classed('diagram__line', true)
     }
 
     update(data) {
@@ -76,12 +85,27 @@ export class D3Diagram extends DiagramBase {
         this.xAxisGroup.call(xAxis)
         this.yAxisGroup.call(yAxis)
         
-        const line = d3.line()
-            .x(d => this.xScale(d[0]))
-            .y(d => this.yScale(d[1]))
-    
-        this.path
-            .datum(data)
-            .attr('d', line)
+        const x = 0
+        if (this.isBarChart) {
+            const lines = this.linesGroup
+                .selectAll('line')
+                .data(data)
+                .join('line')
+                .attr('x1', (d) => this.xScale(d[0]))
+                .attr('x2', (d) => this.xScale(d[0]))
+                .attr('y1', this.yScale(minY))  // start at the bottom of the chart
+                .attr('y2', d => this.yScale(d[1]))  // end at the data point
+                .attr('class', 'diagram__bars')
+                .append('title')
+                .text((d, i) => `#${i}: [${d[0]}, ${d[1]}]`);
+        } else {
+            const line = d3.line()
+                .x(d => this.xScale(d[0]))
+                .y(d => this.yScale(d[1]))
+        
+            this.path
+                .datum(data)
+                .attr('d', line)
+        }
     }
 }

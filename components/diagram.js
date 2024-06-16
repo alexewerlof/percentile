@@ -5,7 +5,7 @@ export default {
     template: await loadComponent(import.meta.url),
     data() {
         return {
-            d3d: new D3Diagram(this.width, this.height, this.padding),
+            d3d: new D3Diagram(this.width, this.height, this.padding, this.isBarChart),
         };
     },
     props: {
@@ -25,6 +25,10 @@ export default {
             type: Array,
             default: [0, 0, 0, 0], // top, right, bottom, left
             validate: (val) => val.length === 4 && val.every(v => typeof v === 'number'),
+        },
+        isBarChart: {
+            type: Boolean,
+            default: false,
         },
     },
     mounted() {

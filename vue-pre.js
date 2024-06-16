@@ -59,7 +59,7 @@ const app = createApp({
         percentiles() {
             const ret = []
             const len = this.sortedRandomNumbers.length
-            for (let x = 0.1; x <= 100; x += 0.1) {
+            for (let x = 0; x <= 100; x += 1) {
                 const index = percentileIndex(len, x)
                 const point = this.sortedRandomNumbers[index]
                 const y = point[1]
