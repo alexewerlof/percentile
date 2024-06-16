@@ -61,6 +61,18 @@ const app = createApp({
             })
         },
     },
+    methods: {
+        addPoint() {
+            const lastPointIndex = this.ppp.length - 1
+            const [x1, y1] = this.ppp[lastPointIndex]
+            const [x2, y2] = this.ppp[lastPointIndex - 1]
+            console.log(x1, y1, x2, y2)
+            this.points.push([(x1 + x2) / 2, (y1 + y2) / 2])
+        },
+        removePoint(pointIndex) {
+            this.points.splice(pointIndex, 1)
+        },
+    },
 })
 
 app.mount('#app')
