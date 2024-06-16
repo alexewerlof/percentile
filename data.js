@@ -77,8 +77,8 @@ export function normalizeFrequencies(frequencies) {
 export function accumulateFrequencies(frequencies) {
     let sum = 0;
     const result = [0]
-    for (let i = 0; i < frequencies.length; i++) {
-        sum += frequencies[i]
+    for (let freq of frequencies) {
+        sum += freq
         result.push(sum)
     }
     return result
