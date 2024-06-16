@@ -1,7 +1,7 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
 import { getPoints, calculateY } from './lib/points.js'
-import { calculatePoints } from './data.js'
+import { calculatePoints, percentileIndex } from './data.js'
 import { config } from './config.js'
 import { sortByY } from './lib/points.js'
 
@@ -56,6 +56,17 @@ const app = createApp({
                 return [x, y]
             })
         },
+        percentiles() {
+            const ret = []
+            const len = this.sortedRandomNumbers.length
+            for (let x = 0.1; x <= 100; x += 0.1) {
+                const index = percentileIndex(len, x)
+                const point = this.sortedRandomNumbers[index]
+                const y = point[1]
+                ret.push([x, y])
+            }
+            return ret
+        }
     },
 })
 
