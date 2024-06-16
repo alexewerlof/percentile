@@ -16,7 +16,7 @@ const app = createApp({
         diagramComponent,
     },
     data() {
-        const frequencies = Array.from({ length: config.slider.count }, (_, i) => 50)
+        const frequencies = Array.from({ length: config.slider.count }, (_, i) => config.slider.default)
         return {
             config,
             dataCount: config.dataCount,

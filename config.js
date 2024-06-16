@@ -4,6 +4,7 @@ export const config = {
         count: 11,
         min: 0,
         max: 1000,
+        default: 500,
         step: 1,
     },
     min: 100,
