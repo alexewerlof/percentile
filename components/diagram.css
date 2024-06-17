@@ -11,12 +11,11 @@
 .diagram__bars,
 .diagram__line {
     stroke: var(--secondary-color);
-    stroke-width: 1.2;
+    stroke-width: 1.3;
     fill: none;
 }
 
-.diagram__bars:hover,
-.diagram__line:hover {
+.diagram__bars:hover {
     stroke: var(--brand-red);
 }
 
