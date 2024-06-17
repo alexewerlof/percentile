@@ -76,10 +76,6 @@ section {
     text-align: right;
 }
 
-.random-numbers .diagram__axis--x .tick {
-    display: none;
-}
-
 .vertical-slider {
     writing-mode: vertical-lr;
     direction: rtl;
