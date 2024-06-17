@@ -17,6 +17,7 @@ const app = createApp({
             min: config.min,
             max: config.max,
             frequencies,
+            isJsonDataVisible: false,
         }
     },
     computed: {

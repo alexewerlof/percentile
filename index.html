@@ -125,10 +125,16 @@
         </article>
 
         <article>
-            <h2>Code</h2>
-            <code class="json-data">
-                {{ jsonData }}
-            </code>
+            <section>
+                <h2>Code</h2>
+                <label>
+                    <input type="checkbox" v-model="isJsonDataVisible">
+                    Show JSON data
+                </label>
+                <code class="json-data" v-if="isJsonDataVisible">
+                    {{ jsonData }}
+                </code>
+            </section>
         </article>
     </main>
     <footer>
