@@ -42,14 +42,14 @@ export function analyzeData(sortedNumArr) {
     let min = sortedNumArr[0]
     let max = sortedNumArr[0]
     let sum = 0
-    for (let d of sortedNumArr) {
-        if (d < min) {
-            min = d
+    for (let n of sortedNumArr) {
+        if (n < min) {
+            min = n
         }
-        if (d > max) {
-            max = d
+        if (n > max) {
+            max = n
         }
-        sum += d
+        sum += n
     }
     const mean = sum / count
     const range = max - min
