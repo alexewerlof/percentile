@@ -85,6 +85,7 @@ section {
     direction: rtl;
 }
 
+.frequency-table tr:first-child th,
 .frequency-table td {
     width: 3em;
     text-align: center;
