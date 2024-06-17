@@ -90,3 +90,7 @@ section {
     width: 3em;
     text-align: center;
 }
+
+.json-data {
+    overflow-wrap: anywhere;
+}

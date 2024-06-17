@@ -37,27 +37,36 @@ const app = createApp({
         randomNumbers() {
             return generateData(this.dataCount, this.buckets)
         },
+        randomNumberValues() {
+            return this.randomNumbers.map(([, y]) => y)
+        },
+        sortedRandomNumberValues() {
+            // sort using d3
+            return this.randomNumberValues.slice().sort((a, b) => a - b)
+        },
         sortedRandomNumbers() {
             let x = 0
-            return sortByY(this.randomNumbers).map(([, y]) => {
+            return this.sortedRandomNumberValues.map(y => {
                 x ++
                 return [x, y]
             })
         },
         percentiles() {
             const ret = []
-            const len = this.sortedRandomNumbers.length
+            const len = this.sortedRandomNumberValues.length
             for (let x = 0; x <= 100; x += 1) {
                 const index = percentileIndex(len, x)
-                const point = this.sortedRandomNumbers[index]
-                const y = point[1]
+                const y = this.sortedRandomNumberValues[index]
                 ret.push([x, y])
             }
             return ret
         },
         analytics() {
-            return analyzeData(this.sortedRandomNumbers.map(([, y]) => y))
+            return analyzeData(this.sortedRandomNumberValues)
         },
+        jsonData() {
+            return JSON.stringify(this.randomNumberValues)
+        }
     },
     methods: {
         setFrequencies(val) {
