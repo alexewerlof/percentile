@@ -23,7 +23,9 @@
                     <input type="number" v-model.number="max">
                 </label>
             </section>
+        </article>
 
+        <article>
             <section>
                 <h2>Frequency</h2>
                 <button @click="setFrequencies(config.slider.min)">Min</button>
@@ -55,27 +57,25 @@
             </section>
         </article>
         <article>
-                <h2>Random numbers</h2>
             <section>
-                <h2>Values</h2>
-                <diagram-component class="random-numbers" :points="randomPoints" width="1200" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <h2>Random Points</h2>
+                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
             <section>
-                <h2>Sorted</h2>
-                <diagram-component class="sorted-random-numbers" :points="sortedPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <h2>Sorted Points</h2>
+                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
         </article>
         <article>
-            <h2>Analytics</h2>
             <section>
                 <h2>Percentiles</h2>
                 <diagram-component :points="percentiles" width="1200" height="400" :padding="[10, 30, 50, 70]" is-bar-chart></diagram-component>
             </section>
 
             <section>
-                <h2>Data</h2>
+                <h2>Analytics</h2>
                 <table>
                     <thead>
                         <th></th>
