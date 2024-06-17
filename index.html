@@ -74,6 +74,7 @@
             </section>
 
             <section>
+                <h2>Analytics</h2>
                 <table>
                     <thead>
                         <th></th>
@@ -83,29 +84,33 @@
                     <tbody>
                         <tr>
                             <th>Count</th>
-                            <td></td>
+                            <td>{{ analytics.count }}</td>
                             <td>Number of elements in the dataset</td>
                         </tr>
                         <tr>
                             <th>Min</th>
-                            <td></td>
+                            <td>{{ analytics.min }}</td>
                             <td>Minimum number in the dataset</td>
                         </tr>
                         <tr>
                             <th>Max</th>
-                            <td></td>
+                            <td>{{ analytics.max }}</td>
                             <td>Maximum number in the dataset</td>
                         </tr>
                         <tr>
                             <th>Range</th>
-                            <td></td>
+                            <td>{{ analytics.range }}</td>
                             <td>Difference between the largest and smallest number in the dataset</td>
                         </tr>
                         <tr>
                             <th>Mean</th>
-                            <td></td>
+                            <td>{{ analytics.mean }}</td>
                             <td>Average of all numbers in the dataset</td>
                         </tr>
+                        <tr>
+                            <th>Median</th>
+                            <td>{{ analytics.median }}</td>
+                            <td>Midpoint of the dataset</td>
                     </tbody>
                 </table>
                 <table>

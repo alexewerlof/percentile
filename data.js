@@ -38,6 +38,7 @@ export function generateData(count, min, max, variation) {
 }
 
 export function analyzeData(numArr) {
+    const count = numArr.length
     let min = numArr[0]
     let max = numArr[0]
     let sum = 0
@@ -50,13 +51,16 @@ export function analyzeData(numArr) {
         }
         sum += d
     }
-    const mean = sum / numArr.length
+    const mean = sum / count
     const range = max - min
+    const median = numArr[percentileIndex(count, 50)]
     return {
+        count,
         min,
         max,
         range,
         mean,
+        median,
     }
 }
 
