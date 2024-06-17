@@ -1,7 +1,7 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
-import { generateData } from './lib/points.js'
-import { analyzeData, calculatePoints, percentileIndex } from './lib/data.js'
+import { createBuckets, generateData } from './lib/points.js'
+import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { sortByY } from './lib/points.js'
 
@@ -20,23 +20,22 @@ const app = createApp({
         }
     },
     computed: {
-        ppp() {
-            return calculatePoints(this.frequencies, this.min, this.max)
-        },
         range() {
             return this.max - this.min
         },
-        freqRanges() {
-            const bandRange = this.range / this.frequencies.length
-            return Array.from({ length: this.frequencies.length }, (_, i) => {
-                return {
-                    min: Math.floor(this.min + i * bandRange),
-                    max: Math.ceil(this.min + (i + 1) * bandRange),
-                }
-            })                
+        buckets() {
+            return createBuckets(this.min, this.max, this.frequencies)
+        },
+        bucketPoints() {
+            return this.buckets.map(bucket => {
+                return [
+                    (bucket.min + bucket.max)/2,
+                    bucket.probability,
+                ]
+            })
         },
         randomNumbers() {
-            return generateData(this.dataCount, this.ppp)
+            return generateData(this.dataCount, this.buckets)
         },
         sortedRandomNumbers() {
             let x = 0

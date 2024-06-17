@@ -30,29 +30,25 @@
                     <tbody>
                         <tr>
                             <th></th>
-                            <th v-for="s of frequencies">{{s}}</th>
+                            <th v-for="f of frequencies">{{f}}</th>
                         </tr>
                         <tr>
                             <th></th>
-                            <td  v-for="(s,i) of frequencies">
+                            <td  v-for="(f,i) of frequencies">
                                 <input class="vertical-slider" type="range" :min="config.slider.min" :max="config.slider.max" :step="config.slider.step" v-model.number="frequencies[i]">
                             </td>
                         </tr>
                         <tr>
                             <th>Max</th>
-                            <td v-for="fr of freqRanges">&lt;{{fr.max}}</td>
+                            <td v-for="b of buckets">&lt;{{b.max}}</td>
                         </tr>
                         <tr>
                             <th>Min</th>
-                            <td v-for="fr of freqRanges">{{fr.min}}&lt;</td>
+                            <td v-for="b of buckets">{{b.min}}&lt;</td>
                         </tr>
                     </tbody>
                 </table>
-            </section>
-
-            <section>
-                <h2>Random generator function</h2>
-                <diagram-component :points="ppp" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <diagram-component :points="bucketPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
 
             <section>
