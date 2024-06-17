@@ -1,15 +1,9 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
-import { getPoints, calculateY } from './lib/points.js'
+import { generateData } from './lib/points.js'
 import { analyzeData, calculatePoints, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { sortByY } from './lib/points.js'
-
-function f(x, points) {
-    const [ point1, point2 ] = getPoints(points, x)
-
-    return calculateY(x, point1, point2)
-}
 
 const app = createApp({
     components: {
@@ -42,12 +36,7 @@ const app = createApp({
             })                
         },
         randomNumbers() {
-            const data = []
-            for (let x = 0; x < this.dataCount; x++) {
-                const randomX = Math.random()
-                data.push([x, f(randomX, this.ppp)])
-            }
-            return data
+            return generateData(this.dataCount, this.ppp)
         },
         sortedRandomNumbers() {
             let x = 0
