@@ -3,7 +3,6 @@ import diagramComponent from './components/diagram.js'
 import { createBuckets, generateData } from './lib/points.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
-import { sortByY } from './lib/points.js'
 
 const app = createApp({
     components: {
