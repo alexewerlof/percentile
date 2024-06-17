@@ -70,9 +70,6 @@ const app = createApp({
         analytics() {
             return analyzeData(this.sortedRandomNumbers.map(([, y]) => y))
         },
-        notablePercentiles() {
-
-        },
     },
 })
 

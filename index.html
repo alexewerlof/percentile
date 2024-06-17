@@ -30,7 +30,7 @@
                     <tbody>
                         <tr>
                             <th></th>
-                            <td v-for="s of frequencies">{{s}}</td>
+                            <th v-for="s of frequencies">{{s}}</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -121,7 +121,13 @@
                             <th>Value</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <tr v-for="(p, i) of analytics.percentiles">
+                            <td>{{ p.name }}</td>
+                            <td>{{ p.index }}</td>
+                            <td>{{ p.value }}</td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
 

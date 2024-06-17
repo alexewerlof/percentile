@@ -37,12 +37,12 @@ export function generateData(count, min, max, variation) {
     return ret
 }
 
-export function analyzeData(numArr) {
-    const count = numArr.length
-    let min = numArr[0]
-    let max = numArr[0]
+export function analyzeData(sortedNumArr) {
+    const count = sortedNumArr.length
+    let min = sortedNumArr[0]
+    let max = sortedNumArr[0]
     let sum = 0
-    for (let d of numArr) {
+    for (let d of sortedNumArr) {
         if (d < min) {
             min = d
         }
@@ -53,7 +53,16 @@ export function analyzeData(numArr) {
     }
     const mean = sum / count
     const range = max - min
-    const median = numArr[percentileIndex(count, 50)]
+    const median = sortedNumArr[percentileIndex(count, 50)]
+    const percentiles = config.notablePercentiles.map(p => {
+        const index = percentileIndex(count, p)
+        const value = sortedNumArr[index]
+        return {
+            name: `P${p}`,
+            index,
+            value,
+        }
+    })
     return {
         count,
         min,
@@ -61,6 +70,7 @@ export function analyzeData(numArr) {
         range,
         mean,
         median,
+        percentiles,
     }
 }
 
