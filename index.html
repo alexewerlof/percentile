@@ -111,22 +111,12 @@
                             <th>Median</th>
                             <td>{{ analytics.median }}</td>
                             <td>Midpoint of the dataset</td>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Percentile</th>
-                            <th>Index</th>
-                            <th>Value</th>
                         </tr>
-                    </thead>
-                    <tbody>
                         <tr v-for="(p, i) of analytics.percentiles">
-                            <td>{{ p.name }}</td>
-                            <td>{{ p.index }}</td>
+                            <th>{{ p.name }}</th>
                             <td>{{ p.value }}</td>
-                        </tr>
+                            <td>Value at index {{ p.index }} out of {{ analytics.count }}</td>
+                        </tr>    
                     </tbody>
                 </table>
             </section>
