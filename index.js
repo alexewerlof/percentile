@@ -34,38 +34,38 @@ const app = createApp({
                 ]
             })
         },
+        randomPoints() {
+            return this.randomNumbers.map((y, x) => [x, y])
+        },
         randomNumbers() {
             return generateData(this.dataCount, this.buckets)
         },
-        randomNumberValues() {
-            return this.randomNumbers.map(([, y]) => y)
-        },
-        sortedRandomNumberValues() {
+        sortedNumbers() {
             // sort using d3
-            return this.randomNumberValues.slice().sort((a, b) => a - b)
+            return this.randomNumbers.slice().sort((a, b) => a - b)
         },
-        sortedRandomNumbers() {
+        sortedPoints() {
             let x = 0
-            return this.sortedRandomNumberValues.map(y => {
+            return this.sortedNumbers.map(y => {
                 x ++
                 return [x, y]
             })
         },
         percentiles() {
             const ret = []
-            const len = this.sortedRandomNumberValues.length
+            const len = this.sortedNumbers.length
             for (let x = 0; x <= 100; x += 1) {
                 const index = percentileIndex(len, x)
-                const y = this.sortedRandomNumberValues[index]
+                const y = this.sortedNumbers[index]
                 ret.push([x, y])
             }
             return ret
         },
         analytics() {
-            return analyzeData(this.sortedRandomNumberValues)
+            return analyzeData(this.sortedNumbers)
         },
         jsonData() {
-            return JSON.stringify(this.randomNumberValues)
+            return JSON.stringify(this.randomNumbers)
         }
     },
     methods: {
