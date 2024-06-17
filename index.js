@@ -59,6 +59,11 @@ const app = createApp({
             return analyzeData(this.sortedRandomNumbers.map(([, y]) => y))
         },
     },
+    methods: {
+        setFrequencies(val) {
+            this.frequencies = Array.from({ length: config.slider.count }, (_, i) => val)
+        }
+    }
 })
 
 app.mount('#app')

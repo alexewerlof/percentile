@@ -26,6 +26,9 @@
 
             <section>
                 <h2>Frequency</h2>
+                <button @click="setFrequencies(config.slider.min)">Min</button>
+                <button @click="setFrequencies(config.slider.default)">Default</button>
+                <button @click="setFrequencies(config.slider.max)">Max</button>
                 <table class="frequency-table">
                     <tbody>
                         <tr>
