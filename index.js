@@ -22,6 +22,7 @@ const app = createApp({
             max: config.max,
             frequencies,
             isJsonDataVisible: false,
+            onlyInt: true,
         }
     },
     computed: {
@@ -43,7 +44,7 @@ const app = createApp({
             return this.randomNumbers.map((y, x) => [x, y])
         },
         randomNumbers() {
-            return generateData(this.dataCount, this.buckets)
+            return generateData(this.dataCount, this.buckets, this.onlyInt)
         },
         sortedNumbers() {
             // sort using d3
