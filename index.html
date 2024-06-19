@@ -59,20 +59,21 @@
                         </tr>
                     </tbody>
                 </table>
+            </section>
+            <section>
+                <h2>Likelihood</h2>
                 <diagram-component :points="bucketPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
+            <section>
+                <h2>Sorted Points</h2>
+                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+            </section>    
         </article>
         <article>
             <section>
                 <h2>Random Points</h2>
                 <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
             </section>
-
-            <section>
-                <h2>Sorted Points</h2>
-                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
-            </section>
-
         </article>
         <article>
             <section>
