@@ -96,7 +96,6 @@ const app = createApp({
             return this.randomNumbers.map((dataPoint, i) => {
                 if (isBad(dataPoint, this.sli)) {
                     failureCounter++
-                    console.log('failureCounter', failureCounter, dataPoint, this.sli)
                 }
                 return [i, failureCounter]
             })
