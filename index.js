@@ -4,6 +4,7 @@ import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
+import { sls } from './lib/sl.js'
 
 const freqIndicatorColor = d3.scaleLinear()
     .domain([config.slider.min, config.slider.max]) // replace with your actual min and max values
@@ -66,6 +67,29 @@ const app = createApp({
                 ret.push([x, y])
             }
             return ret
+        },
+        sli() {
+            return {
+                data: this.randomNumbers,
+                upperBound: {
+                    threshold: 19000,
+                    equal: false,
+                },
+                lowerBound: {
+                    threshold: 1000,
+                    equal: true,
+                },
+                lookBackDataCount: 60,
+            }
+        },
+        sls() {
+            const slsDataPointLength = this.dataCount - this.sli.lookBackDataCount
+            const slsData = []
+            
+            for (let time = 0; time < slsDataPointLength; time++) {
+                slsData.push([time, sls(this.sli, time)])
+            }
+            return slsData
         },
         analytics() {
             return analyzeData(this.sortedNumbers)
