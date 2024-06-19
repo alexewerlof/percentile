@@ -3,6 +3,11 @@ import diagramComponent from './components/diagram.js'
 import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
+import { d3 } from './vendor/d3.js'
+
+const freqIndicatorColor = d3.scaleLinear()
+    .domain([config.slider.min, config.slider.max]) // replace with your actual min and max values
+    .range(["#F86262", "#1BC554"])
 
 const app = createApp({
     components: {
@@ -71,7 +76,18 @@ const app = createApp({
     methods: {
         setFrequencies(val) {
             this.frequencies = Array.from({ length: config.slider.count }, (_, i) => val)
-        }
+        },
+        round(n) {
+            return Math.round(n)
+        },
+        toFixed(n, digits = 1) {
+            return n.toFixed(digits)
+        },
+        freqIndicatorStyle(freq) {
+            return {
+                backgroundColor: freqIndicatorColor(freq)
+            }
+        },
     }
 })
 

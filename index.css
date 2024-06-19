@@ -90,3 +90,11 @@ section {
 .json-data {
     overflow-wrap: anywhere;
 }
+
+.freq-indicator {
+    font-size: 1%;
+    height: 10px;
+    width: 40px;
+    background-color: currentColor;
+    margin: 0 auto;
+}
