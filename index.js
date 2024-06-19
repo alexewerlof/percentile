@@ -1,6 +1,6 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
-import { createBuckets, generateData } from './lib/points.js'
+import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 
