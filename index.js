@@ -30,6 +30,7 @@ const app = createApp({
             lowerBoundThreshold: 1000,
             slo: {
                 value: 99.3,
+                windowDataCount: 60,
             }
         }
     },
@@ -78,7 +79,6 @@ const app = createApp({
         sli() {
             const ret = {
                 data: this.randomNumbers,
-                lookBackDataCount: 60,
             }
             if (this.upperBoundType) {
                 ret.upperBound = {
@@ -137,11 +137,11 @@ const app = createApp({
             return stats
         },
         slsPoints() {
-            const slsDataPointLength = this.dataCount - this.sli.lookBackDataCount
+            const slsDataPointLength = this.dataCount - this.slo.windowDataCount
             const slsData = []
             
             for (let time = 0; time < slsDataPointLength; time++) {
-                slsData.push([time, sls(this.sli, time)])
+                slsData.push([time, sls(this.sli, this.slo, time)])
             }
             return slsData
         },
