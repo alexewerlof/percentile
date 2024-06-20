@@ -90,10 +90,23 @@
                         <option value="lte">&#8804;</option>
                     </select>
                     <input v-if="upperBoundType" type="range" :min="lowerBoundThreshold" :max="max" v-model.number="upperBoundThreshold">
-                    <p>Good:
-                        <code v-if="lowerBoundType">{{ boundTypeToString(lowerBoundThreshold) }} {{ lowerBoundType }}</code>
-                        <code>x</code>
-                        <code v-if="upperBoundType"> {{ boundTypeToString(upperBoundType) }} {{ upperBoundThreshold }}</code>
+                    <ul>
+                        <li>
+                            Good:
+                            <code>
+                                <span v-if="lowerBoundType">
+                                    {{ lowerBoundThreshold }} {{ boundTypeToString(lowerBoundType) }}
+                                </span>
+                                <span> x </span>
+                                <span v-if="upperBoundType">
+                                    {{ boundTypeToString(upperBoundType) }} {{ upperBoundThreshold }}
+                                </span>
+                            </code>
+                        </li>
+                        <li>
+                            Valid: {{ dataCount }}
+                        </li>
+                    </ul>
                 </div>
                 <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 100, 50, 70]" :indicators="sliThresholds"></diagram-component>
             </section>

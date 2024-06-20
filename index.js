@@ -26,10 +26,8 @@ const app = createApp({
             onlyInt: true,
             upperBoundType: 'lte',
             upperBoundThreshold: 19000,
-            upperBoundEqual: false,
             lowerBoundType: '',
             lowerBoundThreshold: 1000,
-            lowerBoundEqual: true,
             slo: 99.3,
         }
     },
@@ -83,13 +81,13 @@ const app = createApp({
             if (this.upperBoundType) {
                 ret.upperBound = {
                     threshold: this.upperBoundThreshold,
-                    equal: this.upperBoundEqual,
+                    equal: this.upperBoundType === 'lte',
                 }
             }
             if (this.lowerBoundType) {
                 ret.lowerBound = {
                     threshold: this.lowerBoundThreshold,
-                    equal: this.lowerBoundEqual,
+                    equal: this.lowerBoundType === 'lte',
                 }
             }
             return ret
@@ -181,6 +179,8 @@ const app = createApp({
                 case '': return ''
                 case 'lt': return '<'
                 case 'lte': return '≤'
+                default:
+                    throw new Error(`Unknown bound type: ${type}`)
             }
         },
     }
