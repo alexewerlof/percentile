@@ -82,7 +82,7 @@ const app = createApp({
                 lookBackDataCount: 60,
             }
         },
-        sls() {
+        slsPoints() {
             const slsDataPointLength = this.dataCount - this.sli.lookBackDataCount
             const slsData = []
             
