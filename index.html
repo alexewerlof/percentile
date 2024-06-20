@@ -116,8 +116,8 @@
                 <h2>SLS</h2>
                 <div>
                     <label>
-                        <input type="range" min="50" max="99.999" step="0.1" v-model.number="slo">
-                        {{ slo }}%
+                        <input type="range" min="50" max="99.999" step="0.1" v-model.number="slo.value">
+                        {{ slo.value }}%
                     </label>
                 </div>
                 <diagram-component :points="slsPoints" width="1200" height="400" :padding="[10, 100, 50, 70]" :indicators="slsIndicators"></diagram-component>

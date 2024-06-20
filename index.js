@@ -28,7 +28,9 @@ const app = createApp({
             upperBoundThreshold: 19000,
             lowerBoundType: '',
             lowerBoundThreshold: 1000,
-            slo: 99.3,
+            slo: {
+                value: 99.3,
+            }
         }
     },
     computed: {
@@ -111,8 +113,8 @@ const app = createApp({
         slsIndicators() {
             return [
                 {
-                    y: this.slo,
-                    label: `SLO: ${this.slo}%`,
+                    y: this.slo.value,
+                    label: `SLO: ${this.slo.value}%`,
                 },
             ]
         },
