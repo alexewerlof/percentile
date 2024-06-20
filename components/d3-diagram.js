@@ -72,14 +72,14 @@ export class D3Diagram extends DiagramBase {
             .attr('transform', `translate(${this.leftSide},0)`)
 
         // Create placeholder for the lines
-        this.indicatorGroup = this.svg.append('g')
-            .classed('diagram__indicators', true)    
+        this.guideGroup = this.svg.append('g')
+            .classed('diagram__guides', true)    
     }
 
-    updateData(data, indicators = []) {
+    updateData(data, guides = []) {
         const xDataExtent = d3.extent(data, d => d[0])
         const yDataExtent = d3.extent(data, d => d[1])
-        const yLinesExtent = d3.extent(indicators, l => l.y)
+        const yLinesExtent = d3.extent(guides, l => l.y)
         const yExtent = d3.extent([...yDataExtent, ...yLinesExtent])
 
         this.xScale.domain(xDataExtent)
@@ -114,24 +114,24 @@ export class D3Diagram extends DiagramBase {
                 .attr('d', line)
         }
 
-        // Update the indicator group
-        this.indicatorGroup
+        // Update the guide line group
+        this.guideGroup
             .selectAll('g')
-            .data(indicators)
+            .data(guides)
             .join(
                 enter => {
                     const group = enter.append('g')
-                        .classed('diagram__indicator', true)
+                        .classed('diagram__guide', true)
     
                     group.append('line')
-                        .classed('diagram__indicator-line', true)
+                        .classed('diagram__guide-line', true)
                         .attr('x1', this.leftSide)
                         .attr('x2', this.rightSide)
                         .attr('y1', d => this.yScale(d.y))
                         .attr('y2', d => this.yScale(d.y))
     
                     group.append('text')
-                        .classed('diagram__indicator-label', true)
+                        .classed('diagram__guide-title', true)
                         .attr('x', this.rightSide)
                         .attr('y', d => this.yScale(d.y))
                         .text(d => d.label)

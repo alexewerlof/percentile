@@ -36,12 +36,12 @@
     font-size: 15px;
 }
 
-.diagram__indicator-line {
+.diagram__guide-line {
     stroke: var(--brand-red);
     stroke-width: 1;
 }
 
-.diagram__indicator-label {
+.diagram__guide-title {
     dominant-baseline: middle;
     fill: var(--brand-red);
 }

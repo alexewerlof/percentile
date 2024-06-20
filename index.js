@@ -110,7 +110,7 @@ const app = createApp({
             }
             return ret
         },
-        slsIndicators() {
+        slsGuides() {
             return [
                 {
                     y: this.slo.value,

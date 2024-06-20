@@ -30,7 +30,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        indicators: {
+        guides: {
             type: Array,
             default: () => [],
             validate: (val) => val.every(v => typeof v.y === 'number' && typeof v.label === 'string'),
@@ -38,14 +38,14 @@ export default {
     },
     mounted() {
         this.d3d.mount(this.$refs.svgElement)
-        this.d3d.updateData(this.points, this.indicators)
+        this.d3d.updateData(this.points, this.guides)
     },
     watch: {
         points(newPoints) {
-            this.d3d.updateData(newPoints, this.indicators)
+            this.d3d.updateData(newPoints, this.guides)
         },
-        indicators(newIndicators) {
-            this.d3d.updateData(this.points, newIndicators)
+        guides(newGuides) {
+            this.d3d.updateData(this.points, newGuides)
         }
     },
 }
