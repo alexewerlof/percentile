@@ -53,12 +53,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Max</th>
-                            <td v-for="b of buckets">&lt;{{b.max}}</td>
-                        </tr>
-                        <tr>
                             <th>Min</th>
                             <td v-for="b of buckets">{{b.min}}&lt;</td>
+                        </tr>
+                        <tr>
+                            <th>Max</th>
+                            <td v-for="b of buckets">&lt;{{b.max}}</td>
                         </tr>
                     </tbody>
                 </table>
