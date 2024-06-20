@@ -1,17 +1,6 @@
 import { loadComponent } from '../lib/fetch-template.js'
 import { D3Diagram } from './d3-diagram.js'
 
-const indicators = [
-    {
-        y: 50,
-        label: 'T50',
-    },
-    {
-        y: 75,
-        label: 'T75',
-    },
-]
-
 export default {
     template: await loadComponent(import.meta.url),
     data() {
@@ -41,14 +30,22 @@ export default {
             type: Boolean,
             default: false,
         },
+        indicators: {
+            type: Array,
+            default: () => [],
+            validate: (val) => val.every(v => typeof v.y === 'number' && typeof v.label === 'string'),
+        },
     },
     mounted() {
         this.d3d.mount(this.$refs.svgElement)
-        this.d3d.updateData(this.points, indicators)
+        this.d3d.updateData(this.points, this.indicators)
     },
     watch: {
         points(newPoints) {
-            this.d3d.updateData(newPoints, indicators)
+            this.d3d.updateData(newPoints, this.indicators)
+        },
+        indicators(newIndicators) {
+            this.d3d.updateData(this.points, newIndicators)
         }
     },
 }

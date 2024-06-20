@@ -69,19 +69,45 @@
             </section>
             <section>
                 <h2>Sorted Points</h2>
-                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 100, 50, 70]" :indicators="sliThresholds"></diagram-component>
             </section>    
         </article>
         <article>
             <section>
                 <h2>Random Points</h2>
-                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <div>
+                    <h3>Lower Bound</h3>
+                    <select v-model="lowerBoundType">
+                        <option value="">No lower bound</option>
+                        <option value="lt">&lt;</option>
+                        <option value="lte">&#8804;</option>
+                    </select>
+                    <input v-if="lowerBoundType" type="range" :min="min" :max="max" v-model.number="lowerBoundThreshold">
+                    <h3>Upper Bound</h3>
+                    <select v-model="upperBoundType">
+                        <option value="">No upper bound</option>
+                        <option value="lt">&lt;</option>
+                        <option value="lte">&#8804;</option>
+                    </select>
+                    <input v-if="upperBoundType" type="range" :min="min" :max="max" v-model.number="upperBoundThreshold">
+                    <p>Good:
+                        <code v-if="lowerBoundType">{{ boundTypeToString(lowerBoundThreshold) }} {{ lowerBoundType }}</code>
+                        <code>x</code>
+                        <code v-if="upperBoundType"> {{ boundTypeToString(upperBoundType) }} {{ upperBoundThreshold }}</code>
+                </div>
+                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 100, 50, 70]" :indicators="sliThresholds"></diagram-component>
             </section>
         </article>
         <article>
             <section>
                 <h2>SLS</h2>
-                <diagram-component :points="slsPoints" width="1200" height="400" :padding="[10, 30, 50, 70]"></diagram-component>
+                <div>
+                    <label>
+                        <input type="range" min="50" max="99.999" step="0.1" v-model.number="slo">
+                        {{ slo }}%
+                    </label>
+                </div>
+                <diagram-component :points="slsPoints" width="1200" height="400" :padding="[10, 100, 50, 70]" :indicators="slsIndicators"></diagram-component>
             </section>
             <section>
                 <h2>Accumulated Failure Counter</h2>
