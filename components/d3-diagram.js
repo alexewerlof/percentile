@@ -35,12 +35,68 @@ export class DiagramBase {
     get viewBox() {
         return [0, 0, this.width, this.height].join(' ')
     }
+
+    isInBounds(x, y) {
+        return x >= this.leftSide && x <= this.rightSide && y >= this.topSide && y <= this.bottomSide
+    }
 }
 
 export class D3Diagram extends DiagramBase {
     constructor(width, height, padding, isBarChart = false) {
         super(width, height, padding)
         this.isBarChart = isBarChart
+        this.data = []
+    }
+
+    onMouseMove(event) {
+        const [mouseX, mouseY] = d3.pointer(event)
+        
+        // Check if the mouse cursor is within the diagram area
+        if (!this.isInBounds(mouseX, mouseY)) {
+            // Hide the crosshair when the mouse cursor is outside the diagram area
+            this.crosshairGroup.style('display', 'none')
+            return
+        }
+
+        // Show the crosshair when the mouse enters the SVG
+        this.crosshairGroup.style('display', null)
+
+        const mouseXDiagram = this.xScale.invert(mouseX)
+        console.dir(mouseXDiagram)
+
+        // Find the nearest data point
+        const bisect = d3.bisector(d => d[0]).left
+        const i = bisect(this.data, mouseXDiagram, 1)
+        const point1 = this.data[i - 1]
+        const point2 = this.data[i]
+        // Closest point to the mouse cursor
+        const closestPoint = mouseXDiagram - point1[0] > point2[0] - mouseXDiagram ? point2 : point1
+
+        const [ closestPointX, closestPointY ] = closestPoint
+        const cx = this.xScale(closestPointX)
+        const cy = this.yScale(closestPointY)
+
+        this.crosshairX
+            .attr('x1', cx)
+            .attr('x2', cx)
+
+        this.crosshairY
+            .attr('y1', cy)
+            .attr('y2', cy)
+
+        this.crosshairXLabel
+            .attr('x', cx)
+            .attr('y', this.topSide)
+            .text(closestPointX.toFixed(2))
+
+        this.crosshairYLabel
+            .attr('x', this.rightSide)
+            .attr('y', cy)
+            .text(closestPointY.toFixed(2))
+
+        this.crosshairCircle
+            .attr('cx', cx)
+            .attr('cy', cy)
     }
 
     mount(svgElement) {
@@ -73,10 +129,45 @@ export class D3Diagram extends DiagramBase {
 
         // Create placeholder for the lines
         this.guideGroup = this.svg.append('g')
-            .classed('diagram__guides', true)    
+            .classed('diagram__guides', true)
+
+        // Create the crosshair
+        this.crosshairGroup = this.svg.append('g')
+            .classed('diagram__crosshair', true)
+            .style('display', 'none')
+        
+        // Add a vertical line to the crosshair
+        this.crosshairX = this.crosshairGroup.append('line')
+            .classed('diagram__crosshair-line--vertical', true)
+            .attr('x1', this.leftSide)
+            .attr('y1', this.topSide)
+            .attr('x2', this.leftSide)
+            .attr('y2', this.bottomSide)
+
+        // Add a horizontal line to the crosshair
+        this.crosshairY = this.crosshairGroup.append('line')
+            .classed('diagram__crosshair-line--horizontal', true)
+            .attr('x1', this.leftSide)
+            .attr('y1', this.topSide)
+            .attr('x2', this.rightSide)
+            .attr('y2', this.topSide)
+
+        // Add a circle to the crosshair
+        this.crosshairCircle = this.crosshairGroup.append('circle')
+            .classed('diagram__crosshair-circle', true)
+            .attr('r', 3) // radius of the circle
+
+        this.crosshairXLabel = this.crosshairGroup.append('text')
+            .classed('diagram__crosshair-label diagram__crosshair-label--x', true)
+        
+        this.crosshairYLabel = this.crosshairGroup.append('text')
+            .classed('diagram__crosshair-label diagram__crosshair-label--y', true)
+
+        this.svg.on('mousemove', (event) => this.onMouseMove(event))
     }
 
     updateData(data, guides = []) {
+        this.data = data
         const xDataExtent = d3.extent(data, d => d[0])
         const yDataExtent = d3.extent(data, d => d[1])
         const yLinesExtent = d3.extent(guides, l => l.y)

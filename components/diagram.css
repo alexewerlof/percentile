@@ -45,3 +45,28 @@
     dominant-baseline: middle;
     fill: var(--brand-red);
 }
+
+.diagram__crosshair-line--vertical,
+.diagram__crosshair-line--horizontal {
+    stroke: var(--brand-green);
+    stroke-width: 1;
+    stroke-dasharray: 3;
+}
+
+.diagram__crosshair-circle {
+    fill: var(--brand-green);
+}
+
+.diagram__crosshair-label {
+    fill: var(--brand-green);
+    font-size: 15px;
+}
+
+.diagram__crosshair-label--x {
+    text-anchor: middle;
+}
+
+.diagram__crosshair-label--y {
+    text-anchor: start;
+    dominant-baseline: middle;
+}

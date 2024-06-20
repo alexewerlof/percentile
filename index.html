@@ -65,11 +65,11 @@
             </section>
             <section>
                 <h2>Likelihood</h2>
-                <diagram-component :points="bucketPoints" width="600" height="300" :padding="[10, 30, 50, 70]"></diagram-component>
+                <diagram-component :points="bucketPoints" width="600" height="300" :padding="[30, 30, 50, 70]"></diagram-component>
             </section>
             <section>
                 <h2>Sorted Points</h2>
-                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[10, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
+                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
             </section>    
         </article>
         <article>
@@ -111,7 +111,7 @@
                         </li>
                     </ul>
                 </div>
-                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[10, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
+                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
             </section>
         </article>
         <article>
@@ -131,17 +131,17 @@
                         {{ slo.windowDataCount }} data points
                     </label>
                 </div>
-                <diagram-component :points="slsPoints" width="1200" height="400" :padding="[10, 100, 50, 70]" :guides="slsGuides"></diagram-component>
+                <diagram-component :points="slsPoints" width="1200" height="400" :padding="[30, 100, 50, 70]" :guides="slsGuides"></diagram-component>
             </section>
             <section>
                 <h2>Accumulated Failure Counter</h2>
-                <diagram-component :points="accumulatedFailure" width="1200" height="400" :padding="[10, 30, 50, 70]"></diagram-component>
+                <diagram-component :points="accumulatedFailure" width="1200" height="400" :padding="[30, 30, 50, 70]"></diagram-component>
             </section>
         </article>
         <article>
             <section>
                 <h2>Percentiles</h2>
-                <diagram-component :points="percentiles" width="1200" height="400" :padding="[10, 30, 50, 70]" is-bar-chart></diagram-component>
+                <diagram-component :points="percentiles" width="1200" height="400" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
             </section>
 
             <section>
