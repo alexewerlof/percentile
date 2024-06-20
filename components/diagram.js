@@ -33,11 +33,11 @@ export default {
     },
     mounted() {
         this.d3d.mount(this.$refs.svgElement)
-        this.d3d.update(this.points)
+        this.d3d.updateData(this.points)
     },
     watch: {
         points(newPoints) {
-            this.d3d.update(newPoints)
+            this.d3d.updateData(newPoints)
         }
     },
 }

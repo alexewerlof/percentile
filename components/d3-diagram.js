@@ -72,7 +72,7 @@ export class D3Diagram extends DiagramBase {
             .attr('transform', `translate(${this.leftSide},0)`)      
     }
 
-    update(data) {
+    updateData(data) {
         const [minX, maxX] = d3.extent(data, d => d[0])
         const [minY, maxY] = d3.extent(data, d => d[1])
         
