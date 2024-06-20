@@ -137,7 +137,22 @@
                             <th>{{ p.name }}</th>
                             <td>{{ p.value }}</td>
                             <td>Value at index {{ p.index }} out of {{ analytics.count }}</td>
-                        </tr>    
+                        </tr>
+                        <tr>
+                            <th>Good</th>
+                            <td>{{ slStats.good }}</td>
+                            <td>Number of good events</td>
+                        </tr>
+                        <tr>
+                            <th>Bad</th>
+                            <td>{{ slStats.bad }}</td>
+                            <td>Number of bad events</td>
+                        </tr>
+                        <tr>
+                            <th>SLS</th>
+                            <td>{{toFixed((slStats.good / slStats.total) * 100)}}%</td>
+                            <td>Service Level Status over the entire dataset</td>
+                        </tr>
                     </tbody>
                 </table>
             </section>
