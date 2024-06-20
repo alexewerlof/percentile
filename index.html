@@ -54,11 +54,11 @@
                         </tr>
                         <tr>
                             <th>Min</th>
-                            <td v-for="b of buckets">{{b.min}}&lt;</td>
+                            <td v-for="b of buckets">{{ toFixed(b.min) }}&lt;</td>
                         </tr>
                         <tr>
                             <th>Max</th>
-                            <td v-for="b of buckets">&lt;{{b.max}}</td>
+                            <td v-for="b of buckets">&lt;{{ toFixed(b.max) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -116,8 +116,16 @@
                 <h2>SLS</h2>
                 <div>
                     <label>
+                        <h3>SLO</h3>
                         <input type="range" min="50" max="99.999" step="0.1" v-model.number="slo.value">
                         {{ slo.value }}%
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>Window Length</h3>
+                        <input type="range" min="1" :max="dataCount" step="1" v-model.number="slo.windowDataCount">
+                        {{ slo.windowDataCount }} data points
                     </label>
                 </div>
                 <diagram-component :points="slsPoints" width="1200" height="400" :padding="[10, 100, 50, 70]" :indicators="slsIndicators"></diagram-component>
