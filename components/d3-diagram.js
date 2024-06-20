@@ -62,22 +62,28 @@ export class D3Diagram extends DiagramBase {
                 .classed('diagram__line', true)
         }
 
-        // Create the axes
+        // Create placeholder for the axes
         this.xAxisGroup = this.svg.append('g')
             .classed('diagram__axis diagram__axis--x', true)
             .attr('transform', `translate(0,${this.bottomSide})`)
 
         this.yAxisGroup = this.svg.append('g')
             .classed('diagram__axis diagram__axis--y', true)
-            .attr('transform', `translate(${this.leftSide},0)`)      
+            .attr('transform', `translate(${this.leftSide},0)`)
+
+        // Create placeholder for the lines
+        this.indicatorGroup = this.svg.append('g')
+            .classed('diagram__indicators', true)    
     }
 
-    updateData(data) {
-        const [minX, maxX] = d3.extent(data, d => d[0])
-        const [minY, maxY] = d3.extent(data, d => d[1])
-        
-        this.xScale.domain([minX, maxX])
-        this.yScale.domain([minY, maxY])
+    updateData(data, indicators = []) {
+        const xDataExtent = d3.extent(data, d => d[0])
+        const yDataExtent = d3.extent(data, d => d[1])
+        const yLinesExtent = d3.extent(indicators, l => l.y)
+        const yExtent = d3.extent([...yDataExtent, ...yLinesExtent])
+
+        this.xScale.domain(xDataExtent)
+        this.yScale.domain(yExtent)
 
         const xAxis = d3.axisBottom(this.xScale)
         const yAxis = d3.axisLeft(this.yScale)
@@ -93,11 +99,11 @@ export class D3Diagram extends DiagramBase {
                 .join('line')
                 .attr('x1', (d) => this.xScale(d[0]))
                 .attr('x2', (d) => this.xScale(d[0]))
-                .attr('y1', this.yScale(minY))  // start at the bottom of the chart
+                .attr('y1', this.bottomSide)  // start at the bottom of the chart
                 .attr('y2', d => this.yScale(d[1]))  // end at the data point
                 .attr('class', 'diagram__bars')
                 .append('title')
-                .text((d, i) => `#${i}: [${d[0]}, ${d[1]}]`);
+                .text((d, i) => `#${i}: [${d[0]}, ${d[1]}]`)
         } else {
             const line = d3.line()
                 .x(d => this.xScale(d[0]))
@@ -107,5 +113,43 @@ export class D3Diagram extends DiagramBase {
                 .datum(data)
                 .attr('d', line)
         }
+
+        // Update the indicator group
+        this.indicatorGroup
+            .selectAll('g')
+            .data(indicators)
+            .join(
+                enter => {
+                    const group = enter.append('g')
+                        .classed('diagram__indicator', true)
+    
+                    group.append('line')
+                        .classed('diagram__indicator-line', true)
+                        .attr('x1', this.leftSide)
+                        .attr('x2', this.rightSide)
+                        .attr('y1', d => this.yScale(d.y))
+                        .attr('y2', d => this.yScale(d.y))
+    
+                    group.append('text')
+                        .classed('diagram__indicator-label', true)
+                        .attr('x', this.rightSide)
+                        .attr('y', d => this.yScale(d.y))
+                        .text(d => d.label)
+    
+                    return group
+                },
+                update => {
+                    update.select('line')
+                        .attr('y1', d => this.yScale(d.y))
+                        .attr('y2', d => this.yScale(d.y))
+    
+                    update.select('text')
+                        .attr('y', d => this.yScale(d.y))
+                        .text(d => d.label)
+    
+                    return update
+                },
+                exit => exit.remove()
+            )
     }
 }

@@ -35,3 +35,13 @@
     fill: var(--primary-color);
     font-size: 15px;
 }
+
+.diagram__indicator-line {
+    stroke: var(--brand-red);
+    stroke-width: 1;
+}
+
+.diagram__indicator-label {
+    dominant-baseline: middle;
+    fill: var(--brand-red);
+}
