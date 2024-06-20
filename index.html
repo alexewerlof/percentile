@@ -82,14 +82,14 @@
                         <option value="lt">&lt;</option>
                         <option value="lte">&#8804;</option>
                     </select>
-                    <input v-if="lowerBoundType" type="range" :min="min" :max="max" v-model.number="lowerBoundThreshold">
+                    <input v-if="lowerBoundType" type="range" :min="min" :max="upperBoundThreshold" v-model.number="lowerBoundThreshold">
                     <h3>Upper Bound</h3>
                     <select v-model="upperBoundType">
                         <option value="">No upper bound</option>
                         <option value="lt">&lt;</option>
                         <option value="lte">&#8804;</option>
                     </select>
-                    <input v-if="upperBoundType" type="range" :min="min" :max="max" v-model.number="upperBoundThreshold">
+                    <input v-if="upperBoundType" type="range" :min="lowerBoundThreshold" :max="max" v-model.number="upperBoundThreshold">
                     <p>Good:
                         <code v-if="lowerBoundType">{{ boundTypeToString(lowerBoundThreshold) }} {{ lowerBoundType }}</code>
                         <code>x</code>

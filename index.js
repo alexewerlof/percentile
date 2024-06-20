@@ -24,7 +24,7 @@ const app = createApp({
             frequencies,
             isJsonDataVisible: false,
             onlyInt: true,
-            upperBoundType: '',
+            upperBoundType: 'lte',
             upperBoundThreshold: 19000,
             upperBoundEqual: false,
             lowerBoundType: '',
@@ -76,30 +76,39 @@ const app = createApp({
             return ret
         },
         sli() {
-            return {
+            const ret = {
                 data: this.randomNumbers,
-                upperBound: {
-                    threshold: this.upperBoundThreshold,
-                    equal: this.upperBoundEqual,
-                },
-                lowerBound: {
-                    threshold: this.lowerBoundThreshold,
-                    equal: this.lowerBoundEqual,
-                },
                 lookBackDataCount: 60,
             }
+            if (this.upperBoundType) {
+                ret.upperBound = {
+                    threshold: this.upperBoundThreshold,
+                    equal: this.upperBoundEqual,
+                }
+            }
+            if (this.lowerBoundType) {
+                ret.lowerBound = {
+                    threshold: this.lowerBoundThreshold,
+                    equal: this.lowerBoundEqual,
+                }
+            }
+            return ret
         },
         sliThresholds() {
-            return [
-                {
+            const ret = []
+            if (this.upperBoundType) {
+                ret.push({
                     y: this.upperBoundThreshold,
                     label: 'Upper Bound',
-                },
-                {
+                })
+            }
+            if (this.lowerBoundType) {
+                ret.push({
                     y: this.lowerBoundThreshold,
                     label: 'Lower Bound',
-                },
-            ]
+                })
+            }
+            return ret
         },
         slsIndicators() {
             return [
