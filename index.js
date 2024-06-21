@@ -42,12 +42,20 @@ const app = createApp({
             return createBuckets(this.min, this.max, this.frequencies)
         },
         bucketPoints() {
-            return this.buckets.map(bucket => {
-                return [
-                    (bucket.min + bucket.max)/2,
+            const pointsArr = []
+            
+            for (let bucket of this.buckets) {
+                pointsArr.push([
+                    bucket.min,
                     bucket.probability,
-                ]
-            })
+                ])
+                pointsArr.push([
+                    bucket.max,
+                    bucket.probability,
+                ])
+            }
+
+            return pointsArr
         },
         randomPoints() {
             return this.randomNumbers.map((y, x) => [x, y])
