@@ -62,7 +62,6 @@ export class D3Diagram extends DiagramBase {
         this.crosshairGroup.style('display', null)
 
         const mouseXDiagram = this.xScale.invert(mouseX)
-        console.dir(mouseXDiagram)
 
         // Find the nearest data point
         const bisect = d3.bisector(d => d[0]).left
@@ -86,11 +85,9 @@ export class D3Diagram extends DiagramBase {
 
         this.crosshairXLabel
             .attr('x', cx)
-            .attr('y', this.topSide)
             .text(closestPointX.toFixed(2))
 
         this.crosshairYLabel
-            .attr('x', this.rightSide)
             .attr('y', cy)
             .text(closestPointY.toFixed(2))
 
@@ -159,9 +156,11 @@ export class D3Diagram extends DiagramBase {
 
         this.crosshairXLabel = this.crosshairGroup.append('text')
             .classed('diagram__crosshair-label diagram__crosshair-label--x', true)
+            .attr('y', this.topSide)
         
         this.crosshairYLabel = this.crosshairGroup.append('text')
             .classed('diagram__crosshair-label diagram__crosshair-label--y', true)
+            .attr('x', this.rightSide)
 
         this.svg.on('mousemove', (event) => this.onMouseMove(event))
     }
