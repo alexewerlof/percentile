@@ -85,9 +85,7 @@ const app = createApp({
             return ret
         },
         sli() {
-            const ret = {
-                data: this.randomNumbers,
-            }
+            const ret = {}
             if (this.upperBoundType) {
                 ret.upperBound = {
                     threshold: this.upperBoundThreshold,
@@ -149,7 +147,7 @@ const app = createApp({
             const slsData = []
             
             for (let time = 0; time < slsDataPointLength; time++) {
-                slsData.push([time, sls(this.sli, this.slo, time)])
+                slsData.push([time, sls(this.randomNumbers, time, this.slo.windowDataCount, this.sli)])
             }
             return slsData
         },
