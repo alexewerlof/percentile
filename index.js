@@ -167,7 +167,13 @@ const app = createApp({
     },
     methods: {
         setFrequencies(val) {
-            this.frequencies = Array.from({ length: config.slider.count }, (_, i) => val)
+            this.frequencies = new Array(this.frequencies.length).fill(val)
+        },
+        addFrequency() {
+            this.frequencies.push(config.slider.default)
+        },
+        removeFrequency() {
+            this.frequencies.pop()
         },
         round(n) {
             return Math.round(n)
