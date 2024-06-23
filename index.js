@@ -29,8 +29,8 @@ const app = createApp({
             lowerBoundType: '',
             lowerBoundThreshold: 1000,
             slo: {
-                value: 99.3,
-                windowDataCount: 60,
+                value: config.slo.value,
+                windowDataCount: config.slo.windowDataCount,
             }
         }
     },

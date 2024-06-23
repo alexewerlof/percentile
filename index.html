@@ -34,6 +34,8 @@
                 <button @click="setFrequencies(config.slider.min)">Min</button>
                 <button @click="setFrequencies(config.slider.default)">Default</button>
                 <button @click="setFrequencies(config.slider.max)">Max</button>
+                <button>Add</button>
+                <button>Remove</button>
                 <table class="frequency-table">
                     <tbody>
                         <tr>
@@ -120,7 +122,7 @@
                 <div>
                     <label>
                         <h3>SLO</h3>
-                        <input type="range" min="50" max="99.999" step="0.1" v-model.number="slo.value">
+                        <input type="range" :min="config.slo.min" :max="config.slo.max" :step="config.slo.step" v-model.number="slo.value">
                         {{ slo.value }}%
                     </label>
                 </div>

@@ -9,7 +9,14 @@ export const config = {
     },
     min: 100,
     max: 20000,
-    dataCount: 1000,
+    dataCount: 2190, // hours in 3 months
+    slo: {
+        value: 99.3,
+        windowDataCount: 730, // hours in 30 days
+        min: 50,
+        max: 99.9,
+        step: 0.1,
+    },
     width: 1000,
     height: 300,
     margin: {top: 30, right: 50, bottom: 40, left: 80},
