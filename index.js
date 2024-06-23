@@ -4,7 +4,7 @@ import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
-import { calculateSlsMetric, isBad, isGood, sls } from './lib/sl.js'
+import { calculateSlsMetric, createIsGood } from './lib/sl.js'
 
 const freqIndicatorColor = d3.scaleLinear()
     .domain([config.slider.min, config.slider.max]) // replace with your actual min and max values
@@ -131,8 +131,10 @@ const app = createApp({
                 total: 0,
             }
 
+            const isGood = createIsGood(this.sli)
+
             for (let dataPoint of this.randomNumbers) {
-                if (isGood(dataPoint, this.sli)) {
+                if (isGood(dataPoint)) {
                     stats.good++
                 } else {
                     stats.bad++
@@ -148,8 +150,9 @@ const app = createApp({
         },
         accumulatedFailure() {
             let failureCounter = 0
+            const isGood = createIsGood(this.sli)
             return this.randomNumbers.map((dataPoint, i) => {
-                if (isBad(dataPoint, this.sli)) {
+                if (!isGood(dataPoint)) {
                     failureCounter++
                 }
                 return [i, failureCounter]
