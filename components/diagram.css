@@ -2,6 +2,8 @@
 
 .diagram {
     background-color: transparent;
+    width: 100%;
+    height: 100%;
 }
 
 .diagram:hover {
@@ -20,20 +22,21 @@
 }
 
 .diagram__axis path{
-    stroke: var(--primary-color);
+    stroke: var(--foreground-color);
     stroke-width: 1.2;
     fill: none;
 }
 
 .diagram__axis .tick line {
-    stroke: var(--brand-red);
-    stroke-width: 1.2;
+    stroke: var(--foreground-color);
+    stroke-width: 1.5;
     fill: none;
 }
 
 .diagram__axis .tick text {
     fill: var(--primary-color);
     font-size: 15px;
+    font-family: var(--title-font-family);
 }
 
 .diagram__guide-line {
