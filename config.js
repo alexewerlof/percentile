@@ -10,6 +10,10 @@ export const config = {
     min: 100,
     max: 20000,
     dataCount: 2190, // hours in 3 months
+    sli: {
+        upperBoundType: 'lte',
+        lowerBoundType: '',
+    },
     slo: {
         value: 99.3,
         windowDataCount: 730, // hours in 30 days
