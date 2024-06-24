@@ -15,11 +15,11 @@ export default {
         },
         width: {
             type: Number,
-            default: 500, // default value, adjust as needed
+            default: 1000, // default value, adjust as needed
         },
         height: {
             type: Number,
-            default: 500, // default value, adjust as needed
+            default: 300, // default value, adjust as needed
         },
         padding: {
             type: Array,
