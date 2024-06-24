@@ -20,6 +20,8 @@ export const config = {
         min: 50,
         max: 99.9,
         step: 0.1,
+        upperBoundThreshold: 19000,
+        lowerBoundThreshold: 1000,
     },
     width: 1000,
     height: 300,

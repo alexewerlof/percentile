@@ -33,9 +33,9 @@ const app = createApp({
             frequencies,
             onlyInt: true,
             upperBoundType: config.sli.upperBoundType,
-            upperBoundThreshold: 19000,
+            upperBoundThreshold: config.slo.upperBoundThreshold,
             lowerBoundType: config.sli.lowerBoundType,
-            lowerBoundThreshold: 1000,
+            lowerBoundThreshold: config.slo.lowerBoundThreshold,
             slo: {
                 value: config.slo.value,
                 windowDataCount: config.slo.windowDataCount,
