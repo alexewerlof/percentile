@@ -32,8 +32,10 @@ const app = createApp({
             ],
             frequencies,
             onlyInt: true,
-            upperBoundType: config.sli.upperBoundType,
-            lowerBoundType: config.sli.lowerBoundType,
+            sli: {
+                upperBoundType: config.sli.upperBoundType,
+                lowerBoundType: config.sli.lowerBoundType,
+            },
             slo: {
                 value: config.slo.value,
                 windowDataCount: config.slo.windowDataCount,
@@ -92,31 +94,15 @@ const app = createApp({
             }
             return ret
         },
-        sli() {
-            const ret = {}
-            if (this.upperBoundType) {
-                ret.upperBound = {
-                    threshold: this.slo.upperBoundThreshold,
-                    equal: this.upperBoundType === 'lte',
-                }
-            }
-            if (this.lowerBoundType) {
-                ret.lowerBound = {
-                    threshold: this.slo.lowerBoundThreshold,
-                    equal: this.lowerBoundType === 'lte',
-                }
-            }
-            return ret
-        },
         sloThresholds() {
             const ret = []
-            if (this.upperBoundType) {
+            if (this.sli.upperBoundType) {
                 ret.push({
                     y: this.slo.upperBoundThreshold,
                     label: 'Upper Bound',
                 })
             }
-            if (this.lowerBoundType) {
+            if (this.sli.lowerBoundType) {
                 ret.push({
                     y: this.slo.lowerBoundThreshold,
                     label: 'Lower Bound',
@@ -139,7 +125,7 @@ const app = createApp({
                 total: 0,
             }
 
-            const isGood = createIsGood(this.sli)
+            const isGood = createIsGood(this.sli, this.slo)
 
             for (let dataPoint of this.randomNumbers) {
                 if (isGood(dataPoint)) {
@@ -153,12 +139,12 @@ const app = createApp({
             return stats
         },
         slsPoints() {
-            const slsValues = calculateSlsMetric(this.randomNumbers, this.slo.windowDataCount, this.sli)
+            const slsValues = calculateSlsMetric(this.randomNumbers, this.slo.windowDataCount, this.sli, this.slo)
             return slsValues.map((value, i) => [i, value])
         },
         accumulatedFailure() {
             let failureCounter = 0
-            const isGood = createIsGood(this.sli)
+            const isGood = createIsGood(this.sli, this.slo)
             return this.randomNumbers.map((dataPoint, i) => {
                 if (!isGood(dataPoint)) {
                     failureCounter++

@@ -12,7 +12,7 @@ export const config = {
     dataCount: 2190, // hours in 3 months
     sli: {
         upperBoundType: 'lte',
-        lowerBoundType: '',
+        lowerBoundType: 'lt',
     },
     slo: {
         value: 99.3,

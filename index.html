@@ -10,16 +10,17 @@
     <main id="app">
         <article>
             <section>
-                <h2>Count</h2>
+                <h2>Random Generator</h2>
+                <h3>Data Count</h3>
                 <label>
                     <input type="number" min="10" max="10000" step="10" v-model.number.lazy="dataCount">
                 </label>
                 <label>
-                    <h2>Min</h2>
+                    <h3>Min Value</h3>
                     <input type="number" v-model.number.lazy="min">
                 </label>
                 <label>
-                    <h2>Max</h2>
+                    <h3>Max Value</h3>
                     <input type="number" v-model.number.lazy="max">
                 </label>
                 <label>
@@ -27,46 +28,37 @@
                 </label>
             </section>
             <section>
-                <h2>Bounds</h2>
-                <h3>Lower Bound</h3>
-                <select v-model="lowerBoundType">
+                <h2>SLI</h2>
+                <h3>Good</h3>
+                <h4>Lower Bound Type</h4>
+                <select v-model="sli.lowerBoundType">
                     <option value="">No lower bound</option>
                     <option value="lt">&lt;</option>
                     <option value="lte">&#8804;</option>
                 </select>
-                <input v-if="lowerBoundType" type="range" :min="min" :max="slo.upperBoundThreshold" v-model.number="slo.lowerBoundThreshold">
-                <h3>Upper Bound</h3>
-                <select v-model="upperBoundType">
+                <h4>Upper Bound Type</h4>
+                <select v-model="sli.upperBoundType">
                     <option value="">No upper bound</option>
                     <option value="lt">&lt;</option>
                     <option value="lte">&#8804;</option>
                 </select>
-                <input v-if="upperBoundType" type="range" :min="slo.lowerBoundThreshold" :max="max" v-model.number="slo.upperBoundThreshold">
-                <ul>
-                    <li>
-                        Good:
-                        <code>
-                            <span v-if="lowerBoundType">
-                                {{ slo.lowerBoundThreshold }} {{ boundTypeToString(lowerBoundType) }}
-                            </span>
-                            <span> x </span>
-                            <span v-if="upperBoundType">
-                                {{ boundTypeToString(upperBoundType) }} {{ slo.upperBoundThreshold }}
-                            </span>
-                        </code>
-                    </li>
-                    <li>
-                        Valid:
-                        <code>
-                            {{ dataCount }}
-                        </code>
-                    </li>
-                </ul>
+                <div>
+                    Good:
+                    <code>
+                        <span v-if="sli.lowerBoundType">
+                            SLO_Lower_Bound {{ boundTypeToString(sli.lowerBoundType) }}
+                        </span>
+                        <span> x </span>
+                        <span v-if="sli.upperBoundType">
+                            {{ boundTypeToString(sli.upperBoundType) }} SLO_Upper_Bound
+                        </span>
+                    </code>
+                </div>
             </section>
             <section>
                 <div>
                     <label>
-                        <h3>SLO</h3>
+                        <h2>SLO</h2>
                         <input type="range" :min="config.slo.min" :max="config.slo.max" :step="config.slo.step" v-model.number="slo.value">
                         {{ slo.value }}%
                     </label>
@@ -78,6 +70,30 @@
                         {{ slo.windowDataCount }} data points
                     </label>
                 </div>    
+                <h3>SLO Good Bounds</h3>
+
+                <div v-if="sli.lowerBoundType">
+                    <h3>Lower Bound Threshold: {{ slo.lowerBoundThreshold }}</h3>
+                    <input type="range" :min="min" :max="slo.upperBoundThreshold" v-model.number="slo.lowerBoundThreshold">
+                </div>
+
+                <div v-if="sli.upperBoundType">
+                    <h3>Upper Bound Threshold: {{ slo.upperBoundThreshold }}</h3>
+                    <input type="range" :min="slo.lowerBoundThreshold" :max="max" v-model.number="slo.upperBoundThreshold">
+                </div>
+                
+                <div>
+                    Good:
+                    <code>
+                        <span v-if="sli.lowerBoundType">
+                            {{ slo.lowerBoundThreshold }} {{ boundTypeToString(sli.lowerBoundType) }}
+                        </span>
+                        <span> x </span>
+                        <span v-if="sli.upperBoundType">
+                            {{ boundTypeToString(sli.upperBoundType) }} {{ slo.upperBoundThreshold }}
+                        </span>
+                    </code>
+                </div>
             </section>
         </article>
 
