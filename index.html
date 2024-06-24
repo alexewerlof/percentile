@@ -12,15 +12,15 @@
             <section>
                 <h2>Count</h2>
                 <label>
-                    <input type="number" min="10" max="10000" step="10" v-model="dataCount">
+                    <input type="number" min="10" max="10000" step="10" v-model.number.lazy="dataCount">
                 </label>
                 <label>
                     <h2>Min</h2>
-                    <input type="number" v-model.number="min">
+                    <input type="number" v-model.number.lazy="min">
                 </label>
                 <label>
                     <h2>Max</h2>
-                    <input type="number" v-model.number="max">
+                    <input type="number" v-model.number.lazy="max">
                 </label>
                 <label>
                     <input type="checkbox" v-model.boolean="onlyInt"> Only integers
@@ -113,7 +113,7 @@
                         </li>
                     </ul>
                 </div>
-                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
+                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds" is-bar-chart></diagram-component>
             </section>
         </article>
         <article>
@@ -129,7 +129,7 @@
                 <div>
                     <label>
                         <h3>Window Length</h3>
-                        <input type="range" min="1" :max="dataCount" step="1" v-model.number="slo.windowDataCount">
+                        <input type="range" min="1" :max="dataCount / 2" step="1" v-model.number="slo.windowDataCount">
                         {{ slo.windowDataCount }} data points
                     </label>
                 </div>
