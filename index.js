@@ -108,7 +108,7 @@ const app = createApp({
             }
             return ret
         },
-        sliThresholds() {
+        sloThresholds() {
             const ret = []
             if (this.upperBoundType) {
                 ret.push({
