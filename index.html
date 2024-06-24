@@ -82,45 +82,51 @@
         </article>
 
         <div>
-            <div>
-                <h2>Frequency</h2>
-                <button @click="setFrequencies(config.slider.min)">Min</button>
-                <button @click="setFrequencies(config.slider.default)">Default</button>
-                <button @click="setFrequencies(config.slider.max)">Max</button>
-                <button @click="addFrequency()">Add</button>
-                <button @click="removeFrequency()">Remove</button>
-                <table class="frequency-table">
-                    <tbody>
-                        <tr>
-                            <th>Likelihood</th>
-                            <th v-for="b of buckets">{{  toFixed(b.probability, 1) }}%</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th v-for="f of frequencies">
-                                <div class="freq-indicator" :style="freqIndicatorStyle(f)"></div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td  v-for="(f,i) of frequencies">
-                                <input class="vertical-slider" type="range" :min="config.slider.min" :max="config.slider.max" :step="config.slider.step" v-model.number="frequencies[i]">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Min</th>
-                            <td v-for="b of buckets">{{ toFixed(b.min) }}&lt;</td>
-                        </tr>
-                        <tr>
-                            <th>Max</th>
-                            <td v-for="b of buckets">&lt;{{ toFixed(b.max) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h2>Likelihood</h2>
-            <diagram-component :points="bucketPoints" :padding="[30, 40, 50, 70]" :guides="[{ y: 0, label: 'Zero'}]"></diagram-component>
+            <h2>Frequency</h2>
+            <button @click="setFrequencies(config.slider.min)">Min</button>
+            <button @click="setFrequencies(config.slider.default)">Default</button>
+            <button @click="setFrequencies(config.slider.max)">Max</button>
+            <button @click="addFrequency()">Add</button>
+            <button @click="removeFrequency()">Remove</button>
+            <table class="frequency-table">
+                <tbody>
+                    <tr>
+                        <th>Likelihood</th>
+                        <th v-for="b of buckets">{{  toFixed(b.probability, 1) }}%</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th v-for="f of frequencies">
+                            <div class="freq-indicator" :style="freqIndicatorStyle(f)"></div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td  v-for="(f,i) of frequencies">
+                            <input class="vertical-slider" type="range" :min="config.slider.min" :max="config.slider.max" :step="config.slider.step" v-model.number="frequencies[i]">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Min</th>
+                        <td v-for="b of buckets">{{ toFixed(b.min) }}&lt;</td>
+                    </tr>
+                    <tr>
+                        <th>Max</th>
+                        <td v-for="b of buckets">&lt;{{ toFixed(b.max) }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <article>
+            <section>
+                <h2>Likelihood</h2>
+                <diagram-component :points="bucketPoints" :padding="[30, 40, 50, 70]" :guides="[{ y: 0, label: 'Never'}]"></diagram-component>
+            </section>
+            <section>
+                <h2>Sorted Points</h2>
+                <diagram-component :points="sortedPoints" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>        
+            </section>
+        </article>
 
         <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
 
@@ -128,9 +134,6 @@
             <h2>Random Points</h2>
             <diagram-component :points="randomPoints" :padding="[30, 100, 50, 70]" :guides="sliThresholds" is-bar-chart></diagram-component>
 
-            <h2>Sorted Points</h2>
-            <diagram-component :points="sortedPoints" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
-            
             <h2>Percentiles</h2>
             <diagram-component :points="percentiles" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
         </div>
