@@ -33,12 +33,12 @@ const app = createApp({
             frequencies,
             onlyInt: true,
             upperBoundType: config.sli.upperBoundType,
-            upperBoundThreshold: config.slo.upperBoundThreshold,
             lowerBoundType: config.sli.lowerBoundType,
-            lowerBoundThreshold: config.slo.lowerBoundThreshold,
             slo: {
                 value: config.slo.value,
                 windowDataCount: config.slo.windowDataCount,
+                upperBoundThreshold: config.slo.upperBoundThreshold,
+                lowerBoundThreshold: config.slo.lowerBoundThreshold,
             }
         }
     },
@@ -96,13 +96,13 @@ const app = createApp({
             const ret = {}
             if (this.upperBoundType) {
                 ret.upperBound = {
-                    threshold: this.upperBoundThreshold,
+                    threshold: this.slo.upperBoundThreshold,
                     equal: this.upperBoundType === 'lte',
                 }
             }
             if (this.lowerBoundType) {
                 ret.lowerBound = {
-                    threshold: this.lowerBoundThreshold,
+                    threshold: this.slo.lowerBoundThreshold,
                     equal: this.lowerBoundType === 'lte',
                 }
             }
@@ -112,13 +112,13 @@ const app = createApp({
             const ret = []
             if (this.upperBoundType) {
                 ret.push({
-                    y: this.upperBoundThreshold,
+                    y: this.slo.upperBoundThreshold,
                     label: 'Upper Bound',
                 })
             }
             if (this.lowerBoundType) {
                 ret.push({
-                    y: this.lowerBoundThreshold,
+                    y: this.slo.lowerBoundThreshold,
                     label: 'Lower Bound',
                 })
             }
