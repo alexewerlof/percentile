@@ -26,10 +26,63 @@
                     <input type="checkbox" v-model.boolean="onlyInt"> Only integers
                 </label>
             </section>
+            <section>
+                <h2>Bounds</h2>
+                <h3>Lower Bound</h3>
+                <select v-model="lowerBoundType">
+                    <option value="">No lower bound</option>
+                    <option value="lt">&lt;</option>
+                    <option value="lte">&#8804;</option>
+                </select>
+                <input v-if="lowerBoundType" type="range" :min="min" :max="upperBoundThreshold" v-model.number="lowerBoundThreshold">
+                <h3>Upper Bound</h3>
+                <select v-model="upperBoundType">
+                    <option value="">No upper bound</option>
+                    <option value="lt">&lt;</option>
+                    <option value="lte">&#8804;</option>
+                </select>
+                <input v-if="upperBoundType" type="range" :min="lowerBoundThreshold" :max="max" v-model.number="upperBoundThreshold">
+                <ul>
+                    <li>
+                        Good:
+                        <code>
+                            <span v-if="lowerBoundType">
+                                {{ lowerBoundThreshold }} {{ boundTypeToString(lowerBoundType) }}
+                            </span>
+                            <span> x </span>
+                            <span v-if="upperBoundType">
+                                {{ boundTypeToString(upperBoundType) }} {{ upperBoundThreshold }}
+                            </span>
+                        </code>
+                    </li>
+                    <li>
+                        Valid:
+                        <code>
+                            {{ dataCount }}
+                        </code>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <div>
+                    <label>
+                        <h3>SLO</h3>
+                        <input type="range" :min="config.slo.min" :max="config.slo.max" :step="config.slo.step" v-model.number="slo.value">
+                        {{ slo.value }}%
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <h3>Window Length</h3>
+                        <input type="range" min="1" :max="dataCount / 2" step="1" v-model.number="slo.windowDataCount">
+                        {{ slo.windowDataCount }} data points
+                    </label>
+                </div>    
+            </section>
         </article>
 
-        <article>
-            <section>
+        <div>
+            <div>
                 <h2>Frequency</h2>
                 <button @click="setFrequencies(config.slider.min)">Min</button>
                 <button @click="setFrequencies(config.slider.default)">Default</button>
@@ -64,165 +117,98 @@
                         </tr>
                     </tbody>
                 </table>
-            </section>
-            <section>
-                <h2>Likelihood</h2>
-                <diagram-component :points="bucketPoints" width="600" height="300" :padding="[30, 30, 50, 70]"></diagram-component>
-            </section>
-            <section>
-                <h2>Sorted Points</h2>
-                <diagram-component :points="sortedPoints" width="600" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
-            </section>    
-        </article>
-        <article>
-            <section>
-                <h2>Random Points</h2>
-                <div>
-                    <h3>Lower Bound</h3>
-                    <select v-model="lowerBoundType">
-                        <option value="">No lower bound</option>
-                        <option value="lt">&lt;</option>
-                        <option value="lte">&#8804;</option>
-                    </select>
-                    <input v-if="lowerBoundType" type="range" :min="min" :max="upperBoundThreshold" v-model.number="lowerBoundThreshold">
-                    <h3>Upper Bound</h3>
-                    <select v-model="upperBoundType">
-                        <option value="">No upper bound</option>
-                        <option value="lt">&lt;</option>
-                        <option value="lte">&#8804;</option>
-                    </select>
-                    <input v-if="upperBoundType" type="range" :min="lowerBoundThreshold" :max="max" v-model.number="upperBoundThreshold">
-                    <ul>
-                        <li>
-                            Good:
-                            <code>
-                                <span v-if="lowerBoundType">
-                                    {{ lowerBoundThreshold }} {{ boundTypeToString(lowerBoundType) }}
-                                </span>
-                                <span> x </span>
-                                <span v-if="upperBoundType">
-                                    {{ boundTypeToString(upperBoundType) }} {{ upperBoundThreshold }}
-                                </span>
-                            </code>
-                        </li>
-                        <li>
-                            Valid:
-                            <code>
-                                {{ dataCount }}
-                            </code>
-                        </li>
-                    </ul>
-                </div>
-                <diagram-component :points="randomPoints" width="1200" height="300" :padding="[30, 100, 50, 70]" :guides="sliThresholds" is-bar-chart></diagram-component>
-            </section>
-        </article>
-        <article>
-            <section>
-                <h2>SLS</h2>
-                <div>
-                    <label>
-                        <h3>SLO</h3>
-                        <input type="range" :min="config.slo.min" :max="config.slo.max" :step="config.slo.step" v-model.number="slo.value">
-                        {{ slo.value }}%
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <h3>Window Length</h3>
-                        <input type="range" min="1" :max="dataCount / 2" step="1" v-model.number="slo.windowDataCount">
-                        {{ slo.windowDataCount }} data points
-                    </label>
-                </div>
-                <diagram-component :points="slsPoints" width="1200" height="400" :padding="[30, 100, 50, 70]" :guides="slsGuides"></diagram-component>
-            </section>
-            <section>
-                <h2>Accumulated Failure Counter</h2>
-                <diagram-component :points="accumulatedFailure" width="1200" height="400" :padding="[30, 30, 50, 70]"></diagram-component>
-            </section>
-        </article>
-        <article>
-            <section>
-                <h2>Percentiles</h2>
-                <diagram-component :points="percentiles" width="1200" height="400" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
-            </section>
+            </div>
+            <h2>Likelihood</h2>
+            <diagram-component :points="bucketPoints" :padding="[30, 40, 50, 70]" :guides="[{ y: 0, label: 'Zero'}]"></diagram-component>
+        </div>
 
-            <section>
-                <h2>Analytics</h2>
-                <table>
-                    <thead>
-                        <th></th>
-                        <th>Value</th>
-                        <th>Description</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Count</th>
-                            <td>{{ analytics.count }}</td>
-                            <td>Number of elements in the dataset</td>
-                        </tr>
-                        <tr>
-                            <th>Min</th>
-                            <td>{{ analytics.min }}</td>
-                            <td>Minimum number in the dataset</td>
-                        </tr>
-                        <tr>
-                            <th>Max</th>
-                            <td>{{ analytics.max }}</td>
-                            <td>Maximum number in the dataset</td>
-                        </tr>
-                        <tr>
-                            <th>Range</th>
-                            <td>{{ analytics.range }}</td>
-                            <td>Difference between the largest and smallest number in the dataset</td>
-                        </tr>
-                        <tr>
-                            <th>Mean</th>
-                            <td>{{ analytics.mean }}</td>
-                            <td>Average of all numbers in the dataset</td>
-                        </tr>
-                        <tr>
-                            <th>Median</th>
-                            <td>{{ analytics.median }}</td>
-                            <td>Midpoint of the dataset</td>
-                        </tr>
-                        <tr v-for="(p, i) of analytics.percentiles">
-                            <th>{{ p.name }}</th>
-                            <td>{{ p.value }}</td>
-                            <td>Value at index {{ p.index }} out of {{ analytics.count }}</td>
-                        </tr>
-                        <tr>
-                            <th>Good</th>
-                            <td>{{ slStats.good }}</td>
-                            <td>Number of good events</td>
-                        </tr>
-                        <tr>
-                            <th>Bad</th>
-                            <td>{{ slStats.bad }}</td>
-                            <td>Number of bad events</td>
-                        </tr>
-                        <tr>
-                            <th>SLS</th>
-                            <td>{{toFixed((slStats.good / slStats.total) * 100)}}%</td>
-                            <td>Service Level Status over the entire dataset</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+        <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
 
-        </article>
+        <div class="tab-content" v-if="selectedTab === 0">
+            <h2>Random Points</h2>
+            <diagram-component :points="randomPoints" :padding="[30, 100, 50, 70]" :guides="sliThresholds" is-bar-chart></diagram-component>
 
-        <article>
-            <section>
-                <h2>Code</h2>
-                <label>
-                    <input type="checkbox" v-model="isJsonDataVisible">
-                    Show JSON data
-                </label>
-                <code class="json-data" v-if="isJsonDataVisible">
-                    {{ jsonData }}
-                </code>
-            </section>
-        </article>
+            <h2>Sorted Points</h2>
+            <diagram-component :points="sortedPoints" :padding="[30, 100, 50, 70]" :guides="sliThresholds"></diagram-component>
+            
+            <h2>Percentiles</h2>
+            <diagram-component :points="percentiles" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
+        </div>
+
+        <div class="tab-content" v-if="selectedTab === 1">
+            <diagram-component :points="slsPoints" :padding="[30, 100, 50, 70]" :guides="slsGuides"></diagram-component>
+
+            <h2>Accumulated Failure Counter</h2>
+            <diagram-component :points="accumulatedFailure" :padding="[30, 30, 50, 70]"></diagram-component>
+        </div>
+        <div class="tab-content" v-if="selectedTab === 2">
+            <h2>Analytics</h2>
+            <table>
+                <thead>
+                    <th></th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Count</th>
+                        <td>{{ analytics.count }}</td>
+                        <td>Number of elements in the dataset</td>
+                    </tr>
+                    <tr>
+                        <th>Min</th>
+                        <td>{{ analytics.min }}</td>
+                        <td>Minimum number in the dataset</td>
+                    </tr>
+                    <tr>
+                        <th>Max</th>
+                        <td>{{ analytics.max }}</td>
+                        <td>Maximum number in the dataset</td>
+                    </tr>
+                    <tr>
+                        <th>Range</th>
+                        <td>{{ analytics.range }}</td>
+                        <td>Difference between the largest and smallest number in the dataset</td>
+                    </tr>
+                    <tr>
+                        <th>Mean</th>
+                        <td>{{ analytics.mean }}</td>
+                        <td>Average of all numbers in the dataset</td>
+                    </tr>
+                    <tr>
+                        <th>Median</th>
+                        <td>{{ analytics.median }}</td>
+                        <td>Midpoint of the dataset</td>
+                    </tr>
+                    <tr v-for="(p, i) of analytics.percentiles">
+                        <th>{{ p.name }}</th>
+                        <td>{{ p.value }}</td>
+                        <td>Value at index {{ p.index }} out of {{ analytics.count }}</td>
+                    </tr>
+                    <tr>
+                        <th>Good</th>
+                        <td>{{ slStats.good }}</td>
+                        <td>Number of good events</td>
+                    </tr>
+                    <tr>
+                        <th>Bad</th>
+                        <td>{{ slStats.bad }}</td>
+                        <td>Number of bad events</td>
+                    </tr>
+                    <tr>
+                        <th>SLS</th>
+                        <td>{{toFixed((slStats.good / slStats.total) * 100)}}%</td>
+                        <td>Service Level Status over the entire dataset</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" v-if="selectedTab === 3">
+            <code class="json-data">
+                {{ jsonData }}
+            </code>
+        </div>
     </main>
     <footer>
         <a href="https://github.com/alexewerlof/percentile">Source</a>

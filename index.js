@@ -1,5 +1,6 @@
 import { createApp } from './vendor/vue.js'
 import diagramComponent from './components/diagram.js'
+import tabsComponent from './components/tabs.js'
 import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
@@ -13,6 +14,7 @@ const freqIndicatorColor = d3.scaleLinear()
 const app = createApp({
     components: {
         diagramComponent,
+        tabsComponent,
     },
     data() {
         const frequencies = Array.from({ length: config.slider.count }, (_, i) => config.slider.default)
@@ -21,8 +23,14 @@ const app = createApp({
             dataCount: config.dataCount,
             min: config.min,
             max: config.max,
+            selectedTab: 1,
+            tabNames: [
+                'Data',
+                'SLS',
+                'Analytics',
+                'JSON Data',
+            ],
             frequencies,
-            isJsonDataVisible: false,
             onlyInt: true,
             upperBoundType: 'lte',
             upperBoundThreshold: 19000,
