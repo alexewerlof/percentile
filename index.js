@@ -181,7 +181,9 @@ const app = createApp({
             this.frequencies.push(config.slider.default)
         },
         removeFrequency() {
-            this.frequencies.pop()
+            if (this.frequencies.length > 1) {
+                this.frequencies.pop()
+            }
         },
         round(n) {
             return Math.round(n)
