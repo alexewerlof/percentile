@@ -148,7 +148,7 @@
 
         <div class="tab-content" v-if="selectedTab === 0">
             <h2>Random Points</h2>
-            <diagram-component :points="randomPoints" :padding="[30, 100, 50, 70]" :guides="sloThresholds" is-bar-chart></diagram-component>
+            <diagram-component :points="randomPoints" :padding="[30, 100, 50, 70]" :guides="sloThresholds"></diagram-component>
 
             <h2>Percentiles</h2>
             <diagram-component :points="percentiles" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
