@@ -1,5 +1,5 @@
 export const config = {
-    notablePercentiles: [1, 10, 20, 25, 50, 75, 80, 90, 95, 99, 99.5, 99.9],
+    notablePercentiles: [0.1, 0.5, 1, 5, 10, 20, 25, 50, 75, 80, 90, 95, 99, 99.5, 99.9],
     slider: {
         count: 10,
         min: 0,
