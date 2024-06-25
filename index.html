@@ -26,6 +26,19 @@
                 <label>
                     <input type="checkbox" v-model.boolean="onlyInt"> Only integers
                 </label>
+                <h3>Sort order</h3>
+                <div>
+                    <label>
+                        <input type="radio" id="ascending" :value="true" v-model="sortAscending" />
+                        Ascending
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" id="descending" :value="false" v-model="sortAscending" />
+                        Descending
+                    </label>
+                </div>
             </section>
             <section>
                 <h2>SLI</h2>

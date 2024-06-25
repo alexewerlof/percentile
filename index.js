@@ -32,6 +32,7 @@ const app = createApp({
             ],
             frequencies,
             onlyInt: true,
+            sortAscending: true,
             sli: {
                 upperBoundType: config.sli.upperBoundType,
                 lowerBoundType: config.sli.lowerBoundType,
@@ -74,8 +75,7 @@ const app = createApp({
             return generateData(this.dataCount, this.buckets, this.onlyInt)
         },
         sortedNumbers() {
-            // sort using d3
-            return this.randomNumbers.slice().sort((a, b) => a - b)
+            return this.randomNumbers.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
         },
         sortedPoints() {
             let x = 0
