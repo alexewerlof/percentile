@@ -61,7 +61,9 @@ const app = createApp({
             const firstBucket = this.buckets[0]
             const lastBucket = this.buckets[this.buckets.length - 1]
 
-            pointsArr.push([firstBucket.min - this.bucketRange, 0])
+            const padding = this.bucketRange / 4
+
+            pointsArr.push([firstBucket.min - padding, 0])
             pointsArr.push([firstBucket.min, 0])
             
             for (let bucket of this.buckets) {
@@ -76,7 +78,7 @@ const app = createApp({
             }
 
             pointsArr.push([lastBucket.max, 0])
-            pointsArr.push([lastBucket.max + this.bucketRange, 0])
+            pointsArr.push([lastBucket.max + padding, 0])
 
             return pointsArr
         },
