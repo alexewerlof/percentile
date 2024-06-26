@@ -146,6 +146,8 @@
                     </tr>
                 </tbody>
             </table>
+            <h3>Presets</h3>
+            <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
         </div>
         <article>
             <section>
