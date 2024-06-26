@@ -171,9 +171,6 @@ const app = createApp({
                 this.frequencies.pop()
             }
         },
-        round(n) {
-            return Math.round(n)
-        },
         toFixed(n, digits = 1) {
             return n.toFixed(digits)
         },
