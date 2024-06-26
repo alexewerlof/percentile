@@ -48,54 +48,6 @@ export class D3Diagram extends DiagramBase {
         this.data = []
     }
 
-    onMouseMove(event) {
-        const [mouseX, mouseY] = d3.pointer(event)
-        
-        // Check if the mouse cursor is within the diagram area
-        if (!this.isInBounds(mouseX, mouseY)) {
-            // Hide the crosshair when the mouse cursor is outside the diagram area
-            this.crosshairGroup.style('display', 'none')
-            return
-        }
-
-        // Show the crosshair when the mouse enters the SVG
-        this.crosshairGroup.style('display', null)
-
-        const mouseXDiagram = this.xScale.invert(mouseX)
-
-        // Find the nearest data point
-        const bisect = d3.bisector(d => d[0]).left
-        const i = bisect(this.data, mouseXDiagram, 1)
-        const point1 = this.data[i - 1]
-        const point2 = this.data[i]
-        // Closest point to the mouse cursor
-        const closestPoint = mouseXDiagram - point1[0] > point2[0] - mouseXDiagram ? point2 : point1
-
-        const [ closestPointX, closestPointY ] = closestPoint
-        const cx = this.xScale(closestPointX)
-        const cy = this.yScale(closestPointY)
-
-        this.crosshairX
-            .attr('x1', cx)
-            .attr('x2', cx)
-
-        this.crosshairY
-            .attr('y1', cy)
-            .attr('y2', cy)
-
-        this.crosshairXLabel
-            .attr('x', cx)
-            .text(closestPointX.toFixed(2))
-
-        this.crosshairYLabel
-            .attr('y', cy)
-            .text(closestPointY.toFixed(2))
-
-        this.crosshairCircle
-            .attr('cx', cx)
-            .attr('cy', cy)
-    }
-
     mount(svgElement) {
         this.svg = d3.select(svgElement)
 
@@ -241,5 +193,53 @@ export class D3Diagram extends DiagramBase {
                 },
                 exit => exit.remove()
             )
+    }
+
+    onMouseMove(event) {
+        const [mouseX, mouseY] = d3.pointer(event)
+        
+        // Check if the mouse cursor is within the diagram area
+        if (!this.isInBounds(mouseX, mouseY)) {
+            // Hide the crosshair when the mouse cursor is outside the diagram area
+            this.crosshairGroup.style('display', 'none')
+            return
+        }
+
+        // Show the crosshair when the mouse enters the SVG
+        this.crosshairGroup.style('display', null)
+
+        const mouseXDiagram = this.xScale.invert(mouseX)
+
+        // Find the nearest data point
+        const bisect = d3.bisector(d => d[0]).left
+        const i = bisect(this.data, mouseXDiagram, 1)
+        const point1 = this.data[i - 1]
+        const point2 = this.data[i]
+        // Closest point to the mouse cursor
+        const closestPoint = mouseXDiagram - point1[0] > point2[0] - mouseXDiagram ? point2 : point1
+
+        const [ closestPointX, closestPointY ] = closestPoint
+        const cx = this.xScale(closestPointX)
+        const cy = this.yScale(closestPointY)
+
+        this.crosshairX
+            .attr('x1', cx)
+            .attr('x2', cx)
+
+        this.crosshairY
+            .attr('y1', cy)
+            .attr('y2', cy)
+
+        this.crosshairXLabel
+            .attr('x', cx)
+            .text(closestPointX.toFixed(2))
+
+        this.crosshairYLabel
+            .attr('y', cy)
+            .text(closestPointY.toFixed(2))
+
+        this.crosshairCircle
+            .attr('cx', cx)
+            .attr('cy', cy)
     }
 }
