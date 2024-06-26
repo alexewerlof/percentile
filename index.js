@@ -23,7 +23,7 @@ const app = createApp({
             dataCount: config.dataCount,
             min: config.min,
             max: config.max,
-            selectedTab: 1,
+            selectedTab: 0,
             tabNames: [
                 'Data',
                 'SLS',
