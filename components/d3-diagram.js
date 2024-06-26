@@ -133,7 +133,6 @@ export class D3Diagram extends DiagramBase {
         this.xAxisGroup.call(xAxis)
         this.yAxisGroup.call(yAxis)
         
-        const x = 0
         if (this.isBarChart) {
             const lines = this.linesGroup
                 .selectAll('line')
