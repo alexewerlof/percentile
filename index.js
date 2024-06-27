@@ -24,6 +24,7 @@ const app = createApp({
             min: config.min,
             max: config.max,
             selectedTab: 0,
+            metricName: config.metricName.default,
             tabNames: [
                 'Data',
                 'SLS',

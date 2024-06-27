@@ -11,8 +11,12 @@
         <article>
             <section>
                 <h2>Data Points</h2>
-                <h3>Count</h3>
                 <label>
+                    <h3>Metric Name</h3>
+                    <input type="text" v-model="metricName">
+                </label>
+                <label>
+                    <h3>Count</h3>
                     <input type="number" min="10" max="10000" step="10" v-model.number.lazy="dataCount">
                 </label>
                 <label>
@@ -56,12 +60,14 @@
                     <option value="lte">&#8804;</option>
                 </select>
                 <div>
-                    Good:
+                    <h3>Good</h3>
                     <code>
                         <span v-if="sli.lowerBoundType">
                             SLO_Lower_Bound {{ boundTypeToString(sli.lowerBoundType) }}
                         </span>
-                        <span> x </span>
+                        &nbsp;
+                        <span> {{ metricName }} </span>
+                        &nbsp;
                         <span v-if="sli.upperBoundType">
                             {{ boundTypeToString(sli.upperBoundType) }} SLO_Upper_Bound
                         </span>
@@ -96,12 +102,14 @@
                 </div>
                 
                 <div>
-                    Good:
+                    <h3>Good</h3>
                     <code>
                         <span v-if="sli.lowerBoundType">
                             {{ slo.lowerBoundThreshold }} {{ boundTypeToString(sli.lowerBoundType) }}
                         </span>
-                        <span> x </span>
+                        &nbsp;
+                        <span> {{ metricName }} </span>
+                        &nbsp;
                         <span v-if="sli.upperBoundType">
                             {{ boundTypeToString(sli.upperBoundType) }} {{ slo.upperBoundThreshold }}
                         </span>
@@ -156,7 +164,7 @@
                     :points="bucketPoints"
                     :padding="[30, 40, 50, 70]"
                     :guides="equalizerThresholds"
-                    axis-title-x="Value"
+                    :axis-title-x="metricName"
                     axis-title-y="Likelihood"></diagram-component>
             </section>
             <section>
@@ -166,7 +174,7 @@
                     :padding="[30, 100, 50, 90]"
                     :guides="sloThresholds"
                     axis-title-x="Index in the sorted array"
-                    axis-title-y="Value"></diagram-component>        
+                    :axis-title-y="metricName"></diagram-component>        
             </section>
         </article>
 
@@ -179,7 +187,7 @@
                 :padding="[30, 100, 50, 90]"
                 :guides="sloThresholds"
                 axis-title-x="Index"
-                axis-title-y="Value"></diagram-component>
+                :axis-title-y="metricName"></diagram-component>
 
             <h2>Percentiles</h2>
             <diagram-component
@@ -215,37 +223,37 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Count</th>
+                        <th>Data Count</th>
                         <td>{{ analytics.count }}</td>
                         <td>Number of elements in the dataset</td>
                     </tr>
                     <tr>
-                        <th>Min</th>
+                        <th>Min {{ metricName }}</th>
                         <td>{{ analytics.min }}</td>
                         <td>Minimum number in the dataset</td>
                     </tr>
                     <tr>
-                        <th>Max</th>
+                        <th>Max {{ metricName }}</th>
                         <td>{{ analytics.max }}</td>
                         <td>Maximum number in the dataset</td>
                     </tr>
                     <tr>
                         <th>Range</th>
                         <td>{{ analytics.range }}</td>
-                        <td>Difference between the largest and smallest number in the dataset</td>
+                        <td>Difference between the max and min in the randomly generated dataset</td>
                     </tr>
                     <tr>
-                        <th>Mean</th>
+                        <th>Mean {{ metricName }}</th>
                         <td>{{ analytics.mean }}</td>
                         <td>Average of all numbers in the dataset</td>
                     </tr>
                     <tr>
-                        <th>Median</th>
+                        <th>Median {{ metricName }}</th>
                         <td>{{ analytics.median }}</td>
                         <td>Midpoint of the dataset</td>
                     </tr>
                     <tr v-for="(p, i) of analytics.percentiles">
-                        <th>{{ p.name }}</th>
+                        <th>{{ p.name }} {{ metricName }}</th>
                         <td>{{ p.value }}</td>
                         <td>Value at index {{ p.index }} out of {{ analytics.count }}</td>
                     </tr>
