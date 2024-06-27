@@ -17,10 +17,6 @@
     fill: none;
 }
 
-.diagram__bars:hover {
-    stroke: var(--brand-red);
-}
-
 .diagram__axis path{
     stroke: var(--foreground-color);
     stroke-width: 1.2;
@@ -34,9 +30,25 @@
 }
 
 .diagram__axis .tick text {
-    fill: var(--primary-color);
+    fill: var(--foreground-color);
     font-size: 15px;
     font-family: var(--title-font-family);
+}
+
+.diagram__axis-title {
+    fill: var(--primary-color);
+    font-size: 18px;
+    font-family: var(--title-font-family);
+}
+
+.diagram__axis-title--x {
+    text-anchor: end;
+    dominant-baseline: ideographic;
+}
+
+.diagram__axis-title--y {
+    dominant-baseline: ideographic;
+    writing-mode: tb;
 }
 
 .diagram__guide-line {

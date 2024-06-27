@@ -30,6 +30,14 @@ export default {
             type: Boolean,
             default: false,
         },
+        axisTitleX: {
+            type: String,
+            default: 'x',
+        },
+        axisTitleY: {
+            type: String,
+            default: 'y',
+        },
         guides: {
             type: Array,
             default: () => [],
@@ -39,6 +47,8 @@ export default {
     mounted() {
         this.d3d.mount(this.$refs.svgElement)
         this.d3d.updateData(this.points, this.guides)
+        this.d3d.updateAxisTitleX(this.axisTitleX)
+        this.d3d.updateAxisTitleY(this.axisTitleY)
     },
     watch: {
         points(newPoints) {
@@ -46,7 +56,14 @@ export default {
         },
         guides(newGuides) {
             this.d3d.updateData(this.points, newGuides)
-        }
+        },
+        axisTitleX(newTitle) {
+            this.d3d.updateAxisTitleX(newTitle)
+        },
+        axisTitleY(newTitle) {
+            this.d3d.updateAxisTitleY(newTitle)
+            console.log(newTitle)
+        },
     },
 }
 

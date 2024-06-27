@@ -152,11 +152,20 @@
         <article>
             <section>
                 <h2>Likelihood</h2>
-                <diagram-component :points="bucketPoints" :padding="[30, 40, 50, 70]"></diagram-component>
+                <diagram-component
+                    :points="bucketPoints"
+                    :padding="[30, 40, 50, 70]"
+                    axis-title-x="Value"
+                    axis-title-y="Likelihood"></diagram-component>
             </section>
             <section>
                 <h2>Sorted Points</h2>
-                <diagram-component :points="sortedPoints" :padding="[30, 100, 50, 70]" :guides="sloThresholds"></diagram-component>        
+                <diagram-component
+                    :points="sortedPoints"
+                    :padding="[30, 100, 50, 90]"
+                    :guides="sloThresholds"
+                    axis-title-x="Index in the sorted array"
+                    axis-title-y="Value"></diagram-component>        
             </section>
         </article>
 
@@ -164,17 +173,36 @@
 
         <div class="tab-content" v-if="selectedTab === 0">
             <h2>Random Points</h2>
-            <diagram-component :points="randomPoints" :padding="[30, 100, 50, 70]" :guides="sloThresholds"></diagram-component>
+            <diagram-component
+                :points="randomPoints"
+                :padding="[30, 100, 50, 90]"
+                :guides="sloThresholds"
+                axis-title-x="Index"
+                axis-title-y="Value"></diagram-component>
 
             <h2>Percentiles</h2>
-            <diagram-component :points="percentiles" :padding="[30, 30, 50, 70]" is-bar-chart></diagram-component>
+            <diagram-component
+                :points="percentiles"
+                :padding="[30, 70, 50, 90]"
+                axis-title-x="Percentile"
+                axis-title-y="Percentile value"
+                is-bar-chart></diagram-component>
         </div>
 
         <div class="tab-content" v-if="selectedTab === 1">
-            <diagram-component :points="slsPoints" :padding="[30, 100, 50, 70]" :guides="slsGuides"></diagram-component>
+            <diagram-component
+                :points="slsPoints"
+                :padding="[30, 100, 50, 70]"
+                :guides="slsGuides"
+                :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
+                axis-title-y="SLS"></diagram-component>
 
             <h2>Accumulated Failure Counter</h2>
-            <diagram-component :points="accumulatedFailure" :padding="[30, 30, 50, 70]"></diagram-component>
+            <diagram-component
+                :points="accumulatedFailure"
+                :padding="[30, 30, 50, 70]"
+                axis-title-x="Index in the dataset"
+                axis-title-y="Failures in the past data points"></diagram-component>
         </div>
         <div class="tab-content" v-if="selectedTab === 2">
             <h2>Analytics</h2>

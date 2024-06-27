@@ -76,6 +76,18 @@ export class D3Diagram extends DiagramBase {
             .classed('diagram__axis diagram__axis--y', true)
             .attr('transform', `translate(${this.leftSide},0)`)
 
+        // Add X axis label:
+        this.xAxisTitle = this.svg.append('text')
+            .classed('diagram__axis-title diagram__axis-title--x', true)
+            .attr('x', this.rightSide)
+            .attr('y', this.height)
+
+            // Y axis label:
+        this.yAxisTitle = this.svg.append('text')
+            .classed('diagram__axis-title diagram__axis-title--y', true)
+            .attr('y', this.topSide)
+            .attr('x', 0)
+
         // Create placeholder for the lines
         this.guideGroup = this.svg.append('g')
             .classed('diagram__guides', true)
@@ -192,6 +204,14 @@ export class D3Diagram extends DiagramBase {
                 },
                 exit => exit.remove()
             )
+    }
+
+    updateAxisTitleX(title) {
+        this.xAxisTitle.text(title)
+    }
+
+    updateAxisTitleY(title) {
+        this.yAxisTitle.text(title)
     }
 
     onMouseMove(event) {
