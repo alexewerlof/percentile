@@ -7,6 +7,27 @@ const PADDING_INDEX = {
     LEFT: 3,
 }
 
+function groupGuides(guides) {
+    if (!Array.isArray(guides)) {
+        throw new Error(`guides must be an array. Got ${typeof guides}: ${guides}`)
+    }
+
+    const xGuides = []
+    const yGuides = []
+
+    for (const guide of guides) {
+        if (guide.x !== undefined) {
+            xGuides.push(guide)
+        } else if (guide.y !== undefined) {
+            yGuides.push(guide)
+        } else {
+            throw new Error(`Invalid guide: ${guide}`)
+        }
+    }
+
+    return { xGuides, yGuides }
+}
+
 export class DiagramBase {
     constructor(width, height, padding) {
         this.width = width
@@ -88,9 +109,12 @@ export class D3Diagram extends DiagramBase {
             .attr('y', this.topSide)
             .attr('x', 0)
 
-        // Create placeholder for the lines
-        this.guideGroup = this.svg.append('g')
-            .classed('diagram__guides', true)
+        // Create placeholder for the guides
+        this.guidesX = this.svg.append('g')
+            .classed('diagram__guides diagram__guides--x', true)
+
+        this.guidesY = this.svg.append('g')
+            .classed('diagram__guides diagram__guides--y', true)
 
         // Create the crosshair
         this.crosshairGroup = this.svg.append('g')
@@ -133,10 +157,13 @@ export class D3Diagram extends DiagramBase {
         this.data = data
         const xDataExtent = d3.extent(data, d => d[0])
         const yDataExtent = d3.extent(data, d => d[1])
-        const yLinesExtent = d3.extent(guides, l => l.y)
-        const yExtent = d3.extent([...yDataExtent, ...yLinesExtent])
+        const { xGuides, yGuides } = groupGuides(guides)
+        const xGuidesExtent = d3.extent(xGuides, g => g.x)
+        const yGuidesExtent = d3.extent(yGuides, g => g.y)
+        const yExtent = d3.extent([...yDataExtent, ...yGuidesExtent])
+        const xExtent = d3.extent([...xDataExtent, ...xGuidesExtent])
 
-        this.xScale.domain(xDataExtent)
+        this.xScale.domain(xExtent)
         this.yScale.domain(yExtent)
 
         const xAxis = d3.axisBottom(this.xScale)
@@ -167,10 +194,47 @@ export class D3Diagram extends DiagramBase {
                 .attr('d', line)
         }
 
-        // Update the guide line group
-        this.guideGroup
+        // Update the guides
+        this.guidesX
             .selectAll('g')
-            .data(guides)
+            .data(xGuides)
+            .join(
+                enter => {
+                    const group = enter.append('g')
+                        .classed('diagram__guide', true)
+
+                    group.append('line')
+                        .classed('diagram__guide-line', true)
+                        .attr('x1', d => this.xScale(d.x))
+                        .attr('x2', d => this.xScale(d.x))
+                        .attr('y1', this.topSide)
+                        .attr('y2', this.bottomSide)
+
+                    group.append('text')
+                        .classed('diagram__guide-title diagram__guide-title--x', true)
+                        .attr('x', d => this.xScale(d.x))
+                        .attr('y', this.topSide)
+                        .text(d => d.label)
+
+                    return group
+                },
+                update => {
+                    update.select('line')
+                        .attr('x1', d => this.xScale(d.x))
+                        .attr('x2', d => this.xScale(d.x))
+
+                    update.select('text')
+                        .attr('x', d => this.xScale(d.x))
+                        .text(d => d.label)
+
+                    return update
+                },
+                exit => exit.remove()
+            )
+
+        this.guidesY
+            .selectAll('g')
+            .data(yGuides)
             .join(
                 enter => {
                     const group = enter.append('g')
@@ -184,7 +248,7 @@ export class D3Diagram extends DiagramBase {
                         .attr('y2', d => this.yScale(d.y))
     
                     group.append('text')
-                        .classed('diagram__guide-title', true)
+                        .classed('diagram__guide-title diagram__guide-title--y', true)
                         .attr('x', this.rightSide)
                         .attr('y', d => this.yScale(d.y))
                         .text(d => d.label)

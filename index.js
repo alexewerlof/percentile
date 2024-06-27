@@ -124,6 +124,22 @@ const app = createApp({
             }
             return ret
         },
+        equalizerThresholds() {
+            const ret = []
+            if (this.sli.upperBoundType) {
+                ret.push({
+                    x: this.slo.upperBoundThreshold,
+                    label: 'Upper Bound',
+                })
+            }
+            if (this.sli.lowerBoundType) {
+                ret.push({
+                    x: this.slo.lowerBoundThreshold,
+                    label: 'Lower Bound',
+                })
+            }
+            return ret
+        },
         slsGuides() {
             return [
                 {

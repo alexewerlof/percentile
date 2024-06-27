@@ -57,8 +57,16 @@
 }
 
 .diagram__guide-title {
-    dominant-baseline: middle;
     fill: var(--brand-red);
+}
+
+.diagram__guide-title--x {
+    text-anchor: middle;
+    dominant-baseline: text-after-edge;
+}
+
+.diagram__guide-title--y {
+    dominant-baseline: middle;
 }
 
 .diagram__crosshair-line--vertical,
@@ -79,6 +87,7 @@
 
 .diagram__crosshair-label--x {
     text-anchor: middle;
+    dominant-baseline: text-after-edge;
 }
 
 .diagram__crosshair-label--y {
