@@ -1,5 +1,5 @@
 import { createApp } from './vendor/vue.js'
-import diagramComponent from './components/diagram.js'
+import plot2dComponent from './components/plot-2d.js'
 import tabsComponent from './components/tabs.js'
 import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
@@ -13,7 +13,7 @@ const freqIndicatorColor = d3.scaleLinear()
 
 const app = createApp({
     components: {
-        diagramComponent,
+        plot2dComponent,
         tabsComponent,
     },
     data() {

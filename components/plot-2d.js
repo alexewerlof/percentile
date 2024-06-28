@@ -1,11 +1,11 @@
 import { loadComponent } from '../lib/fetch-template.js'
-import { D3Diagram } from './d3-diagram.js'
+import { Plot2dD3 } from './plot-2d-d3.js'
 
 export default {
     template: await loadComponent(import.meta.url),
     data() {
         return {
-            d3d: new D3Diagram(this.width, this.height, this.padding, this.isBarChart),
+            d3d: new Plot2dD3(this.width, this.height, this.padding, this.isBarChart),
         };
     },
     props: {
