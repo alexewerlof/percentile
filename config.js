@@ -56,7 +56,7 @@ export const config = {
             }
         ]
     },
-    min: 100,
+    min: 200,
     max: 20000,
     dataCount: 2190, // hours in 3 months
     sli: {
@@ -69,8 +69,8 @@ export const config = {
         min: 50,
         max: 99.9,
         step: 0.1,
-        upperBoundThreshold: 19000,
-        lowerBoundThreshold: 1000,
+        upperBoundThreshold: 19500,
+        lowerBoundThreshold: 500,
     },
     width: 1000,
     height: 300,
