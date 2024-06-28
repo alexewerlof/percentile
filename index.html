@@ -27,22 +27,6 @@
                     <h3>Max Value</h3>
                     <input type="number" v-model.number.lazy="max">
                 </label>
-                <label>
-                    <input type="checkbox" v-model.boolean="onlyInt"> Only integers
-                </label>
-                <h3>Sort order</h3>
-                <div>
-                    <label>
-                        <input type="radio" id="ascending" :value="true" v-model="sortAscending" />
-                        Ascending
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="radio" id="descending" :value="false" v-model="sortAscending" />
-                        Descending
-                    </label>
-                </div>
             </section>
             <section>
                 <h2>SLI</h2>
@@ -133,6 +117,10 @@
         <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
 
         <div class="tab-content" v-if="selectedTab === 0">
+            <h3>Output</h3>
+            <label>
+                <input type="checkbox" v-model.boolean="onlyInt"> Only integers
+            </label>
             <h3>Presets</h3>
                     <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
                     <plot-2d-component
@@ -184,6 +172,20 @@
         </div>
 
         <div class="tab-content" v-if="selectedTab === 1">
+            <h3>Sort order</h3>
+            <div>
+                <label>
+                    <input type="radio" id="ascending" :value="true" v-model="sortAscending" />
+                    Ascending
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" id="descending" :value="false" v-model="sortAscending" />
+                    Descending
+                </label>
+            </div>
+
             <h2>Sorted Points</h2>
             <plot-2d-component
                 :points="sortedPoints"
