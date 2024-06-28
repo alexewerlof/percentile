@@ -26,8 +26,9 @@ const app = createApp({
             selectedTab: 0,
             metricName: config.metricName.default,
             tabNames: [
-                'Data',
-                'Service Level',
+                'Generator',
+                'Percentile',
+                'Service',
                 'Analytics',
                 'JSON Data',
             ],

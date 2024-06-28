@@ -119,61 +119,6 @@
         </article>
 
         <div>
-            <h2>Random Generator</h2>
-            <article>
-                <section>
-                    <h3>Ranges</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th colspan="2">Range</th>
-                                <th colspan="2">Likelihood</th>
-                            </tr>
-                            <tr>
-                                <th>From</th>
-                                <th>To</th>
-                                <th colspan="2">
-                                    <button @click="setFrequencies(config.slider.min)">Min</button>
-                                    <button @click="setFrequencies(config.slider.default)">Default</button>
-                                    <button @click="setFrequencies(config.slider.max)">Max</button>
-                                </th>
-                                <th>Likelihood</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="e of euqalizerData">
-                                <td>{{ toFixed(e.min) }}</td>
-                                <td>{{ toFixed(e.max) }}</td>
-                                <td>
-                                    <div class="freq-indicator" :style="e.freqIndicatorStyle"></div>
-                                </td>
-                                <td>
-                                    <input type="range"
-                                        v-model.number="frequencies[e.i]"
-                                        :min="config.slider.min"
-                                        :max="config.slider.max"
-                                        :step="config.slider.step">
-                                </td>
-                                <td>
-                                    {{  toFixed(e.probability, 2) }}%
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-                <section>
-                    <h3>Presets</h3>
-                    <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
-                    <diagram-component
-                        :points="equalizerPoints"
-                        :padding="[30, 90, 50, 90]"
-                        :guides="sloThresholds"
-                        axis-title-x="Likelihood"
-                        :axis-title-y="metricName"></diagram-component>
-                </section>
-            </article>
-        </div>
-        <div>
             <section>
                 <h2>Random Points</h2>
                 <diagram-component
@@ -188,6 +133,55 @@
         <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
 
         <div class="tab-content" v-if="selectedTab === 0">
+            <h3>Presets</h3>
+                    <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
+                    <diagram-component
+                        :points="equalizerPoints"
+                        :padding="[30, 90, 50, 90]"
+                        :guides="sloThresholds"
+                        axis-title-x="Likelihood"
+                        :axis-title-y="metricName"></diagram-component>
+            <h2>Fine Tune</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Range</th>
+                        <th colspan="2">Likelihood</th>
+                    </tr>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th colspan="2">
+                            <button @click="setFrequencies(config.slider.min)">Min</button>
+                            <button @click="setFrequencies(config.slider.default)">Default</button>
+                            <button @click="setFrequencies(config.slider.max)">Max</button>
+                        </th>
+                        <th>Likelihood</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="e of euqalizerData">
+                        <td>{{ toFixed(e.min) }}</td>
+                        <td>{{ toFixed(e.max) }}</td>
+                        <td>
+                            <div class="freq-indicator" :style="e.freqIndicatorStyle"></div>
+                        </td>
+                        <td>
+                            <input type="range"
+                                v-model.number="frequencies[e.i]"
+                                :min="config.slider.min"
+                                :max="config.slider.max"
+                                :step="config.slider.step">
+                        </td>
+                        <td>
+                            {{  toFixed(e.probability, 2) }}%
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" v-if="selectedTab === 1">
             <h2>Sorted Points</h2>
             <diagram-component
                 :points="sortedPoints"
@@ -205,7 +199,7 @@
                 is-bar-chart></diagram-component>
         </div>
 
-        <div class="tab-content" v-if="selectedTab === 1">
+        <div class="tab-content" v-if="selectedTab === 2">
             <h2>Accumulated Failure Counter</h2>
             <diagram-component
                 :points="accumulatedFailure"
@@ -220,7 +214,7 @@
                 :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
                 axis-title-y="SLS"></diagram-component>
         </div>
-        <div class="tab-content" v-if="selectedTab === 2">
+        <div class="tab-content" v-if="selectedTab === 3">
             <h2>Analytics</h2>
             <table>
                 <thead>
@@ -283,7 +277,7 @@
             </table>
         </div>
 
-        <div class="tab-content" v-if="selectedTab === 3">
+        <div class="tab-content" v-if="selectedTab === 4">
             <code class="json-data">
                 {{ jsonData }}
             </code>
