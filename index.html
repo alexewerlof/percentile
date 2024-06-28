@@ -119,75 +119,82 @@
         </article>
 
         <div>
-            <h2>Frequency</h2>
-            <button @click="setFrequencies(config.slider.min)">Min</button>
-            <button @click="setFrequencies(config.slider.default)">Default</button>
-            <button @click="setFrequencies(config.slider.max)">Max</button>
-            <button @click="addFrequency()">Add</button>
-            <button @click="removeFrequency()">Remove</button>
-            {{ buckets.length }}x buckets, each representing {{ bucketRange }}
-            <table class="frequency-table">
-                <tbody>
-                    <tr>
-                        <th>Likelihood</th>
-                        <th v-for="b of buckets">{{  toFixed(b.probability, 2) }}%</th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th v-for="f of frequencies">
-                            <div class="freq-indicator" :style="freqIndicatorStyle(f)"></div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td  v-for="(f,i) of frequencies">
-                            <input class="vertical-slider" type="range" :min="config.slider.min" :max="config.slider.max" :step="config.slider.step" v-model.number="frequencies[i]">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Min</th>
-                        <td v-for="b of buckets">{{ toFixed(b.min) }}&lt;</td>
-                    </tr>
-                    <tr>
-                        <th>Max</th>
-                        <td v-for="b of buckets">&lt;{{ toFixed(b.max) }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3>Presets</h3>
-            <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
+            <h2>Random Generator</h2>
+            <article>
+                <section>
+                    <h3>Ranges</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2">Range</th>
+                                <th colspan="2">Likelihood</th>
+                            </tr>
+                            <tr>
+                                <th>From</th>
+                                <th>To</th>
+                                <th colspan="2">
+                                    <button @click="setFrequencies(config.slider.min)">Min</button>
+                                    <button @click="setFrequencies(config.slider.default)">Default</button>
+                                    <button @click="setFrequencies(config.slider.max)">Max</button>
+                                </th>
+                                <th>Likelihood</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="e of euqalizerData">
+                                <td>{{ toFixed(e.min) }}</td>
+                                <td>{{ toFixed(e.max) }}</td>
+                                <td>
+                                    <div class="freq-indicator" :style="e.freqIndicatorStyle"></div>
+                                </td>
+                                <td>
+                                    <input type="range"
+                                        v-model.number="frequencies[e.i]"
+                                        :min="config.slider.min"
+                                        :max="config.slider.max"
+                                        :step="config.slider.step">
+                                </td>
+                                <td>
+                                    {{  toFixed(e.probability, 2) }}%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section>
+                    <h3>Presets</h3>
+                    <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
+                    <diagram-component
+                        :points="equalizerPoints"
+                        :padding="[30, 90, 50, 90]"
+                        :guides="sloThresholds"
+                        axis-title-x="Likelihood"
+                        :axis-title-y="metricName"></diagram-component>
+                </section>
+            </article>
         </div>
-        <article>
+        <div>
             <section>
-                <h2>Likelihood</h2>
+                <h2>Random Points</h2>
                 <diagram-component
-                    :points="bucketPoints"
-                    :padding="[30, 40, 50, 70]"
-                    :guides="equalizerThresholds"
-                    :axis-title-x="metricName"
-                    axis-title-y="Likelihood"></diagram-component>
-            </section>
-            <section>
-                <h2>Sorted Points</h2>
-                <diagram-component
-                    :points="sortedPoints"
+                    :points="randomPoints"
                     :padding="[30, 100, 50, 90]"
                     :guides="sloThresholds"
-                    axis-title-x="Index in the sorted array"
-                    :axis-title-y="metricName"></diagram-component>        
+                    axis-title-x="Index"
+                    :axis-title-y="metricName"></diagram-component>
             </section>
-        </article>
+        </div>
 
         <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
 
         <div class="tab-content" v-if="selectedTab === 0">
-            <h2>Random Points</h2>
+            <h2>Sorted Points</h2>
             <diagram-component
-                :points="randomPoints"
+                :points="sortedPoints"
                 :padding="[30, 100, 50, 90]"
                 :guides="sloThresholds"
-                axis-title-x="Index"
-                :axis-title-y="metricName"></diagram-component>
+                axis-title-x="Index in the sorted array"
+                :axis-title-y="metricName"></diagram-component>        
 
             <h2>Percentiles</h2>
             <diagram-component
@@ -199,19 +206,19 @@
         </div>
 
         <div class="tab-content" v-if="selectedTab === 1">
-            <diagram-component
-                :points="slsPoints"
-                :padding="[30, 100, 50, 70]"
-                :guides="slsGuides"
-                :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
-                axis-title-y="SLS"></diagram-component>
-
             <h2>Accumulated Failure Counter</h2>
             <diagram-component
                 :points="accumulatedFailure"
                 :padding="[30, 30, 50, 70]"
                 axis-title-x="Index in the dataset"
                 axis-title-y="Failures in the past data points"></diagram-component>
+            <h2>SLS</h2>
+            <diagram-component
+                :points="slsPoints"
+                :padding="[30, 100, 50, 70]"
+                :guides="slsGuides"
+                :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
+                axis-title-y="SLS"></diagram-component>
         </div>
         <div class="tab-content" v-if="selectedTab === 2">
             <h2>Analytics</h2>

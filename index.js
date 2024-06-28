@@ -8,7 +8,7 @@ import { d3 } from './vendor/d3.js'
 import { calculateSlsMetric, createIsGood } from './lib/sl.js'
 
 const freqIndicatorColor = d3.scaleLinear()
-    .domain([config.slider.min, config.slider.max]) // replace with your actual min and max values
+    .domain([config.slider.min, config.slider.max])
     .range(["#F86262", "#1BC554"])
 
 const app = createApp({
@@ -27,7 +27,7 @@ const app = createApp({
             metricName: config.metricName.default,
             tabNames: [
                 'Data',
-                'SLS',
+                'Service Level',
                 'Analytics',
                 'JSON Data',
             ],
@@ -56,32 +56,49 @@ const app = createApp({
         bucketRange() {
             return this.range / this.buckets.length
         },
-        bucketPoints() {
+        equalizerPoints() {
+            // Each point is a tuple of [probability, value]
             const pointsArr = []
-
-            const firstBucket = this.buckets[0]
-            const lastBucket = this.buckets[this.buckets.length - 1]
 
             const padding = this.bucketRange / 4
 
-            pointsArr.push([firstBucket.min - padding, 0])
-            pointsArr.push([firstBucket.min, 0])
+            const firstBucket = this.buckets[0]
+            pointsArr.push([0, firstBucket.min - padding])
+            pointsArr.push([0, firstBucket.min])
             
             for (let bucket of this.buckets) {
                 pointsArr.push([
-                    bucket.min,
                     bucket.probability,
+                    bucket.min,
                 ])
                 pointsArr.push([
-                    bucket.max,
                     bucket.probability,
+                    bucket.max,
                 ])
             }
 
-            pointsArr.push([lastBucket.max, 0])
-            pointsArr.push([lastBucket.max + padding, 0])
+            const lastBucket = this.buckets[this.buckets.length - 1]
+            pointsArr.push([0, lastBucket.max])
+            pointsArr.push([0, lastBucket.max + padding])
+
+            console.log(pointsArr)
 
             return pointsArr
+        },
+        euqalizerData() {
+            const data = []
+            for (let i = this.frequencies.length - 1; i >= 0; i--) {
+                data.push({
+                    i,
+                    min: this.buckets[i].min,
+                    max: this.buckets[i].max,
+                    probability: this.buckets[i].probability,
+                    freqIndicatorStyle: {
+                        backgroundColor: freqIndicatorColor(this.frequencies[i])
+                    },
+                })
+            }
+            return data
         },
         randomPoints() {
             return this.randomNumbers.map((y, x) => [x, y])
@@ -204,11 +221,6 @@ const app = createApp({
         },
         toFixed(n, digits = 1) {
             return n.toFixed(digits)
-        },
-        freqIndicatorStyle(freq) {
-            return {
-                backgroundColor: freqIndicatorColor(freq)
-            }
         },
         boundTypeToString(type) {
             switch(type) {
