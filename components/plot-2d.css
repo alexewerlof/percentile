@@ -58,6 +58,7 @@
 
 .plot-2d__guide-title {
     fill: var(--brand-red);
+    font-size: 13px;
 }
 
 .plot-2d__guide-title--x {

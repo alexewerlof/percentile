@@ -108,7 +108,7 @@
                 <plot-2d-component
                     :points="randomPoints"
                     :padding="[30, 100, 50, 90]"
-                    :guides="sloThresholds"
+                    :guides="[...sloThresholds, ...meanMedianGuides]"
                     axis-title-x="Index"
                     :axis-title-y="metricName"></plot-2d-component>
             </section>
@@ -190,7 +190,7 @@
             <plot-2d-component
                 :points="sortedPoints"
                 :padding="[30, 100, 50, 90]"
-                :guides="sloThresholds"
+                :guides="meanMedianGuides"
                 axis-title-x="Index in the sorted array"
                 :axis-title-y="metricName"></plot-2d-component>        
 
@@ -198,6 +198,7 @@
             <plot-2d-component
                 :points="percentiles"
                 :padding="[30, 70, 50, 90]"
+                :guides="meanMedianGuides"
                 axis-title-x="Percentile"
                 axis-title-y="Percentile value"
                 is-bar-chart></plot-2d-component>

@@ -144,6 +144,18 @@ const app = createApp({
             }
             return ret
         },
+        meanMedianGuides() {
+            const ret = []
+            ret.push({
+                y: this.analytics.mean,
+                label: 'Mean',
+            })
+            ret.push({
+                y: this.analytics.median,
+                label: 'Median',
+            })
+            return ret
+        },
         equalizerThresholds() {
             const ret = []
             if (this.sli.upperBoundType) {
