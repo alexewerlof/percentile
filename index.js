@@ -1,4 +1,4 @@
-import { createApp } from './vendor/vue.js'
+import { createApp, watch } from './vendor/vue.js'
 import plot2dComponent from './components/plot-2d.js'
 import tabsComponent from './components/tabs.js'
 import { createBuckets, generateData } from './lib/buckets.js'
@@ -48,6 +48,9 @@ const app = createApp({
         }
     },
     computed: {
+        sloWindowDataCountMax() {
+            return this.dataCount / 2
+        },
         range() {
             return this.max - this.min
         },
@@ -81,8 +84,6 @@ const app = createApp({
             const lastBucket = this.buckets[this.buckets.length - 1]
             pointsArr.push([0, lastBucket.max])
             pointsArr.push([0, lastBucket.max + padding])
-
-            console.log(pointsArr)
 
             return pointsArr
         },
@@ -206,6 +207,39 @@ const app = createApp({
         },
         jsonData() {
             return JSON.stringify(this.randomNumbers)
+        }
+    },
+    watch: {
+        dataCount() {
+            if (this.slo.windowDataCount > this.sloWindowDataCountMax) {
+                this.slo.windowDataCount = this.sloWindowDataCountMax
+            }
+        },
+        min() {
+            if (this.min > this.max) {
+                this.max = this.min
+            }
+
+            if (this.slo.lowerBoundThreshold < this.min) {
+                this.slo.lowerBoundThreshold = this.min
+            }
+            
+            if (this.slo.lowerBoundThreshold > this.slo.upperBoundThreshold) {
+                this.slo.lowerBoundThreshold = this.slo.upperBoundThreshold
+            }
+        },
+        max() {
+            if (this.max < this.min) {
+                this.min = this.max
+            }
+
+            if (this.slo.upperBoundThreshold > this.max) {
+                this.slo.upperBoundThreshold = this.max
+            }
+
+            if (this.slo.lowerBoundThreshold > this.slo.upperBoundThreshold) {
+                this.slo.lowerBoundThreshold = this.slo.upperBoundThreshold
+            }
         }
     },
     methods: {

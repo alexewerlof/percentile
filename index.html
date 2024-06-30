@@ -69,7 +69,7 @@
                 <div>
                     <label>
                         <h3>Window Length</h3>
-                        <input type="range" min="1" :max="dataCount / 2" step="1" v-model.number="slo.windowDataCount">
+                        <input type="range" min="1" :max="sloWindowDataCountMax" step="1" v-model.number="slo.windowDataCount">
                         {{ slo.windowDataCount }} data points
                     </label>
                 </div>    
