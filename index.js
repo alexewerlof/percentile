@@ -278,6 +278,15 @@ const app = createApp({
                     throw new Error(`Unknown bound type: ${type}`)
             }
         },
+        nthRender(x) {
+            return `${x}th`
+        },
+        percentRender(x) {
+            return `${x}%`
+        },
+        unitRender(x) {
+            return `${x} units`
+        },
     }
 })
 

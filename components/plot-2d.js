@@ -1,11 +1,19 @@
 import { loadComponent } from '../lib/fetch-template.js'
+import { id } from '../lib/fp.js';
 import { Plot2dD3 } from './plot-2d-d3.js'
 
 export default {
     template: await loadComponent(import.meta.url),
     data() {
         return {
-            d3d: new Plot2dD3(this.width, this.height, this.padding, this.isBarChart),
+            d3d: new Plot2dD3(
+                this.width,
+                this.height,
+                this.padding,
+                this.isBarChart,
+                this.labelRenderX,
+                this.labelRenderY,
+            ),
         };
     },
     props: {
@@ -42,6 +50,14 @@ export default {
             type: Array,
             default: () => [],
             validate: (val) => val.every(v => typeof v.y === 'number' && typeof v.label === 'string'),
+        },
+        labelRenderX: {
+            type: Function,
+            default: id,
+        },
+        labelRenderY: {
+            type: Function,
+            default: id,
         },
     },
     mounted() {

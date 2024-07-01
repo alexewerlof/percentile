@@ -1,4 +1,5 @@
 import { d3 } from '../vendor/d3.js'
+import { id } from '../lib/fp.js'
 
 const PADDING_INDEX = {
     TOP: 0,
@@ -63,8 +64,17 @@ export class Area2D {
 }
 
 export class Plot2dD3 extends Area2D {
-    constructor(width, height, padding, isBarChart = false) {
+    constructor(
+            width,
+            height,
+            padding,
+            isBarChart = false,
+            labelRenderX = id,
+            labelRenderY = id,
+        ) {
         super(width, height, padding)
+        this.labelRenderX = labelRenderX
+        this.labelRenderY = labelRenderY
         this.isBarChart = isBarChart
         this.data = []
     }
@@ -166,8 +176,8 @@ export class Plot2dD3 extends Area2D {
         this.xScale.domain(xExtent)
         this.yScale.domain(yExtent)
 
-        const xAxis = d3.axisBottom(this.xScale)
-        const yAxis = d3.axisLeft(this.yScale)
+        const xAxis = d3.axisBottom(this.xScale).tickFormat(this.labelRenderX)
+        const yAxis = d3.axisLeft(this.yScale).tickFormat(this.labelRenderY)
     
         this.xAxisGroup.call(xAxis)
         this.yAxisGroup.call(yAxis)
@@ -315,11 +325,11 @@ export class Plot2dD3 extends Area2D {
 
         this.crosshairXLabel
             .attr('x', cx)
-            .text(closestPointX.toFixed(2))
+            .text(this.labelRenderX(closestPointX))
 
         this.crosshairYLabel
             .attr('y', cy)
-            .text(closestPointY.toFixed(2))
+            .text(this.labelRenderY(closestPointY))
 
         this.crosshairCircle
             .attr('cx', cx)
