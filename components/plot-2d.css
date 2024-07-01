@@ -54,6 +54,7 @@
 .plot-2d__guide-line {
     stroke: var(--brand-red);
     stroke-width: 1;
+    stroke-dasharray: 3;
 }
 
 .plot-2d__guide-title {
