@@ -67,40 +67,57 @@ const app = createApp({
             const padding = this.bucketRange / 4
 
             const firstBucket = this.buckets[0]
-            pointsArr.push([0, firstBucket.min - padding])
-            pointsArr.push([0, firstBucket.min])
+            pointsArr.push([firstBucket.min - padding, 0])
+            pointsArr.push([firstBucket.min, 0])
             
             for (let bucket of this.buckets) {
                 pointsArr.push([
-                    bucket.probability,
                     bucket.min,
+                    bucket.probability,
                 ])
                 pointsArr.push([
-                    bucket.probability,
                     bucket.max,
+                    bucket.probability,
                 ])
             }
 
             const lastBucket = this.buckets[this.buckets.length - 1]
-            pointsArr.push([0, lastBucket.max])
-            pointsArr.push([0, lastBucket.max + padding])
+            pointsArr.push([lastBucket.max, 0])
+            pointsArr.push([lastBucket.max + padding, 0])
 
             return pointsArr
         },
-        euqalizerData() {
-            const data = []
-            for (let i = this.frequencies.length - 1; i >= 0; i--) {
-                data.push({
-                    i,
-                    min: this.buckets[i].min,
-                    max: this.buckets[i].max,
-                    probability: this.buckets[i].probability,
-                    freqIndicatorStyle: {
-                        backgroundColor: freqIndicatorColor(this.frequencies[i])
-                    },
+        equalizerGuides() {
+            const ret = []
+
+            for (let bucket of this.buckets) {
+                ret.push({
+                    x: bucket.min,
+                    label: this.toFixed(bucket.min),
                 })
             }
-            return data
+
+            const lastBucket = this.buckets[this.buckets.length - 1]
+            ret.push({
+                x: lastBucket.max,
+                label: this.toFixed(lastBucket.max),
+            })
+
+            if (this.sli.upperBoundType) {
+                ret.push({
+                    x: this.slo.upperBoundThreshold,
+                    label: this.boundTypeToString(this.sli.upperBoundType),
+                })
+            }
+
+            if (this.sli.lowerBoundType) {
+                ret.push({
+                    x: this.slo.lowerBoundThreshold,
+                    label: this.boundTypeToString(this.sli.lowerBoundType),
+                })
+            }
+
+            return ret
         },
         randomPoints() {
             return this.randomNumbers.map((y, x) => [x, y])
@@ -287,6 +304,11 @@ const app = createApp({
         unitRender(x) {
             return `${x} units`
         },
+        freqIndicatorStyle(freqIndex) {
+            return {
+                backgroundColor: freqIndicatorColor(this.frequencies[freqIndex])
+            }
+        }
     }
 })
 

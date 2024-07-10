@@ -126,10 +126,10 @@
                     <plot-2d-component
                         :points="equalizerPoints"
                         :padding="[30, 100, 50, 90]"
-                        :guides="sloThresholds"
-                        axis-title-x="Likelihood"
+                        :guides="equalizerGuides"
                         :label-render-x="percentRender"
-                        :axis-title-y="metricName"></plot-2d-component>
+                        :axis-title-x="metricName"
+                        axis-title-y="Likelihood"></plot-2d-component>
             <h2>Fine Tune</h2>
             <table>
                 <thead>
@@ -149,21 +149,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="e of euqalizerData">
-                        <td>{{ toFixed(e.min) }}</td>
-                        <td>{{ toFixed(e.max) }}</td>
+                    <tr v-for="(b, i) of buckets">
+                        <td>{{ toFixed(b.min) }}</td>
+                        <td>{{ toFixed(b.max) }}</td>
                         <td>
-                            <div class="freq-indicator" :style="e.freqIndicatorStyle"></div>
+                            <div class="freq-indicator" :style="freqIndicatorStyle(i)"></div>
                         </td>
                         <td>
                             <input type="range"
-                                v-model.number="frequencies[e.i]"
+                                v-model.number="frequencies[i]"
                                 :min="config.slider.min"
                                 :max="config.slider.max"
                                 :step="config.slider.step">
                         </td>
                         <td>
-                            {{  toFixed(e.probability, 2) }}%
+                            {{  toFixed(b.probability, 2) }}%
                         </td>
                     </tr>
                 </tbody>
