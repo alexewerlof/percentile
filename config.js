@@ -3,6 +3,9 @@ export const config = {
     metricName: {
         default: 'Latency',
     },
+    metricUnit: {
+        default: 'ms',
+    },
     slider: {
         count: 10,
         min: 0,

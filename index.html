@@ -16,6 +16,10 @@
                     <input type="text" v-model="metricName">
                 </label>
                 <label>
+                    <h3>Unit</h3>
+                    <input type="text" v-model="metricUnit">
+                </label>
+                <label>
                     <h3>Count</h3>
                     <input type="number" min="10" max="10000" step="10" v-model.number.lazy="dataCount">
                 </label>
@@ -127,7 +131,8 @@
                         :points="equalizerPoints"
                         :padding="[30, 100, 50, 90]"
                         :guides="equalizerGuides"
-                        :label-render-x="percentRender"
+                        :label-render-x="unitRender"
+                        :label-render-y="percentRender"
                         :axis-title-x="metricName"
                         axis-title-y="Likelihood"></plot-2d-component>
             <h2>Fine Tune</h2>
@@ -193,6 +198,7 @@
                 :padding="[30, 100, 50, 90]"
                 :guides="meanMedianGuides"
                 axis-title-x="Index in the sorted array"
+                :label-render-y="unitRender"
                 :axis-title-y="metricName"></plot-2d-component>        
 
             <h2>Percentiles</h2>
@@ -203,6 +209,7 @@
                 axis-title-x="Percentile"
                 axis-title-y="Percentile value"
                 :label-render-x="nthRender"
+                :label-render-y="unitRender"
                 is-bar-chart></plot-2d-component>
         </div>
 
@@ -219,6 +226,7 @@
                 :padding="[30, 100, 50, 70]"
                 :guides="slsGuides"
                 :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
+                :label-render-y="percentRender"
                 axis-title-y="SLS"></plot-2d-component>
         </div>
         <div class="tab-content" v-if="selectedTab === 3">

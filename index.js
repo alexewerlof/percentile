@@ -25,6 +25,7 @@ const app = createApp({
             max: config.max,
             selectedTab: 0,
             metricName: config.metricName.default,
+            metricUnit: config.metricUnit.default,
             tabNames: [
                 'Generator',
                 'Percentile',
@@ -93,27 +94,27 @@ const app = createApp({
             for (let bucket of this.buckets) {
                 ret.push({
                     x: bucket.min,
-                    label: this.toFixed(bucket.min),
+                    label: bucket.min,
                 })
             }
 
             const lastBucket = this.buckets[this.buckets.length - 1]
             ret.push({
                 x: lastBucket.max,
-                label: this.toFixed(lastBucket.max),
+                label: lastBucket.max,
             })
 
             if (this.sli.upperBoundType) {
                 ret.push({
                     x: this.slo.upperBoundThreshold,
-                    label: this.boundTypeToString(this.sli.upperBoundType),
+                    label: 'UBT',
                 })
             }
 
             if (this.sli.lowerBoundType) {
                 ret.push({
                     x: this.slo.lowerBoundThreshold,
-                    label: this.boundTypeToString(this.sli.lowerBoundType),
+                    label: 'LBT',
                 })
             }
 
@@ -296,7 +297,7 @@ const app = createApp({
             return `${x}%`
         },
         unitRender(x) {
-            return `${x} units`
+            return `${x}${this.metricUnit}`
         },
         freqIndicatorStyle(freqIndex) {
             return {

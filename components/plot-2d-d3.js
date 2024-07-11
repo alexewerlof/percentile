@@ -224,7 +224,7 @@ export class Plot2dD3 extends Area2D {
                         .classed('plot-2d__guide-title plot-2d__guide-title--x', true)
                         .attr('x', d => this.xScale(d.x))
                         .attr('y', this.topSide)
-                        .text(d => d.label)
+                        .text(d => this.labelRenderX(d.label))
 
                     return group
                 },
@@ -235,7 +235,7 @@ export class Plot2dD3 extends Area2D {
 
                     update.select('text')
                         .attr('x', d => this.xScale(d.x))
-                        .text(d => d.label)
+                        .text(d => this.labelRenderX(d.label))
 
                     return update
                 },
@@ -261,7 +261,7 @@ export class Plot2dD3 extends Area2D {
                         .classed('plot-2d__guide-title plot-2d__guide-title--y', true)
                         .attr('x', this.rightSide)
                         .attr('y', d => this.yScale(d.y))
-                        .text(d => d.label)
+                        .text(d => this.labelRenderY(d.label))
     
                     return group
                 },
@@ -272,7 +272,7 @@ export class Plot2dD3 extends Area2D {
     
                     update.select('text')
                         .attr('y', d => this.yScale(d.y))
-                        .text(d => d.label)
+                        .text(d => this.labelRenderY(d.label))
     
                     return update
                 },

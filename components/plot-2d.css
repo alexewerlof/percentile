@@ -84,7 +84,7 @@
 
 .plot-2d__crosshair-label {
     fill: var(--brand-green);
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .plot-2d__crosshair-label--x {
