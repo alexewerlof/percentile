@@ -5,7 +5,7 @@ import { createBuckets, generateData } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
-import { calculateSlsMetric, createIsGood } from './lib/sl.js'
+import { boundTypeToOperator, calculateSlsMetric, createIsGood } from './lib/sl.js'
 
 const freqIndicatorColor = d3.scaleLinear()
     .domain([config.slider.min, config.slider.max])
@@ -287,13 +287,7 @@ const app = createApp({
             return n.toFixed(digits)
         },
         boundTypeToString(type) {
-            switch(type) {
-                case '': return ''
-                case 'lt': return '<'
-                case 'lte': return '≤'
-                default:
-                    throw new Error(`Unknown bound type: ${type}`)
-            }
+            return boundTypeToOperator(type)
         },
         nthRender(x) {
             return `${x}th`
