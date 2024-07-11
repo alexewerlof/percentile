@@ -218,7 +218,7 @@ const app = createApp({
             return stats
         },
         slsPoints() {
-            const slsValues = calculateSlsMetric(this.randomNumbers, this.slo.windowDataCount, this.sli, this.slo)
+            const slsValues = calculateSlsMetric(this.randomNumbers, this.sli, this.slo)
             return slsValues.map((value, i) => [i, value])
         },
         accumulatedFailure() {
