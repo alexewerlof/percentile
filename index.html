@@ -111,8 +111,9 @@
                 <h2>Random Points</h2>
                 <plot-2d-component
                     :points="randomPoints"
-                    :padding="[30, 100, 50, 90]"
+                    :padding="[30, 100, 50, 110]"
                     :guides="[...sloThresholds, ...meanMedianGuides]"
+                    :label-render-y="unitRender"
                     axis-title-x="Index"
                     :axis-title-y="metricName"></plot-2d-component>
             </section>
