@@ -108,9 +108,10 @@
 
         <div>
             <section>
-                <h2>Random Points</h2>
+                <h2>Metric Data</h2>
+                <button @click="generateData">Generate Data</button>
                 <plot-2d-component
-                    :points="randomPoints"
+                    :points="metricDataPoints"
                     :padding="[30, 100, 50, 110]"
                     :guides="[...sloThresholds, ...meanMedianGuides]"
                     :label-render-y="unitRender"
@@ -119,9 +120,16 @@
             </section>
         </div>
 
-        <tabs-component v-model:selected-tab="selectedTab" :tab-names="tabNames"></tabs-component>
+        <tabs-component v-model:selected-tab="selectedTab" :tab-names="[
+                'Generator',
+                'Percentile',
+                'Service',
+                'Incidents',
+                'Analytics',
+                'JSON Data',
+            ]"></tabs-component>
 
-        <div class="tab-content" v-if="selectedTab === 0">
+        <div class="tab-content" v-if="selectedTab === 'Generator'">
             <h3>Output</h3>
             <label>
                 <input type="checkbox" v-model.boolean="onlyInt"> Only integers
@@ -178,7 +186,7 @@
             <button @click="removeFrequency">Remove</button>
         </div>
 
-        <div class="tab-content" v-if="selectedTab === 1">
+        <div class="tab-content" v-if="selectedTab === 'Percentile'">
             <h3>Sort order</h3>
             <div>
                 <label>
@@ -214,7 +222,7 @@
                 is-bar-chart></plot-2d-component>
         </div>
 
-        <div class="tab-content" v-if="selectedTab === 2">
+        <div class="tab-content" v-if="selectedTab === 'Service'">
             <h2>Accumulated Failure Counter</h2>
             <plot-2d-component
                 :points="accumulatedFailure"
@@ -230,7 +238,7 @@
                 :label-render-y="percentRender"
                 axis-title-y="SLS"></plot-2d-component>
         </div>
-        <div class="tab-content" v-if="selectedTab === 3">
+        <div class="tab-content" v-if="selectedTab === 'Analytics'">
             <h2>Analytics</h2>
             <table>
                 <thead>
@@ -293,7 +301,25 @@
             </table>
         </div>
 
-        <div class="tab-content" v-if="selectedTab === 4">
+        <div class="tab-content" v-if="selectedTab === 'Incidents'">
+            <h1>Emulate an incident</h1>
+            <label>
+                <h2>Incident length</h2>
+                <input type="range" min="1" :max="dataCount" v-model.number="incidentLength">
+                {{ incidentLength }} data points
+            </label>
+            <label>
+                <h2>Insertion Point</h2>
+                <input type="range" min="0" :max="dataCount - incidentLength" v-model.number="incidentInsertionPoint">
+                at point {{ incidentInsertionPoint }}
+            </label>
+
+            <div class="button-bar">
+                <button @click="addIncident">Add Incident</button>
+            </div>
+        </div>
+
+        <div class="tab-content" v-if="selectedTab === 'JSON Data'">
             <code class="json-data">
                 {{ jsonData }}
             </code>

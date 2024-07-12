@@ -1,7 +1,7 @@
-import { createApp, watch } from './vendor/vue.js'
+import { createApp } from './vendor/vue.js'
 import plot2dComponent from './components/plot-2d.js'
 import tabsComponent from './components/tabs.js'
-import { createBuckets, generateData } from './lib/buckets.js'
+import { createBuckets, generateData, normalizeBucketProbabilities } from './lib/buckets.js'
 import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
@@ -23,19 +23,15 @@ const app = createApp({
             dataCount: config.dataCount,
             min: config.min,
             max: config.max,
-            selectedTab: 0,
+            selectedTab: 'Generator',
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,
-            tabNames: [
-                'Generator',
-                'Percentile',
-                'Service',
-                'Analytics',
-                'JSON Data',
-            ],
+            metricData: [],
             frequencies,
             onlyInt: true,
             sortAscending: true,
+            incidentLength: config.dataCount / 10,
+            incidentInsertionPoint: 0,
             sli: {
                 upperBoundType: config.sli.upperBoundType,
                 lowerBoundType: config.sli.lowerBoundType,
@@ -45,7 +41,7 @@ const app = createApp({
                 windowDataCount: config.slo.windowDataCount,
                 upperBoundThreshold: config.slo.upperBoundThreshold,
                 lowerBoundThreshold: config.slo.lowerBoundThreshold,
-            }
+            },
         }
     },
     computed: {
@@ -120,28 +116,25 @@ const app = createApp({
 
             return ret
         },
-        randomPoints() {
-            return this.randomNumbers.map((y, x) => [x, y])
+        metricDataPoints() {
+            return this.metricData.map((y, x) => [x, y])
         },
-        randomNumbers() {
-            return generateData(this.dataCount, this.buckets, this.onlyInt)
-        },
-        sortedNumbers() {
-            return this.randomNumbers.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
+        sortedMetricData() {
+            return this.metricData.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
         },
         sortedPoints() {
             let x = 0
-            return this.sortedNumbers.map(y => {
+            return this.sortedMetricData.map(y => {
                 x ++
                 return [x, y]
             })
         },
         percentiles() {
             const ret = []
-            const len = this.sortedNumbers.length
+            const len = this.sortedMetricData.length
             for (let x = 0; x <= 100; x += 1) {
                 const index = percentileIndex(len, x)
-                const y = this.sortedNumbers[index]
+                const y = this.sortedMetricData[index]
                 ret.push([x, y])
             }
             return ret
@@ -207,7 +200,7 @@ const app = createApp({
 
             const isGood = createIsGood(this.sli, this.slo)
 
-            for (let dataPoint of this.randomNumbers) {
+            for (let dataPoint of this.metricData) {
                 if (isGood(dataPoint)) {
                     stats.good++
                 } else {
@@ -219,13 +212,13 @@ const app = createApp({
             return stats
         },
         slsPoints() {
-            const slsValues = calculateSlsMetric(this.randomNumbers, this.sli, this.slo)
+            const slsValues = calculateSlsMetric(this.metricData, this.sli, this.slo)
             return slsValues.map((value, i) => [i, value])
         },
         accumulatedFailure() {
             let failureCounter = 0
             const isGood = createIsGood(this.sli, this.slo)
-            return this.randomNumbers.map((dataPoint, i) => {
+            return this.metricData.map((dataPoint, i) => {
                 if (!isGood(dataPoint)) {
                     failureCounter++
                 }
@@ -233,11 +226,11 @@ const app = createApp({
             })
         },
         analytics() {
-            return analyzeData(this.sortedNumbers)
+            return analyzeData(this.sortedMetricData)
         },
         jsonData() {
-            return JSON.stringify(this.randomNumbers)
-        }
+            return JSON.stringify(this.metricData)
+        },
     },
     watch: {
         dataCount() {
@@ -303,8 +296,36 @@ const app = createApp({
             return {
                 backgroundColor: freqIndicatorColor(this.frequencies[freqIndex])
             }
-        }
-    }
+        },
+        generateData() {
+            this.metricData = generateData(this.dataCount, this.buckets, this.onlyInt)
+        },
+        addIncident() {
+            let incidentBuckets = []
+            if (this.sli.lowerBoundType) {
+                incidentBuckets.push({
+                    probability: 100,
+                    min: this.min,
+                    max: this.slo.lowerBoundThreshold,
+                })
+            }
+            if (this.sli.upperBoundType) {
+                incidentBuckets.push({
+                    probability: 100,
+                    min: this.slo.upperBoundThreshold,
+                    max: this.max,
+                })
+            }
+            incidentBuckets = normalizeBucketProbabilities(incidentBuckets)
+            const incidentData = generateData(this.incidentLength, incidentBuckets, this.onlyInt)
+
+            // update this.metricData with the incident data overriding the elements that start at this.incidentInsertionPoint
+            this.metricData.splice(this.incidentInsertionPoint, this.incidentLength, ...incidentData)
+        },
+    },
+    mounted() {
+        this.generateData()
+    },
 })
 
 app.mount('#app')
