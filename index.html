@@ -36,31 +36,31 @@
                 <h2>SLI</h2>
                 <h3>Good</h3>
                 <h4>Lower Bound Type</h4>
-                <select v-model="sli.lowerBoundType">
-                    <option value="">No lower bound</option>
-                    <option value="gt">&gt;</option>
-                    <option value="ge">&ge;</option>
-                </select>
+                <article>
+                    <section>SLO_Lower_Bound</section>
+                    <section>
+                        <select v-model="sli.lowerBoundType">
+                            <option value="">No lower bound</option>
+                            <option value="gt">&gt;</option>
+                            <option value="ge">&ge;</option>
+                        </select>        
+                    </section>
+                    <section>{{ metricName }}</section>
+                </article>
                 <h4>Upper Bound Type</h4>
-                <select v-model="sli.upperBoundType">
-                    <option value="">No upper bound</option>
-                    <option value="lt">&lt;</option>
-                    <option value="le">&le;</option>
-                </select>
-                <div>
-                    <h3>Good</h3>
-                    <code>
-                        <span v-if="sli.lowerBoundType">
-                            SLO_Lower_Bound {{ boundTypeToString(sli.lowerBoundType) }}
-                        </span>
-                        &nbsp;
-                        <span> {{ metricName }} </span>
-                        &nbsp;
-                        <span v-if="sli.upperBoundType">
-                            {{ boundTypeToString(sli.upperBoundType) }} SLO_Upper_Bound
-                        </span>
-                    </code>
-                </div>
+                <article>
+                    <section>{{ metricName }}</section>
+                    <section>
+                        <select v-model="sli.upperBoundType">
+                            <option value="">No upper bound</option>
+                            <option value="lt">&lt;</option>
+                            <option value="le">&le;</option>
+                        </select>        
+                    </section>
+                    <section>
+                        SLO_Upper_Bound
+                    </section>
+                </article>
             </section>
             <section>
                 <div>
