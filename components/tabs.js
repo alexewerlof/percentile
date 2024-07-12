@@ -7,7 +7,7 @@ import { loadComponent } from '../lib/fetch-template.js'
 export default {
     template: await loadComponent(import.meta.url),
     props: {
-        selectedTab: Number,
+        selectedTab: String,
         tabNames: Array,
     },
     emits: ['update:selectedTab'],
