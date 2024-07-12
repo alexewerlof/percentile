@@ -287,7 +287,7 @@ const app = createApp({
             return `${x}th`
         },
         percentRender(x) {
-            return `${x}%`
+            return `${x.toFixed(1)}%`
         },
         unitRender(x) {
             return `${x}${this.metricUnit}`

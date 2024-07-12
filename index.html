@@ -37,7 +37,7 @@
                 <h3>Good</h3>
                 <h4>Lower Bound Type</h4>
                 <article>
-                    <section>SLO_Lower_Bound</section>
+                    <section>{{ metricName }}</section>
                     <section>
                         <select v-model="sli.lowerBoundType">
                             <option value="">No lower bound</option>
@@ -45,7 +45,7 @@
                             <option value="ge">&ge;</option>
                         </select>        
                     </section>
-                    <section>{{ metricName }}</section>
+                    <section>SLO_Lower_Bound</section>
                 </article>
                 <h4>Upper Bound Type</h4>
                 <article>
