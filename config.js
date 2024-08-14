@@ -63,8 +63,8 @@ export const config = {
     max: 20000,
     dataCount: 2190, // hours in 3 months
     sli: {
-        upperBoundType: 'le',
-        lowerBoundType: 'gt',
+        upperBound: 'le',
+        lowerBound: 'gt',
     },
     slo: {
         value: 99.3,
@@ -72,8 +72,8 @@ export const config = {
         min: 50,
         max: 99.9,
         step: 0.1,
-        upperBoundThreshold: 19500,
-        lowerBoundThreshold: 500,
+        upperThreshold: 19500,
+        lowerThreshold: 500,
     },
     width: 1000,
     height: 300,

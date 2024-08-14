@@ -33,14 +33,14 @@ const app = createApp({
             incidentLength: config.dataCount / 10,
             incidentInsertionPoint: 0,
             sli: {
-                upperBoundType: config.sli.upperBoundType,
-                lowerBoundType: config.sli.lowerBoundType,
+                upperBound: config.sli.upperBound,
+                lowerBound: config.sli.lowerBound,
             },
             slo: {
                 value: config.slo.value,
                 windowDataCount: config.slo.windowDataCount,
-                upperBoundThreshold: config.slo.upperBoundThreshold,
-                lowerBoundThreshold: config.slo.lowerBoundThreshold,
+                upperThreshold: config.slo.upperThreshold,
+                lowerThreshold: config.slo.lowerThreshold,
             },
         }
     },
@@ -100,16 +100,16 @@ const app = createApp({
                 label: lastBucket.max,
             })
 
-            if (this.sli.upperBoundType) {
+            if (this.sli.upperBound) {
                 ret.push({
-                    x: this.slo.upperBoundThreshold,
+                    x: this.slo.upperThreshold,
                     label: 'UBT',
                 })
             }
 
-            if (this.sli.lowerBoundType) {
+            if (this.sli.lowerBound) {
                 ret.push({
-                    x: this.slo.lowerBoundThreshold,
+                    x: this.slo.lowerThreshold,
                     label: 'LBT',
                 })
             }
@@ -141,15 +141,15 @@ const app = createApp({
         },
         sloThresholds() {
             const ret = []
-            if (this.sli.upperBoundType) {
+            if (this.sli.upperBound) {
                 ret.push({
-                    y: this.slo.upperBoundThreshold,
+                    y: this.slo.upperThreshold,
                     label: 'Upper Bound',
                 })
             }
-            if (this.sli.lowerBoundType) {
+            if (this.sli.lowerBound) {
                 ret.push({
-                    y: this.slo.lowerBoundThreshold,
+                    y: this.slo.lowerThreshold,
                     label: 'Lower Bound',
                 })
             }
@@ -169,15 +169,15 @@ const app = createApp({
         },
         equalizerThresholds() {
             const ret = []
-            if (this.sli.upperBoundType) {
+            if (this.sli.upperBound) {
                 ret.push({
-                    x: this.slo.upperBoundThreshold,
+                    x: this.slo.upperThreshold,
                     label: 'Upper Bound',
                 })
             }
-            if (this.sli.lowerBoundType) {
+            if (this.sli.lowerBound) {
                 ret.push({
-                    x: this.slo.lowerBoundThreshold,
+                    x: this.slo.lowerThreshold,
                     label: 'Lower Bound',
                 })
             }
@@ -243,12 +243,12 @@ const app = createApp({
                 this.max = this.min
             }
 
-            if (this.slo.lowerBoundThreshold < this.min) {
-                this.slo.lowerBoundThreshold = this.min
+            if (this.slo.lowerThreshold < this.min) {
+                this.slo.lowerThreshold = this.min
             }
             
-            if (this.slo.lowerBoundThreshold > this.slo.upperBoundThreshold) {
-                this.slo.lowerBoundThreshold = this.slo.upperBoundThreshold
+            if (this.slo.lowerThreshold > this.slo.upperThreshold) {
+                this.slo.lowerThreshold = this.slo.upperThreshold
             }
         },
         max() {
@@ -256,12 +256,12 @@ const app = createApp({
                 this.min = this.max
             }
 
-            if (this.slo.upperBoundThreshold > this.max) {
-                this.slo.upperBoundThreshold = this.max
+            if (this.slo.upperThreshold > this.max) {
+                this.slo.upperThreshold = this.max
             }
 
-            if (this.slo.lowerBoundThreshold > this.slo.upperBoundThreshold) {
-                this.slo.lowerBoundThreshold = this.slo.upperBoundThreshold
+            if (this.slo.lowerThreshold > this.slo.upperThreshold) {
+                this.slo.lowerThreshold = this.slo.upperThreshold
             }
         }
     },
@@ -302,17 +302,17 @@ const app = createApp({
         },
         addIncident() {
             let incidentBuckets = []
-            if (this.sli.lowerBoundType) {
+            if (this.sli.lowerBound) {
                 incidentBuckets.push({
                     probability: 100,
                     min: this.min,
-                    max: this.slo.lowerBoundThreshold,
+                    max: this.slo.lowerThreshold,
                 })
             }
-            if (this.sli.upperBoundType) {
+            if (this.sli.upperBound) {
                 incidentBuckets.push({
                     probability: 100,
-                    min: this.slo.upperBoundThreshold,
+                    min: this.slo.upperThreshold,
                     max: this.max,
                 })
             }

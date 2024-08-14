@@ -39,7 +39,7 @@
                 <article>
                     <section>{{ metricName }}</section>
                     <section>
-                        <select v-model="sli.lowerBoundType">
+                        <select v-model="sli.lowerBound">
                             <option value="">No lower bound</option>
                             <option value="gt">&gt;</option>
                             <option value="ge">&ge;</option>
@@ -51,7 +51,7 @@
                 <article>
                     <section>{{ metricName }}</section>
                     <section>
-                        <select v-model="sli.upperBoundType">
+                        <select v-model="sli.upperBound">
                             <option value="">No upper bound</option>
                             <option value="lt">&lt;</option>
                             <option value="le">&le;</option>
@@ -79,27 +79,27 @@
                 </div>    
                 <h3>SLO Good Bounds</h3>
 
-                <div v-if="sli.lowerBoundType">
-                    <h3>Lower Bound Threshold: {{ slo.lowerBoundThreshold }}</h3>
-                    <input type="range" :min="min" :max="slo.upperBoundThreshold" v-model.number="slo.lowerBoundThreshold">
+                <div v-if="sli.lowerBound">
+                    <h3>Lower Bound Threshold: {{ slo.lowerThreshold }}</h3>
+                    <input type="range" :min="min" :max="slo.upperThreshold" v-model.number="slo.lowerThreshold">
                 </div>
 
-                <div v-if="sli.upperBoundType">
-                    <h3>Upper Bound Threshold: {{ slo.upperBoundThreshold }}</h3>
-                    <input type="range" :min="slo.lowerBoundThreshold" :max="max" v-model.number="slo.upperBoundThreshold">
+                <div v-if="sli.upperBound">
+                    <h3>Upper Bound Threshold: {{ slo.upperThreshold }}</h3>
+                    <input type="range" :min="slo.lowerThreshold" :max="max" v-model.number="slo.upperThreshold">
                 </div>
                 
                 <div>
                     <h3>Good</h3>
                     <code>
-                        <span v-if="sli.lowerBoundType">
-                            {{ slo.lowerBoundThreshold }} {{ boundTypeToString(sli.lowerBoundType) }}
+                        <span v-if="sli.lowerBound">
+                            {{ slo.lowerThreshold }} {{ boundTypeToString(sli.lowerBound) }}
                         </span>
                         &nbsp;
                         <span> {{ metricName }} </span>
                         &nbsp;
-                        <span v-if="sli.upperBoundType">
-                            {{ boundTypeToString(sli.upperBoundType) }} {{ slo.upperBoundThreshold }}
+                        <span v-if="sli.upperBound">
+                            {{ boundTypeToString(sli.upperBound) }} {{ slo.upperThreshold }}
                         </span>
                     </code>
                 </div>
