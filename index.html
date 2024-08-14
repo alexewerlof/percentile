@@ -35,7 +35,7 @@
             <section>
                 <h2>SLI</h2>
                 <h3>Good</h3>
-                <h4>Lower Bound Type</h4>
+                <h4>Lower Bound</h4>
                 <article>
                     <section>{{ metricName }}</section>
                     <section>
@@ -47,7 +47,7 @@
                     </section>
                     <section>SLO_Lower_Bound</section>
                 </article>
-                <h4>Upper Bound Type</h4>
+                <h4>Upper Bound</h4>
                 <article>
                     <section>{{ metricName }}</section>
                     <section>
@@ -80,12 +80,12 @@
                 <h3>SLO Good Bounds</h3>
 
                 <div v-if="sli.lowerBound">
-                    <h3>Lower Bound Threshold: {{ slo.lowerThreshold }}</h3>
+                    <h3>Lower Threshold: {{ slo.lowerThreshold }}</h3>
                     <input type="range" :min="min" :max="slo.upperThreshold" v-model.number="slo.lowerThreshold">
                 </div>
 
                 <div v-if="sli.upperBound">
-                    <h3>Upper Bound Threshold: {{ slo.upperThreshold }}</h3>
+                    <h3>Upper Threshold: {{ slo.upperThreshold }}</h3>
                     <input type="range" :min="slo.lowerThreshold" :max="max" v-model.number="slo.upperThreshold">
                 </div>
                 

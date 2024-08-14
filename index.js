@@ -6,6 +6,7 @@ import { analyzeData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
 import { boundTypeToOperator, calculateSlsMetric, createIsGood } from './lib/sl.js'
+import { isNum } from './lib/validation-copy.js'
 
 const freqIndicatorColor = d3.scaleLinear()
     .domain([config.slider.min, config.slider.max])
@@ -103,14 +104,14 @@ const app = createApp({
             if (this.sli.upperBound) {
                 ret.push({
                     x: this.slo.upperThreshold,
-                    label: 'UBT',
+                    label: '$UT',
                 })
             }
 
             if (this.sli.lowerBound) {
                 ret.push({
                     x: this.slo.lowerThreshold,
-                    label: 'LBT',
+                    label: '$LT',
                 })
             }
 
@@ -290,7 +291,7 @@ const app = createApp({
             return `${x.toFixed(1)}%`
         },
         unitRender(x) {
-            return `${x}${this.metricUnit}`
+            return isNum(x) ? `${x}${this.metricUnit}` : x
         },
         freqIndicatorStyle(freqIndex) {
             return {
