@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="input-copy.css">
     <title>Percentile</title>
 </head>
 <body>
@@ -11,14 +12,6 @@
         <article>
             <section>
                 <h2>Data Points</h2>
-                <label>
-                    <h3>Metric Name</h3>
-                    <input type="text" v-model="metricName">
-                </label>
-                <label>
-                    <h3>Unit</h3>
-                    <input type="text" v-model="metricUnit">
-                </label>
                 <label>
                     <h3>Count</h3>
                     <input type="number" min="10" max="10000" step="10" v-model.number.lazy="dataCount">
@@ -31,9 +24,21 @@
                     <h3>Max Value</h3>
                     <input type="number" v-model.number.lazy="max">
                 </label>
+                <label>
+                    <h3>Output</h3>
+                    <input type="checkbox" v-model.boolean="onlyInt"> Only integers
+                </label>    
             </section>
             <section>
                 <h2>SLI</h2>
+                <label>
+                    <h3>Metric Name</h3>
+                    <input type="text" v-model="metricName">
+                </label>
+                <label>
+                    <h3>Metric Unit</h3>
+                    <input type="text" v-model="metricUnit">
+                </label>
                 <h3>Good</h3>
                 <h4>Lower Bound</h4>
                 <article>
@@ -130,10 +135,6 @@
             ]"></tabs-component>
 
         <div class="tab-content" v-if="selectedTab === 'Generator'">
-            <h3>Output</h3>
-            <label>
-                <input type="checkbox" v-model.boolean="onlyInt"> Only integers
-            </label>
             <h3>Presets</h3>
                     <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
                     <plot-2d-component
