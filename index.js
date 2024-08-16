@@ -324,7 +324,7 @@ const app = createApp({
             this.metricData.splice(this.incidentInsertionPoint, this.incidentLength, ...incidentData)
         },
     },
-    mounted() {
+    created() {
         this.generateData()
     },
 })
