@@ -145,13 +145,13 @@ const app = createApp({
             if (this.sli.upperBound) {
                 ret.push({
                     y: this.slo.upperThreshold,
-                    label: 'Upper Bound',
+                    label: '$UT',
                 })
             }
             if (this.sli.lowerBound) {
                 ret.push({
                     y: this.slo.lowerThreshold,
-                    label: 'Lower Bound',
+                    label: '$LT',
                 })
             }
             return ret
