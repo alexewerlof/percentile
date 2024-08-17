@@ -140,7 +140,7 @@ const app = createApp({
             }
             return ret
         },
-        sloThresholds() {
+        thresholdGuidesY() {
             const ret = []
             if (this.sli.upperBound) {
                 ret.push({
@@ -156,7 +156,7 @@ const app = createApp({
             }
             return ret
         },
-        meanMedianGuides() {
+        meanMedianGuidesY() {
             const ret = []
             ret.push({
                 y: this.analytics.mean,
@@ -168,7 +168,7 @@ const app = createApp({
             })
             return ret
         },
-        slsGuides() {
+        sloGuideY() {
             return [
                 {
                     y: this.slo.value,
