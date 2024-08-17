@@ -28,6 +28,9 @@ const app = createApp({
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,
             metricData: [],
+            metricDataPoints: [],
+            sortedMetricData: [],
+            sortedMetricDataPoints: [],
             frequencies,
             onlyInt: true,
             sortAscending: true,
@@ -116,19 +119,6 @@ const app = createApp({
             }
 
             return ret
-        },
-        metricDataPoints() {
-            return this.metricData.map((y, x) => [x, y])
-        },
-        sortedMetricData() {
-            return this.metricData.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
-        },
-        sortedPoints() {
-            let x = 0
-            return this.sortedMetricData.map(y => {
-                x ++
-                return [x, y]
-            })
         },
         percentiles() {
             const ret = []
@@ -284,6 +274,9 @@ const app = createApp({
         },
         generateData() {
             this.metricData = generateData(this.dataCount, this.buckets, this.onlyInt)
+            this.metricDataPoints = this.metricData.map((y, x) => [x, y])
+            this.sortedMetricData = this.metricData.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
+            this.sortedMetricDataPoints = this.sortedMetricData.map((y, x) => [x, y])
         },
         addIncident() {
             let incidentBuckets = []
