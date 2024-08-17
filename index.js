@@ -168,27 +168,11 @@ const app = createApp({
             })
             return ret
         },
-        equalizerThresholds() {
-            const ret = []
-            if (this.sli.upperBound) {
-                ret.push({
-                    x: this.slo.upperThreshold,
-                    label: 'Upper Bound',
-                })
-            }
-            if (this.sli.lowerBound) {
-                ret.push({
-                    x: this.slo.lowerThreshold,
-                    label: 'Lower Bound',
-                })
-            }
-            return ret
-        },
         slsGuides() {
             return [
                 {
                     y: this.slo.value,
-                    label: `SLO: ${this.slo.value}%`,
+                    label: this.slo.value,
                 },
             ]
         },
