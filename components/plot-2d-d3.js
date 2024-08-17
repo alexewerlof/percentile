@@ -22,11 +22,22 @@ function groupGuides(guides) {
         } else if (guide.y !== undefined) {
             yGuides.push(guide)
         } else {
-            throw new Error(`Invalid guide: ${guide}`)
+            throw new Error(`Invalid guide: ${JSON.parse(guide)}`)
         }
     }
 
     return { xGuides, yGuides }
+}
+
+function labelRenderFallback(fn) {
+    return function labelRender(value) {
+        try {
+            return fn(value)
+        } catch (error) {
+            console.error(`runLabelFunction(): Falling back due to error running label function ${fn.name}(${value}): ${error.message}`)
+            return value
+        }
+    }
 }
 
 export class Area2D {
@@ -73,8 +84,8 @@ export class Plot2dD3 extends Area2D {
             labelRenderY = id,
         ) {
         super(width, height, padding)
-        this.labelRenderX = labelRenderX
-        this.labelRenderY = labelRenderY
+        this.labelRenderX = labelRenderFallback(labelRenderX)
+        this.labelRenderY = labelRenderFallback(labelRenderY)
         this.isBarChart = isBarChart
         this.data = []
     }
