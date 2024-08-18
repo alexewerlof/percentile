@@ -28,9 +28,6 @@ const app = createApp({
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,
             metricData: [],
-            metricDataPoints: [],
-            sortedMetricData: [],
-            sortedMetricDataPoints: [],
             frequencies,
             onlyInt: true,
             sortAscending: true,
@@ -49,6 +46,18 @@ const app = createApp({
         }
     },
     computed: {
+        sortedMetricData() {
+            return [...this.metricData].sort(this.sortAscending ? d3.ascending : d3.descending)
+        },
+
+        metricDataPoints() {
+            return this.metricData.map((y, x) => [x, y])
+        },
+
+        sortedMetricDataPoints() {
+            return this.sortedMetricData.map((y, x) => [x, y])
+        },
+
         sloWindowDataCountMax() {
             return this.dataCount / 2
         },
@@ -274,9 +283,6 @@ const app = createApp({
         },
         generateData() {
             this.metricData = generateData(this.dataCount, this.buckets, this.onlyInt)
-            this.metricDataPoints = this.metricData.map((y, x) => [x, y])
-            this.sortedMetricData = this.metricData.slice().sort(this.sortAscending ? d3.ascending : d3.descending)
-            this.sortedMetricDataPoints = this.sortedMetricData.map((y, x) => [x, y])
         },
         addIncident() {
             let incidentBuckets = []
@@ -302,7 +308,9 @@ const app = createApp({
         },
     },
     created() {
+        console.log('created')
         this.generateData()
+        console.log('generated data', this.metricData)
     },
 })
 
