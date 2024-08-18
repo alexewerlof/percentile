@@ -178,9 +178,6 @@ const app = createApp({
         },
         slsPoints() {
             const slsValues = calculateSlsMetric(this.metricData, this.sli, this.slo)
-            // fill the start of the array with 0 values as long as the this.slo.windowDataCount
-            const noData = new Array(this.slo.windowDataCount).fill(0)
-            slsValues.unshift(...noData)
             return slsValues.map((value, i) => [i, value])
         },
         burnRatePoints() {
@@ -322,9 +319,7 @@ const app = createApp({
         },
     },
     created() {
-        console.log('created')
         this.generateData()
-        console.log('generated data', this.metricData)
     },
 })
 
