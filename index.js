@@ -183,6 +183,33 @@ const app = createApp({
             slsValues.unshift(...noData)
             return slsValues.map((value, i) => [i, value])
         },
+        burnRatePoints() {
+            const errorBudgetPercent = 100 - this.slo.value
+            return this.slsPoints.map(([x, sls]) => {
+                const errorPercent = 100 - sls
+                return [x, errorPercent / errorBudgetPercent]
+            })
+        },
+        burnRateGuides() {
+            return [
+                {
+                    y: 1,
+                    label: '1',
+                },
+                {
+                    y: 6,
+                    label: '6',
+                },
+                {
+                    y: 14.4,
+                    label: '14.4',
+                }
+            ]
+        },
+        burnRateYExtent() {
+            const maxBurnRate = d3.max(this.burnRatePoints.map(([x, y]) => y))
+            return [0, Math.max(maxBurnRate, 14.4)]
+        },
         accumulatedFailure() {
             let failureCounter = 0
             const isGood = createIsGood(this.sli, this.slo)
@@ -256,6 +283,9 @@ const app = createApp({
         },
         percentRender(x) {
             return `${x.toFixed(1)}%`
+        },
+        xRender(x) {
+            return `${x}x`
         },
         unitRender(x) {
             return isNum(x) ? `${x}${this.metricUnit}` : x

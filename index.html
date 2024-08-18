@@ -245,11 +245,21 @@
                 :points="slsPoints"
                 :padding="[30, 100, 50, 80]"
                 :guides="sloGuideY"
-                :x-extent="[0, dataCount]"
+                :x-extent="[0, slsPoints.length]"
                 :y-extent="[0, 100]"
                 :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
                 :label-render-y="percentRender"
                 axis-title-y="SLS"></plot-2d-component>
+            <h2>Burn Rate</h2>
+            <plot-2d-component
+                :points="burnRatePoints"
+                :padding="[30, 100, 50, 80]"
+                :guides="burnRateGuides"
+                :x-extent="[0, burnRatePoints.length]"
+                :y-extent="burnRateYExtent"
+                :axis-title-x="'BR of ' + slo.windowDataCount + ' data points'"
+                :label-render-y="xRender"
+                axis-title-y="Burn Rate"></plot-2d-component>
         </div>
         <div class="tab-content" v-if="selectedTab === 'Analytics'">
             <h2>Analytics</h2>
