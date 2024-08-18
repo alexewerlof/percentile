@@ -119,6 +119,8 @@
                     :points="metricDataPoints"
                     :padding="[30, 100, 50, 110]"
                     :guides="[...thresholdGuidesY, ...meanMedianGuidesY]"
+                    :x-extent="[0, metricDataPoints.length]"
+                    :y-extent="[min, max]"
                     :label-render-y="unitRender"
                     axis-title-x="Index"
                     :axis-title-y="metricName"></plot-2d-component>
@@ -136,15 +138,17 @@
 
         <div class="tab-content" v-if="selectedTab === 'Generator'">
             <h3>Presets</h3>
-                    <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
-                    <plot-2d-component
-                        :points="equalizerPoints"
-                        :padding="[30, 100, 50, 90]"
-                        :guides="equalizerGuides"
-                        :label-render-x="unitRender"
-                        :label-render-y="percentRender"
-                        :axis-title-x="metricName"
-                        axis-title-y="Likelihood"></plot-2d-component>
+            <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
+            <plot-2d-component
+                :points="equalizerPoints"
+                :padding="[30, 100, 50, 90]"
+                :guides="equalizerGuides"
+                :x-extent="[min, max]"
+                :y-extent="[0, 100]"
+                :label-render-x="unitRender"
+                :label-render-y="percentRender"
+                :axis-title-x="metricName"
+                axis-title-y="Likelihood"></plot-2d-component>
             <h2>Fine Tune</h2>
             <table>
                 <thead>
@@ -207,6 +211,8 @@
                 :points="sortedMetricDataPoints"
                 :padding="[30, 100, 50, 90]"
                 :guides="[...meanMedianGuidesY, ...thresholdGuidesY]"
+                :x-extent="[0, sortedMetricDataPoints.length]"
+                :y-extent="[min, max]"
                 axis-title-x="Index in the sorted array"
                 :label-render-y="unitRender"
                 :axis-title-y="metricName"></plot-2d-component>        
@@ -216,6 +222,8 @@
                 :points="percentiles"
                 :padding="[30, 70, 50, 90]"
                 :guides="[...meanMedianGuidesY, ...thresholdGuidesY]"
+                :x-extent="[0, 100]"
+                :y-extent="[min, max]"
                 axis-title-x="Percentile"
                 axis-title-y="Percentile value"
                 :label-render-x="nthRender"
@@ -228,6 +236,8 @@
             <plot-2d-component
                 :points="accumulatedFailure"
                 :padding="[30, 30, 50, 70]"
+                :x-extent="[0, accumulatedFailure.length]"
+                :y-extent="[0, dataCount]"
                 axis-title-x="Index in the dataset"
                 axis-title-y="Accumulated failures"></plot-2d-component>
             <h2>Service Level Status</h2>
@@ -235,6 +245,8 @@
                 :points="slsPoints"
                 :padding="[30, 100, 50, 80]"
                 :guides="sloGuideY"
+                :x-extent="[0, dataCount]"
+                :y-extent="[0, 100]"
                 :axis-title-x="'SLS of ' + slo.windowDataCount + ' data points'"
                 :label-render-y="percentRender"
                 axis-title-y="SLS"></plot-2d-component>

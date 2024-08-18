@@ -59,7 +59,7 @@ const app = createApp({
         },
 
         sloWindowDataCountMax() {
-            return this.dataCount / 2
+            return Math.round(this.dataCount / 2)
         },
         range() {
             return this.max - this.min
@@ -197,6 +197,9 @@ const app = createApp({
         },
         slsPoints() {
             const slsValues = calculateSlsMetric(this.metricData, this.sli, this.slo)
+            // fill the start of the array with 0 values as long as the this.slo.windowDataCount
+            const noData = new Array(this.slo.windowDataCount).fill(0)
+            slsValues.unshift(...noData)
             return slsValues.map((value, i) => [i, value])
         },
         accumulatedFailure() {

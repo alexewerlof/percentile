@@ -1,5 +1,6 @@
 import { d3 } from '../vendor/d3.js'
-import { id } from '../lib/fp.js'
+import { id, isSameArray } from '../lib/fp.js'
+import { isDef } from '../lib/validation-copy.js'
 
 const PADDING_INDEX = {
     TOP: 0,
@@ -72,6 +73,22 @@ export class Area2D {
     isInside(x, y) {
         return x >= this.leftSide && x <= this.rightSide && y >= this.topSide && y <= this.bottomSide
     }
+
+    setExtentX(arr) {
+        const shouldUpdate = !isSameArray(this.xScale.domain(), arr)
+        if (shouldUpdate) {
+            this.xScale.domain(arr)
+        }
+        return shouldUpdate
+    }
+
+    setExtentY(arr) {
+        const shouldUpdate = !isSameArray(this.yScale.domain(), arr)
+        if (shouldUpdate) {
+            this.yScale.domain(arr)
+        }
+        return shouldUpdate
+    }
 }
 
 export class Plot2dD3 extends Area2D {
@@ -79,11 +96,15 @@ export class Plot2dD3 extends Area2D {
             width,
             height,
             padding,
+            xExtent,
+            yExtent,
             isBarChart = false,
             labelRenderX = id,
             labelRenderY = id,
         ) {
         super(width, height, padding)
+        this.setExtentX(xExtent)
+        this.setExtentY(yExtent)
         this.labelRenderX = labelRenderFallback(labelRenderX)
         this.labelRenderY = labelRenderFallback(labelRenderY)
         this.isBarChart = isBarChart
@@ -174,18 +195,22 @@ export class Plot2dD3 extends Area2D {
         this.svg.on('mousemove', (event) => this.onMouseMove(event))
     }
 
-    updateData(data, guides = []) {
-        this.data = data
+    updateData(data) {
+        if (isDef(data)) {
+            this.data = data
+        }
+
+        /*
         const xDataExtent = d3.extent(data, d => d[0])
-        const yDataExtent = d3.extent(data, d => d[1])
-        const { xGuides, yGuides } = groupGuides(guides)
         const xGuidesExtent = d3.extent(xGuides, g => g.x)
+        const xExtent = d3.extent([...xDataExtent, ...xGuidesExtent])
+        this.xScale.domain(xExtent)
+
+        const yDataExtent = d3.extent(data, d => d[1])
         const yGuidesExtent = d3.extent(yGuides, g => g.y)
         const yExtent = d3.extent([...yDataExtent, ...yGuidesExtent])
-        const xExtent = d3.extent([...xDataExtent, ...xGuidesExtent])
-
-        this.xScale.domain(xExtent)
         this.yScale.domain(yExtent)
+        */
 
         const xAxis = d3.axisBottom(this.xScale).tickFormat(this.labelRenderX)
         const yAxis = d3.axisLeft(this.yScale).tickFormat(this.labelRenderY)
@@ -196,7 +221,7 @@ export class Plot2dD3 extends Area2D {
         if (this.isBarChart) {
             const lines = this.linesGroup
                 .selectAll('line')
-                .data(data)
+                .data(this.data)
                 .join('line')
                 .attr('x1', (d) => this.xScale(d[0]))
                 .attr('x2', (d) => this.xScale(d[0]))
@@ -211,10 +236,17 @@ export class Plot2dD3 extends Area2D {
                 .y(d => this.yScale(d[1]))
         
             this.path
-                .datum(data)
+                .datum(this.data)
                 .attr('d', line)
         }
+    }
 
+    updateGuides(guides) {
+        if (isDef(guides)) {
+            this.guides = guides
+        }
+
+        const { xGuides, yGuides } = groupGuides(this.guides)
         // Update the guides
         this.guidesX
             .selectAll('g')
