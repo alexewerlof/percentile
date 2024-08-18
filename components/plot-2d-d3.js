@@ -22,7 +22,7 @@ function groupGuides(guides) {
         } else if (guide.y !== undefined) {
             yGuides.push(guide)
         } else {
-            throw new Error(`Invalid guide: ${JSON.parse(guide)}`)
+            throw new Error(`Invalid guide: ${JSON.stringify(guide)}`)
         }
     }
 
