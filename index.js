@@ -148,12 +148,16 @@ const app = createApp({
             })
             return ret
         },
-        sloGuideY() {
+        slsGuides() {
             return [
                 {
                     y: this.slo.value,
                     label: this.slo.value,
                 },
+                {
+                    x: this.slo.windowDataCount,
+                    label: '1 Window',
+                }
             ]
         },
         slStats() {
@@ -200,6 +204,10 @@ const app = createApp({
                 {
                     y: 14.4,
                     label: '14.4',
+                },
+                {
+                    x: this.slo.windowDataCount,
+                    label: '1 Window',
                 }
             ]
         },
