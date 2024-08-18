@@ -82,14 +82,12 @@ export default {
     watch: {
         xExtent(newExtent) {
             if (this.d3d.setExtentX(newExtent)) {
-                console.log('xExtent() newExtent:', newExtent)
                 this.d3d.updateData()
                 this.d3d.updateGuides()
             }
         },
         yExtent(newExtent) {
             if (this.d3d.setExtentY(newExtent)) {
-                console.log('yExtent() newExtent:', newExtent)
                 this.d3d.updateData()
                 this.d3d.updateGuides()
             }
