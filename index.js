@@ -71,31 +71,12 @@ const app = createApp({
             return this.range / this.buckets.length
         },
         equalizerPoints() {
-            // Each point is a tuple of [probability, value]
-            const pointsArr = []
-
-            const padding = this.bucketRange / 4
-
-            const firstBucket = this.buckets[0]
-            pointsArr.push([firstBucket.min - padding, 0])
-            pointsArr.push([firstBucket.min, 0])
-            
-            for (let bucket of this.buckets) {
-                pointsArr.push([
-                    bucket.min,
-                    bucket.probability,
-                ])
-                pointsArr.push([
-                    bucket.max,
-                    bucket.probability,
-                ])
-            }
-
-            const lastBucket = this.buckets[this.buckets.length - 1]
-            pointsArr.push([lastBucket.max, 0])
-            pointsArr.push([lastBucket.max + padding, 0])
-
-            return pointsArr
+            return this.buckets.flatMap(bucket => {
+                return [
+                    [bucket.min, bucket.probability],
+                    [bucket.max, bucket.probability],
+                ]
+            })
         },
         equalizerGuides() {
             const ret = []
