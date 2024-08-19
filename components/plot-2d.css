@@ -11,7 +11,7 @@
 .plot-2d__bars,
 .plot-2d__line {
     stroke: var(--secondary-color);
-    stroke-width: 1.3;
+    stroke-width: 0.8;
     fill: none;
 }
 
