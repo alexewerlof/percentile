@@ -162,15 +162,17 @@
                 <thead>
                     <tr>
                         <th colspan="2">Range</th>
-                        <th colspan="2">Likelihood</th>
+                        <th></th>
+                        <th>Quick Set</th>
                     </tr>
                     <tr>
                         <th>From</th>
                         <th>To</th>
-                        <th colspan="2">
-                            <button @click="setFrequencies(config.slider.min)">Min</button>
-                            <button @click="setFrequencies(config.slider.default)">Default</button>
-                            <button @click="setFrequencies(config.slider.max)">Max</button>
+                        <th></th>
+                        <th>
+                            <button @click="setFrequencies(config.slider.min)">{{ config.slider.min }}</button>
+                            <button @click="setFrequencies(config.slider.default)">{{ config.slider.default }}</button>
+                            <button @click="setFrequencies(config.slider.max)">{{ config.slider.max }}</button>
                         </th>
                         <th>Likelihood</th>
                     </tr>
@@ -245,7 +247,7 @@
                 :points="accumulatedFailure"
                 :padding="[30, 30, 50, 70]"
                 :x-extent="[0, accumulatedFailure.length]"
-                :y-extent="[0, accumulatedFailure.length]"
+                :y-extent="[0, accumulatedFailure.at(-1)[1]]"
                 axis-title-x="Valid"
                 axis-title-y="Accumulated fails"></plot-2d-component>
             <h2>Service Level Status</h2>

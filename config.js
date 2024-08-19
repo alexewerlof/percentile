@@ -77,7 +77,7 @@ export const config = {
     },
     sli: {
         upperBound: 'le',
-        lowerBound: 'gt',
+        lowerBound: '',
     },
     windowDataCount: {
         min: 1440,
@@ -90,8 +90,8 @@ export const config = {
         min: 50,
         max: 99.9,
         step: 0.1,
-        upperThreshold: 19500,
-        lowerThreshold: 500,
+        upperThreshold: 19000,
+        lowerThreshold: 100,
     },
     width: 1000,
     height: 300,
