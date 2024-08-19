@@ -1,6 +1,7 @@
 import { d3 } from '../vendor/d3.js'
 import { id, isSameArray } from '../lib/fp.js'
 import { isDef } from '../lib/validation-copy.js'
+import { sampleData } from '../lib/data.js'
 
 const PADDING_INDEX = {
     TOP: 0,
@@ -217,11 +218,16 @@ export class Plot2dD3 extends Area2D {
     
         this.xAxisGroup.call(xAxis)
         this.yAxisGroup.call(yAxis)
+
+        const dataToDraw = sampleData(this.data, this.width * 2)
+        if (dataToDraw.length !== this.data.length) {
+            console.warn(`Original data length: ${this.data.length}, Drawing ${dataToDraw.length} samples`)
+        }
         
         if (this.isBarChart) {
             const lines = this.linesGroup
                 .selectAll('line')
-                .data(this.data)
+                .data(dataToDraw)
                 .join('line')
                 .attr('x1', (d) => this.xScale(d[0]))
                 .attr('x2', (d) => this.xScale(d[0]))
@@ -236,7 +242,7 @@ export class Plot2dD3 extends Area2D {
                 .y(d => this.yScale(d[1]))
         
             this.path
-                .datum(this.data)
+                .datum(dataToDraw)
                 .attr('d', line)
         }
     }
