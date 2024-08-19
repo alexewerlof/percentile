@@ -303,7 +303,7 @@ const app = createApp({
             return `${x.toFixed(1)}%`
         },
         xRender(x) {
-            return `${x.toFixed(1)}x`
+            return `${Number(x).toFixed(1)}x`
         },
         unitRender(x) {
             return isNum(x) ? `${x}${this.metricUnit}` : x
