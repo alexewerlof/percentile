@@ -1,8 +1,8 @@
 import { createApp } from './vendor/vue.js'
 import plot2dComponent from './components/plot-2d.js'
 import tabsComponent from './components/tabs.js'
-import { createBuckets, generateData, normalizeBucketProbabilities } from './lib/buckets.js'
-import { analyzeData, percentileIndex } from './lib/data.js'
+import { createBuckets, generateData } from './lib/buckets.js'
+import { analyzeData, createIncidentBuckets, overwriteData, percentileIndex } from './lib/data.js'
 import { config } from './config.js'
 import { d3 } from './vendor/d3.js'
 import { boundTypeToOperator, calculateSlsMetric, createIsGood } from './lib/sl.js'
@@ -21,7 +21,7 @@ const app = createApp({
         const frequencies = Array.from({ length: config.slider.count }, (_, i) => config.slider.default)
         return {
             config,
-            dataCount: config.dataCount,
+            dataCountMultiplier: config.dataCountMultiplier.default,
             min: config.min,
             max: config.max,
             selectedTab: 'Generator',
@@ -31,7 +31,7 @@ const app = createApp({
             frequencies,
             onlyInt: true,
             sortAscending: true,
-            incidentLength: config.dataCount / 10,
+            incidentMultiplier: config.incidentMultiplier.default,
             incidentInsertionPoint: 0,
             sli: {
                 upperBound: config.sli.upperBound,
@@ -39,27 +39,27 @@ const app = createApp({
             },
             slo: {
                 value: config.slo.value,
-                windowDataCount: config.slo.windowDataCount,
+                windowDataCount: config.windowDataCount.default,
                 upperThreshold: config.slo.upperThreshold,
                 lowerThreshold: config.slo.lowerThreshold,
             },
         }
     },
     computed: {
+        dataCount() {
+            return Math.round(this.slo.windowDataCount * this.dataCountMultiplier)
+        },
+        incidentDataCount() {
+            return Math.round(this.slo.windowDataCount * this.incidentMultiplier)
+        },
         sortedMetricData() {
             return [...this.metricData].sort(this.sortAscending ? d3.ascending : d3.descending)
         },
-
         metricDataPoints() {
             return this.metricData.map((y, x) => [x, y])
         },
-
         sortedMetricDataPoints() {
             return this.sortedMetricData.map((y, x) => [x, y])
-        },
-
-        sloWindowDataCountMax() {
-            return Math.round(this.dataCount / 2)
         },
         range() {
             return this.max - this.min
@@ -233,11 +233,6 @@ const app = createApp({
         },
     },
     watch: {
-        dataCount() {
-            if (this.slo.windowDataCount > this.sloWindowDataCountMax) {
-                this.slo.windowDataCount = this.sloWindowDataCountMax
-            }
-        },
         min() {
             if (this.min > this.max) {
                 this.max = this.min
@@ -304,26 +299,12 @@ const app = createApp({
             this.metricData = generateData(this.dataCount, this.buckets, this.onlyInt)
         },
         addIncident() {
-            let incidentBuckets = []
-            if (this.sli.lowerBound) {
-                incidentBuckets.push({
-                    probability: 100,
-                    min: this.min,
-                    max: this.slo.lowerThreshold,
-                })
-            }
-            if (this.sli.upperBound) {
-                incidentBuckets.push({
-                    probability: 100,
-                    min: this.slo.upperThreshold,
-                    max: this.max,
-                })
-            }
-            incidentBuckets = normalizeBucketProbabilities(incidentBuckets)
-            const incidentData = generateData(this.incidentLength, incidentBuckets, this.onlyInt)
-
-            // update this.metricData with the incident data overriding the elements that start at this.incidentInsertionPoint
-            this.metricData.splice(this.incidentInsertionPoint, this.incidentLength, ...incidentData)
+            const incidentBuckets = createIncidentBuckets(this.min, this.max, this.sli, this.slo)
+            const incidentDataCount = Math.min(this.dataCount - this.incidentInsertionPoint, this.incidentDataCount)
+            console.log('metricData.length', this.metricData.length, '. Inserting', incidentDataCount, 'incident data points at', this.incidentInsertionPoint)
+            const incidentData = generateData(incidentDataCount, incidentBuckets, this.onlyInt)
+            this.metricData = overwriteData(this.metricData, incidentData, this.incidentInsertionPoint),
+            console.log('done', incidentData.length)
         },
     },
     created() {

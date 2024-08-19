@@ -61,14 +61,32 @@ export const config = {
     },
     min: 200,
     max: 20000,
-    dataCount: 2190, // hours in 3 months
+    // How many windows of data should be generated in the simulation
+    dataCountMultiplier: {
+        min: 1,
+        max: 5,
+        step: 1,
+        default: 2,
+    },
+    // How long should an incident be in terms of window length
+    incidentMultiplier: {
+        min: 0.01,
+        max: 2,
+        step: 0.01,
+        default: 0.2,
+    },
     sli: {
         upperBound: 'le',
         lowerBound: 'gt',
     },
+    windowDataCount: {
+        min: 1440,
+        max: 129600,
+        step: 1440,
+        default: 43200,
+    },
     slo: {
         value: 99.3,
-        windowDataCount: 730, // hours in 30 days
         min: 50,
         max: 99.9,
         step: 0.1,
