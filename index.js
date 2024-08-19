@@ -202,15 +202,15 @@ const app = createApp({
             return [
                 {
                     y: 1,
-                    label: '1',
+                    label: '1x',
                 },
                 {
                     y: 6,
-                    label: '6',
+                    label: '6x',
                 },
                 {
                     y: 14.4,
-                    label: '14.4',
+                    label: '14.4x',
                 },
                 {
                     x: this.slo.windowDataCount,
