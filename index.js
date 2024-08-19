@@ -286,7 +286,18 @@ const app = createApp({
             return boundTypeToOperator(type)
         },
         nthRender(x) {
-            return `${x}th`
+            switch (x) {
+                case 0:
+                    return '0th'
+                case 1:
+                    return '1st'
+                case 2:
+                    return '2nd'
+                case 3:
+                    return '3rd'
+                default:
+                    return `${x}th`
+            }
         },
         percentRender(x) {
             return `${x.toFixed(1)}%`
