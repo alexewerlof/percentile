@@ -21,8 +21,8 @@ const app = createApp({
         return {
             config,
             dataCountMultiplier: config.dataCountMultiplier.default,
-            min: config.min,
-            max: config.max,
+            min: config.simulator.metricRange.min.default,
+            max: config.simulator.metricRange.max.default,
             selectedTab: 'Generator',
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,

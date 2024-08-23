@@ -7,6 +7,14 @@ export const config = {
         default: 'ms',
     },
     simulator: {
+        metricRange: {
+            min: {
+                default: 200,
+            },
+            max: {
+                default: 20000,
+            },
+        },
         percentages: {
             default: [
                 95.3,
@@ -71,8 +79,6 @@ export const config = {
         default: 50,
         step: 0.01,
     },
-    min: 200,
-    max: 20000,
     // How many windows of data should be generated in the simulation
     dataCountMultiplier: {
         min: 1,
@@ -105,12 +111,4 @@ export const config = {
         upperThreshold: 19000,
         lowerThreshold: 100,
     },
-    width: 1000,
-    height: 300,
-    margin: {top: 30, right: 50, bottom: 40, left: 80},
-    xMin: 0,
-    xMax: 100,
-    xCount: 200,
-    yMin: 0,
-    yMax: 1000,
 }
