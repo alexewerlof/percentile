@@ -8,7 +8,7 @@ import { d3 } from './vendor/d3.js'
 import { boundTypeToOperator, calculateSlsMetric, createIsGood } from './lib/sl.js'
 import { isNum } from './lib/validation-copy.js'
 
-const freqIndicatorColor = d3.scaleLinear()
+const percentageColor = d3.scaleLinear()
     .domain([config.slider.min, config.slider.max])
     .range(["#F86262", "#1BC554"])
 
@@ -297,9 +297,9 @@ const app = createApp({
         unitRender(x) {
             return isNum(x) ? `${x}${this.metricUnit}` : x
         },
-        freqIndicatorStyle(freqIndex) {
+        percentageIndicatorStyle(percentage) {
             return {
-                backgroundColor: freqIndicatorColor(this.percentages[freqIndex])
+                backgroundColor: percentageColor(this.percentages[percentage])
             }
         },
         generateData() {
