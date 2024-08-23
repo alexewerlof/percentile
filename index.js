@@ -66,7 +66,7 @@ const app = createApp({
         buckets() {
             return createBuckets(this.min, this.max, this.percentages)
         },
-        equalizerPoints() {
+        probabilityPoints() {
             return this.buckets.flatMap(bucket => {
                 return [
                     [bucket.min, bucket.probability],

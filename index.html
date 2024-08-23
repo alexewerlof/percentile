@@ -125,7 +125,7 @@
             <button v-for="pre in config.simulator.percentages.presets"
                 @click="simulator.percentages = [...pre.values]">{{ pre.name }}</button>
             <plot-2d-component
-                :points="equalizerPoints"
+                :points="probabilityPoints"
                 :padding="[30, 100, 50, 90]"
                 :guides="probabilityGuides"
                 :x-extent="[min, max]"
