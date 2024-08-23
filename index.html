@@ -146,7 +146,8 @@
 
         <div class="tab-content" v-if="selectedTab === 'Generator'">
             <h3>Presets</h3>
-            <button v-for="pre in config.slider.presets" @click="frequencies = [...pre.values]">{{ pre.name }}</button>
+            <button v-for="pre in config.simulatorPercentages.presets"
+                @click="simulatorPercentages = [...pre.values]">{{ pre.name }}</button>
             <plot-2d-component
                 :points="equalizerPoints"
                 :padding="[30, 100, 50, 90]"
@@ -186,7 +187,7 @@
                         </td>
                         <td>
                             <input type="range"
-                                v-model.number="frequencies[i]"
+                                v-model.number="simulatorPercentages[i]"
                                 :min="config.slider.min"
                                 :max="config.slider.max"
                                 :step="config.slider.step">

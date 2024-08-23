@@ -18,7 +18,6 @@ const app = createApp({
         tabsComponent,
     },
     data() {
-        const frequencies = Array.from({ length: config.slider.count }, (_, i) => config.slider.default)
         return {
             config,
             dataCountMultiplier: config.dataCountMultiplier.default,
@@ -28,14 +27,7 @@ const app = createApp({
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,
             metricData: [],
-            frequencies: [
-                95.3,
-                2.2,
-                0.9,
-                0.6,
-                0.5,
-                0.4,
-            ],
+            simulatorPercentages: config.simulatorPercentages.default,
             onlyInt: true,
             sortAscending: true,
             incidentMultiplier: config.incidentMultiplier.default,
@@ -72,10 +64,7 @@ const app = createApp({
             return this.max - this.min
         },
         buckets() {
-            return createBuckets(this.min, this.max, this.frequencies)
-        },
-        bucketRange() {
-            return this.range / this.buckets.length
+            return createBuckets(this.min, this.max, this.simulatorPercentages)
         },
         equalizerPoints() {
             return this.buckets.flatMap(bucket => {
@@ -269,14 +258,14 @@ const app = createApp({
     },
     methods: {
         setFrequencies(val) {
-            this.frequencies = new Array(this.frequencies.length).fill(val)
+            this.simulatorPercentages = new Array(this.simulatorPercentages.length).fill(val)
         },
         addFrequency() {
-            this.frequencies.push(config.slider.default)
+            this.simulatorPercentages.push(config.slider.default)
         },
         removeFrequency() {
-            if (this.frequencies.length > 1) {
-                this.frequencies.pop()
+            if (this.simulatorPercentages.length > 1) {
+                this.simulatorPercentages.pop()
             }
         },
         toFixed(n, digits = 1) {
@@ -310,7 +299,7 @@ const app = createApp({
         },
         freqIndicatorStyle(freqIndex) {
             return {
-                backgroundColor: freqIndicatorColor(this.frequencies[freqIndex])
+                backgroundColor: freqIndicatorColor(this.simulatorPercentages[freqIndex])
             }
         },
         generateData() {

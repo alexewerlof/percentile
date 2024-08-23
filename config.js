@@ -6,12 +6,15 @@ export const config = {
     metricUnit: {
         default: 'ms',
     },
-    slider: {
-        count: 10,
-        min: 0,
-        max: 100,
-        default: 50,
-        step: 0.01,
+    simulatorPercentages: {
+        default: [
+            95.3,
+            2.2,
+            0.9,
+            0.6,
+            0.5,
+            0.4,
+        ],
         presets: [
             {
                 name: 'Normal',
@@ -58,6 +61,13 @@ export const config = {
                 values: [100, 2, 2, 2, 5, 2, 2, 2, 100],
             }
         ]
+    },
+    slider: {
+        count: 10,
+        min: 0,
+        max: 100,
+        default: 50,
+        step: 0.01,
     },
     min: 200,
     max: 20000,

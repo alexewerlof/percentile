@@ -126,3 +126,9 @@ label {
 label.spaced + label.spaced {
     margin-left: 0.2em;
 }
+
+button:disabled {
+    cursor: not-allowed;
+    background-color: #b6a281;
+    color: var(--background-color);
+}
