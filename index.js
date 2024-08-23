@@ -27,7 +27,7 @@ const app = createApp({
             metricName: config.metricName.default,
             metricUnit: config.metricUnit.default,
             metricData: [],
-            simulatorPercentages: config.simulatorPercentages.default,
+            percentages: config.simulator.percentages.default,
             onlyInt: true,
             sortAscending: true,
             incidentMultiplier: config.incidentMultiplier.default,
@@ -64,7 +64,7 @@ const app = createApp({
             return this.max - this.min
         },
         buckets() {
-            return createBuckets(this.min, this.max, this.simulatorPercentages)
+            return createBuckets(this.min, this.max, this.percentages)
         },
         equalizerPoints() {
             return this.buckets.flatMap(bucket => {
@@ -258,14 +258,14 @@ const app = createApp({
     },
     methods: {
         setFrequencies(val) {
-            this.simulatorPercentages = new Array(this.simulatorPercentages.length).fill(val)
+            this.percentages = new Array(this.percentages.length).fill(val)
         },
         addFrequency() {
-            this.simulatorPercentages.push(config.slider.default)
+            this.percentages.push(config.slider.default)
         },
         removeFrequency() {
-            if (this.simulatorPercentages.length > 1) {
-                this.simulatorPercentages.pop()
+            if (this.percentages.length > 1) {
+                this.percentages.pop()
             }
         },
         toFixed(n, digits = 1) {
@@ -299,7 +299,7 @@ const app = createApp({
         },
         freqIndicatorStyle(freqIndex) {
             return {
-                backgroundColor: freqIndicatorColor(this.simulatorPercentages[freqIndex])
+                backgroundColor: freqIndicatorColor(this.percentages[freqIndex])
             }
         },
         generateData() {

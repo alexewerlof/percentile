@@ -122,8 +122,8 @@
 
         <div class="tab-content" v-if="selectedTab === 'Generator'">
             <h3>Presets</h3>
-            <button v-for="pre in config.simulatorPercentages.presets"
-                @click="simulatorPercentages = [...pre.values]">{{ pre.name }}</button>
+            <button v-for="pre in config.simulator.percentages.presets"
+                @click="simulator.percentages = [...pre.values]">{{ pre.name }}</button>
             <plot-2d-component
                 :points="equalizerPoints"
                 :padding="[30, 100, 50, 90]"
@@ -133,7 +133,7 @@
                 :label-render-x="unitRender"
                 :label-render-y="percentRender"
                 :axis-title-x="metricName"
-                axis-title-y="Likelihood"></plot-2d-component>
+                axis-title-y="Relative probability"></plot-2d-component>
             <article>
                 <section>
                     <h2>Fine Tune</h2>
@@ -143,6 +143,7 @@
                                 <th colspan="2">Range</th>
                                 <th></th>
                                 <th>Quick Set</th>
+                                <th colspan="2">Probability</th>
                             </tr>
                             <tr>
                                 <th>From</th>
@@ -153,7 +154,8 @@
                                     <button @click="setFrequencies(config.slider.default)">{{ config.slider.default }}</button>
                                     <button @click="setFrequencies(config.slider.max)">{{ config.slider.max }}</button>
                                 </th>
-                                <th>Likelihood</th>
+                                <th>Absolute</th>
+                                <th>Relative</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,12 +167,15 @@
                                 </td>
                                 <td>
                                     <input type="range"
-                                        v-model.number="simulatorPercentages[i]"
+                                        v-model.number="percentages[i]"
                                         :min="config.slider.min"
                                         :max="config.slider.max"
                                         :step="config.slider.step">
                                 </td>
                                 <td>
+                                    {{ toFixed(percentages[i], 2) }}
+                                </td>
+                                <td :title="`Roughly ${toFixed(b.probability, 2)}% of the generated data points will be between ${toFixed(b.min)} and ${toFixed(b.max)}`">
                                     {{  toFixed(b.probability, 2) }}%
                                 </td>
                             </tr>
