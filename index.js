@@ -74,7 +74,7 @@ const app = createApp({
                 ]
             })
         },
-        equalizerGuides() {
+        probabilityGuides() {
             const ret = []
 
             for (let bucket of this.buckets) {
