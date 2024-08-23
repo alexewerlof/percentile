@@ -196,11 +196,19 @@
                     </label>
                     <label>
                         <h3>Min Value</h3>
-                        <input type="number" v-model.number.lazy="min">
+                        <input type="number"
+                            v-model.number.lazy="min"
+                            :min="config.simulator.metricRange.min.min"
+                            :max="config.simulator.metricRange.min.max"
+                            :step="config.simulator.metricRange.min.step">
                     </label>
                     <label>
                         <h3>Max Value</h3>
-                        <input type="number" v-model.number.lazy="max">
+                        <input type="number"
+                            v-model.number.lazy="max"
+                            :min="config.simulator.metricRange.max.min"
+                            :max="config.simulator.metricRange.max.max"
+                            :step="config.simulator.metricRange.max.step">
                     </label>
                     <label>
                         <h3>Output</h3>

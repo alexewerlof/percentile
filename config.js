@@ -9,9 +9,15 @@ export const config = {
     simulator: {
         metricRange: {
             min: {
+                min: -10_000_000,
+                max: 10_000_000,
+                step: 1,
                 default: 200,
             },
             max: {
+                min: -10_000_000,
+                max: 10_000_000,
+                step: 1,
                 default: 20000,
             },
         },
