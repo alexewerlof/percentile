@@ -257,7 +257,7 @@ const app = createApp({
         }
     },
     methods: {
-        setFrequencies(val) {
+        setAllPercentagesTo(val) {
             this.percentages = new Array(this.percentages.length).fill(val)
         },
         addRange() {
