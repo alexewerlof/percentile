@@ -260,10 +260,10 @@ const app = createApp({
         setFrequencies(val) {
             this.percentages = new Array(this.percentages.length).fill(val)
         },
-        addFrequency() {
+        addRange() {
             this.percentages.push(config.slider.default)
         },
-        removeFrequency() {
+        removeRange() {
             if (this.percentages.length > 1) {
                 this.percentages.pop()
             }
