@@ -69,18 +69,6 @@ section {
     flex: 1;
 }
 
-.slider-value {
-    display: inline-block;
-    width: 100px;
-    padding-left: 1em;
-    text-align: right;
-}
-
-.vertical-slider {
-    writing-mode: vertical-lr;
-    direction: rtl;
-}
-
 .frequency-table tr:first-child th,
 .frequency-table td {
     width: 3em;
